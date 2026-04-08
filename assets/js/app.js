@@ -1,5 +1,5 @@
 /* =========================================================
-   BroadcastIQ — app.js
+   TipTap — app.js
    Shared UI utilities: sidebar, RTL, active nav, clipboard
    ========================================================= */
 
