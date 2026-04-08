@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>BroadcastIQ — Broadcasts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/main.css"/>
+<style>
+.filters-bar{display:flex;gap:10px;align-items:center;margin-bottom:22px;flex-wrap:wrap;}
+.search-wrap{position:relative;flex:1;min-width:180px;max-width:320px;}
+.search-icon{position:absolute;top:50%;inset-inline-start:12px;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
+.bc-list{display:flex;flex-direction:column;gap:10px;}
+.bc-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s,box-shadow .2s;box-shadow:var(--shadow-card);}
+.bc-row:hover{border-color:var(--brand-mid);transform:translateX(4px);box-shadow:var(--shadow-md);}
+.bc-main{display:flex;align-items:center;gap:14px;padding:16px 20px;}
+.bc-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;}
+.bc-info{flex:1;min-width:0;}
+.bc-name{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+.bc-preview{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bc-meta{display:flex;align-items:center;gap:20px;flex-shrink:0;}
+.bc-meta-item{text-align:center;}
+.bc-meta-val{font-family:var(--font-display);font-size:16px;font-weight:900;}
+.bc-meta-lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.3px;}
+.bc-right{display:flex;flex-direction:column;align-items:flex-end;gap:7px;margin-inline-start:14px;flex-shrink:0;}
+.bc-date{font-size:11px;color:var(--muted);}
+.bc-actions{display:flex;gap:5px;margin-inline-start:10px;opacity:0;transition:opacity .15s;}
+.bc-row:hover .bc-actions{opacity:1;}
+.prog-bar{height:3px;background:var(--surface3);}
+@media(max-width:768px){.bc-meta{display:none;}}
+</style>
+</head>
+<body>
+<script src="assets/js/sidebar.js"></script>
+<script src="assets/js/app.js"></script>
+<div class="app-shell">
+  <div class="main-content">
+    <div class="topbar">
+      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-title">Broadcasts</div>
+      <div class="topbar-actions">
+        <button class="btn btn-ghost btn-sm">⬇ Export</button>
+        <button class="btn btn-primary" onclick="openModal('modalBroadcast')">+ New Broadcast</button>
+      </div>
+    </div>
+    <div class="page-body">
+      <div class="filters-bar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="form-control" style="padding-inline-start:36px" type="text" placeholder="Search broadcasts…"/>
+        </div>
+        <select class="form-control" style="width:auto"><option>All Status</option><option>Sent</option><option>Delivering</option><option>Scheduled</option><option>Failed</option></select>
+        <select class="form-control" style="width:auto"><option>All Channels</option><option>📱 WhatsApp</option><option>💬 SMS</option></select>
+        <select class="form-control" style="width:auto"><option>Newest First</option><option>Oldest First</option></select>
+      </div>
+      <div class="bc-list" id="bcList"></div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal-backdrop" id="modalBroadcast">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-icon" style="background:var(--wa-light)">📤</div>
+      <div><div class="modal-title">New Broadcast</div><div class="modal-subtitle">Send to your database contacts via WhatsApp</div></div>
+      <button class="modal-close" onclick="closeModal('modalBroadcast')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Broadcast Name</label><input class="form-control" type="text" placeholder="e.g. Weekend Deals – April 12"/></div>
+      <div class="form-row-2">
+        <div class="form-group"><label class="form-label">Channel</label><select class="form-control"><option>📱 WhatsApp Business</option></select></div>
+        <div class="form-group"><label class="form-label">Contact List</label><select class="form-control"><option>All Contacts (24,180)</option><option>VIP (948)</option><option>Retail (8,200)</option></select></div>
+      </div>
+      <div class="form-group"><label class="form-label">Template</label><select class="form-control"><option>Write custom message…</option><option>Welcome Message</option><option>Promo Offer</option><option>Event Invite</option></select></div>
+      <div class="form-group"><label class="form-label">Message</label><textarea class="form-control" rows="3" placeholder="Hello {{name}}, here's a special offer just for you!"></textarea></div>
+      <div class="form-group" style="margin-bottom:0"><label class="form-label">Send At</label><select class="form-control"><option>Send Immediately</option><option>Schedule for later</option></select></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modalBroadcast')">Cancel</button>
+      <button class="btn btn-wa" onclick="closeModal('modalBroadcast');showToast('Broadcast sent! 📤','success')">📤 Send Broadcast</button>
+    </div>
+  </div>
+</div>
+<script>
+const broadcasts=[
+  {name:'Eid Mubarak – VIP Members',preview:'🎉 Eid Mubarak! As a VIP member, enjoy an exclusive 35% discount…',status:'delivering',icon:'🎉',iconBg:'var(--wa-light)',contacts:948,sent:720,delivered:690,rate:95.8,date:'Apr 7, 10:00 AM',prog:76,color:'var(--green)'},
+  {name:'Flash Sale Announcement',preview:'⚡ 48-HOUR FLASH SALE! Up to 50% off. Use code FLASH50…',status:'sent',icon:'⚡',iconBg:'var(--brand-light)',contacts:8200,sent:8200,delivered:7954,rate:96.9,date:'Apr 5, 11:00 AM',prog:100,color:'var(--brand)'},
+  {name:'April Newsletter',preview:'Hi {{name}}, welcome to our April newsletter! This month…',status:'scheduled',icon:'📰',iconBg:'var(--purple-light)',contacts:24180,sent:0,delivered:0,rate:0,date:'Apr 12, 08:00 AM',prog:0,color:'var(--purple)'},
+  {name:'Weekend Deals – Week 14',preview:'🛍 This weekend: FREE delivery on all orders above 10 OMR…',status:'sent',icon:'🛍',iconBg:'var(--green-light)',contacts:12400,sent:12400,delivered:11780,rate:95.0,date:'Apr 4, 10:00 AM',prog:100,color:'var(--green)'},
+  {name:'Product Update Notice',preview:'We've improved our app! Here's what's new in version 3.2…',status:'sent',icon:'🔔',iconBg:'var(--brand-light)',contacts:5600,sent:5600,delivered:5320,rate:95.0,date:'Apr 2, 02:00 PM',prog:100,color:'var(--brand)'},
+  {name:'Loyalty Points Expiry Warning',preview:'⚠️ Your loyalty points expire soon! Redeem before April 30…',status:'sent',icon:'⭐',iconBg:'var(--yellow-light)',contacts:3200,sent:3200,delivered:3040,rate:95.0,date:'Apr 1, 09:30 AM',prog:100,color:'var(--yellow)'},
+  {name:'New Arrivals – Spring Collection',preview:'🌸 Spring is here! Check out our brand new collection…',status:'failed',icon:'🌸',iconBg:'var(--red-light)',contacts:9800,sent:4200,delivered:0,rate:0,date:'Mar 30, 12:00 PM',prog:43,color:'var(--red)'},
+  {name:'Draft: Mother\'s Day Campaign',preview:'Draft — not yet sent…',status:'draft',icon:'💐',iconBg:'var(--surface3)',contacts:0,sent:0,delivered:0,rate:0,date:'Not scheduled',prog:0,color:'var(--muted)'},
+];
+const badgeMap={sent:'badge-blue',delivering:'badge-green',scheduled:'badge-purple',failed:'badge-red',draft:'badge-gray'};
+const labelMap={sent:'✅ Sent',delivering:'🔄 Delivering',scheduled:'📅 Scheduled',failed:'❌ Failed',draft:'📝 Draft'};
+const list=document.getElementById('bcList');
+broadcasts.forEach(b=>{
+  list.innerHTML+=`
+  <div class="bc-row">
+    <div class="bc-main">
+      <div class="bc-icon" style="background:${b.iconBg}">${b.icon}</div>
+      <div class="bc-info">
+        <div class="bc-name">${b.name}</div>
+        <div class="bc-preview">${b.preview}</div>
+      </div>
+      <div class="bc-meta">
+        <div class="bc-meta-item"><div class="bc-meta-val" style="color:var(--brand)">${b.sent.toLocaleString()}</div><div class="bc-meta-lbl">Sent</div></div>
+        <div class="bc-meta-item"><div class="bc-meta-val" style="color:var(--green)">${b.delivered.toLocaleString()}</div><div class="bc-meta-lbl">Delivered</div></div>
+        <div class="bc-meta-item"><div class="bc-meta-val" style="color:${b.rate>=90?'var(--green)':b.rate>0?'var(--orange)':'var(--muted)'}">${b.rate>0?b.rate+'%':'—'}</div><div class="bc-meta-lbl">Rate</div></div>
+      </div>
+      <div class="bc-right">
+        <span class="badge ${badgeMap[b.status]}">${labelMap[b.status]}</span>
+        <span class="bc-date">${b.date}</span>
+      </div>
+      <div class="bc-actions">
+        <button class="icon-btn" style="width:30px;height:30px" title="View">👁</button>
+        <button class="icon-btn" style="width:30px;height:30px" title="Edit" onclick="openModal('modalBroadcast')">✏️</button>
+        <button class="icon-btn" style="width:30px;height:30px;background:var(--red-light)" title="Delete">🗑</button>
+      </div>
+    </div>
+    ${b.prog>0?`<div class="prog-bar"><div style="height:100%;width:${b.prog}%;background:${b.color};border-radius:0"></div></div>`:''}
+  </div>`;
+});
+</script>
+</body>
+</html>

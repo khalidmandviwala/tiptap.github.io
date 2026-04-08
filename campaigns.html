@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>BroadcastIQ — Campaigns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/main.css"/>
+<style>
+.status-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;}
+.status-tab{padding:7px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);color:var(--muted);background:transparent;transition:all .15s;font-family:var(--font-body);display:flex;align-items:center;gap:6px;}
+.status-tab.active{background:var(--brand-light);border-color:var(--brand-mid);color:var(--brand);}
+.status-tab:hover:not(.active){background:var(--surface3);}
+.filters-bar{display:flex;gap:10px;align-items:center;margin-bottom:22px;flex-wrap:wrap;}
+.search-wrap{position:relative;flex:1;min-width:180px;max-width:300px;}
+.search-icon{position:absolute;top:50%;inset-inline-start:12px;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
+.camps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;}
+.camp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:border-color .2s,transform .2s,box-shadow .2s;box-shadow:var(--shadow-card);}
+.camp-card:hover{border-color:var(--brand-mid);transform:translateY(-3px);box-shadow:var(--shadow-md);}
+.camp-top-bar{height:4px;}
+.camp-body{padding:20px;}
+.camp-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
+.camp-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.camp-name{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;margin-top:10px;}
+.camp-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:14px;}
+.camp-meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+.camp-meta-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted);}
+.camp-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);padding-top:14px;margin-top:4px;}
+.camp-stat{text-align:center;padding:0 6px;}
+.camp-stat:not(:last-child){border-inline-end:1px solid var(--border);}
+.camp-stat-val{font-family:var(--font-display);font-size:16px;font-weight:900;}
+.camp-stat-lbl{font-size:10px;color:var(--muted);margin-top:2px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;}
+.camp-actions{display:flex;gap:6px;padding:12px 20px 16px;border-top:1px solid var(--border);margin-top:8px;}
+.camp-act{flex:1;padding:6px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:transparent;color:var(--text-2);transition:all .15s;text-align:center;font-family:var(--font-body);}
+.camp-act:hover{border-color:var(--brand-mid);color:var(--brand);background:var(--brand-light);}
+.camp-act.primary{background:var(--brand-light);border-color:var(--brand-mid);color:var(--brand);}
+.camp-act.danger:hover{border-color:var(--red);color:var(--red);background:var(--red-light);}
+/* dispatch toggle */
+.dispatch-toggle{display:grid;grid-template-columns:1fr 1fr;background:var(--surface3);border:1.5px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:18px;}
+.dispatch-opt{padding:11px;text-align:center;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);transition:all .2s;font-family:var(--font-body);border:none;background:transparent;}
+.dispatch-opt.active{background:var(--brand);color:#fff;}
+@media(max-width:900px){.camps-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.camps-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script src="assets/js/sidebar.js"></script>
+<script src="assets/js/app.js"></script>
+<div class="app-shell">
+  <div class="main-content">
+    <div class="topbar">
+      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-title">Campaigns</div>
+      <div class="topbar-actions">
+        <button class="btn btn-ghost btn-sm">📊 Analytics</button>
+        <button class="btn btn-primary" onclick="openModal('modalCampaign')">+ New Campaign</button>
+      </div>
+    </div>
+    <div class="page-body">
+      <div class="status-tabs">
+        <button class="status-tab active">All <span class="badge badge-blue">59</span></button>
+        <button class="status-tab">🟢 Active <span class="badge badge-green">12</span></button>
+        <button class="status-tab">📅 Scheduled <span class="badge badge-purple">8</span></button>
+        <button class="status-tab">✅ Completed <span class="badge badge-gray">31</span></button>
+        <button class="status-tab">⏸ Paused <span class="badge badge-orange">5</span></button>
+        <button class="status-tab">📝 Draft <span class="badge badge-gray">3</span></button>
+      </div>
+      <div class="filters-bar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="form-control" style="padding-inline-start:36px" type="text" placeholder="Search campaigns…"/>
+        </div>
+        <select class="form-control" style="width:auto"><option>All Channels</option><option>📱 WhatsApp</option><option>💬 SMS</option></select>
+        <select class="form-control" style="width:auto"><option>All Time</option><option>This Month</option><option>Last 30 Days</option></select>
+        <button class="btn btn-ghost btn-sm">⇅ Sort</button>
+      </div>
+      <div class="camps-grid" id="campsGrid"></div>
+    </div>
+  </div>
+</div>
+<!-- Campaign Modal -->
+<div class="modal-backdrop" id="modalCampaign">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-header">
+      <div class="modal-header-icon" style="background:var(--wa-light)">🚀</div>
+      <div><div class="modal-title">Create New Campaign</div><div class="modal-subtitle">WhatsApp Business — send to contacts in your database</div></div>
+      <button class="modal-close" onclick="closeModal('modalCampaign')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Campaign Name</label><input class="form-control" type="text" placeholder="e.g. Eid Greetings 2026"/></div>
+      <div class="form-row-2">
+        <div class="form-group"><label class="form-label">Channel</label><select class="form-control"><option>📱 WhatsApp Business</option></select><div class="form-hint">More channels coming soon</div></div>
+        <div class="form-group"><label class="form-label">Audience</label><select class="form-control"><option>All Contacts (24,180)</option><option>VIP Members (948)</option><option>Retail (8,200)</option></select></div>
+      </div>
+      <div class="form-group"><label class="form-label">Message</label><textarea class="form-control" rows="4" id="campMsg" oninput="document.getElementById('campCount').textContent=this.value.length" placeholder="Hello {{name}}! Use double braces for personalization."></textarea><div style="display:flex;justify-content:space-between"><div class="form-hint">Variables: {{name}}, {{company}}, {{phone}}</div><div style="font-size:11px;color:var(--muted)"><span id="campCount">0</span>/160</div></div></div>
+      <div class="form-group">
+        <label class="form-label">Dispatch Type</label>
+        <div class="dispatch-toggle">
+          <button class="dispatch-opt active" id="optNow" onclick="setDispatch('now')">⚡ Send Now</button>
+          <button class="dispatch-opt" id="optSched" onclick="setDispatch('sched')">📅 Schedule</button>
+        </div>
+      </div>
+      <div id="schedPanel" style="display:none">
+        <div class="form-row-2">
+          <div class="form-group"><label class="form-label">Date</label><input class="form-control" type="date"/></div>
+          <div class="form-group"><label class="form-label">Time</label><input class="form-control" type="time"/></div>
+        </div>
+        <div class="form-group"><label class="form-label">Timezone</label><select class="form-control"><option>Asia/Muscat (GMT+4)</option><option>UTC</option></select></div>
+      </div>
+      <div class="form-row-2">
+        <div class="form-group" style="margin-bottom:0"><label class="form-label">Rate Limit (msg/sec)</label><input class="form-control" type="number" value="50"/></div>
+        <div class="form-group" style="margin-bottom:0"><label class="form-label">Retry Failed</label><select class="form-control"><option>Once</option><option>Twice</option><option>No Retry</option></select></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modalCampaign');showToast('Saved as draft','info')">Save Draft</button>
+      <button class="btn btn-ghost" onclick="closeModal('modalCampaign')">Cancel</button>
+      <button class="btn btn-wa" onclick="closeModal('modalCampaign');showToast('Campaign launched! 🚀','success')">🚀 Launch</button>
+    </div>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.status-tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.status-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');}));
+function setDispatch(t){document.getElementById('optNow').classList.toggle('active',t==='now');document.getElementById('optSched').classList.toggle('active',t==='sched');document.getElementById('schedPanel').style.display=t==='sched'?'block':'none';}
+const camps=[
+  {name:'Eid Al-Fitr Promo 2026',desc:'Special Eid greetings with 30% discount code for loyalty members.',status:'active',icon:'🎁',ch:'WhatsApp',contacts:21340,sent:18900,delivered:17934,rate:94.9,prog:88,start:'Apr 1',end:'Apr 10'},
+  {name:'Flash Sale April',desc:'Limited 48-hour flash sale for retail segment.',status:'active',icon:'⚡',ch:'WhatsApp',contacts:8200,sent:8200,delivered:7954,rate:96.9,prog:100,start:'Apr 5',end:'Apr 6'},
+  {name:'Q2 Newsletter Blast',desc:'Monthly newsletter covering product updates and events.',status:'scheduled',icon:'📰',ch:'WhatsApp',contacts:24180,sent:0,delivered:0,rate:0,prog:0,start:'Apr 12',end:'Apr 12'},
+  {name:'Loyalty Rewards Drive',desc:'Re-engagement for inactive loyalty members.',status:'active',icon:'🏆',ch:'WhatsApp',contacts:3200,sent:2100,delivered:1987,rate:94.6,prog:65,start:'Apr 3',end:'Apr 15'},
+  {name:'Ramadan Campaign 2026',desc:'Full Ramadan series with greetings and Eid countdown.',status:'completed',icon:'🌙',ch:'WhatsApp',contacts:24180,sent:24180,delivered:22951,rate:94.9,prog:100,start:'Mar 1',end:'Mar 31'},
+  {name:'Product Launch – Series X',desc:'New product launch announcement with teaser sequence.',status:'paused',icon:'🚀',ch:'WhatsApp',contacts:15000,sent:7200,delivered:6912,rate:96.0,prog:48,start:'Mar 20',end:'Apr 20'},
+  {name:'Customer Satisfaction Survey',desc:'Post-purchase satisfaction survey with incentives.',status:'completed',icon:'📋',ch:'WhatsApp',contacts:5400,sent:5400,delivered:5103,rate:94.5,prog:100,start:'Mar 15',end:'Mar 20'},
+  {name:'Weekend Deals Broadcast',desc:'Weekend-only deals for registered customers.',status:'draft',icon:'🛍',ch:'WhatsApp',contacts:0,sent:0,delivered:0,rate:0,prog:0,start:'TBD',end:'TBD'},
+];
+const statusMeta={active:{bar:'linear-gradient(90deg,var(--green),#00E5A0)',badge:'badge-green',label:'🟢 Active',iconBg:'var(--green-light)'},scheduled:{bar:'linear-gradient(90deg,var(--brand),#4D9FFF)',badge:'badge-blue',label:'📅 Scheduled',iconBg:'var(--brand-light)'},completed:{bar:'linear-gradient(90deg,var(--muted),#A0ADCC)',badge:'badge-gray',label:'✅ Completed',iconBg:'var(--surface3)'},paused:{bar:'linear-gradient(90deg,var(--orange),#FF9A60)',badge:'badge-orange',label:'⏸ Paused',iconBg:'var(--orange-light)'},draft:{bar:'linear-gradient(90deg,var(--purple),#A57EFF)',badge:'badge-purple',label:'📝 Draft',iconBg:'var(--purple-light)'}};
+const rateColor=r=>r>=90?'var(--green)':r>=70?'var(--orange)':'var(--red)';
+const g=document.getElementById('campsGrid');
+camps.forEach(c=>{
+  const sm=statusMeta[c.status];
+  g.innerHTML+=`
+  <div class="camp-card">
+    <div class="camp-top-bar" style="background:${sm.bar}"></div>
+    <div class="camp-body">
+      <div class="camp-head">
+        <div class="camp-icon" style="background:${sm.iconBg}">${c.icon}</div>
+        <span class="badge ${sm.badge}">${sm.label}</span>
+      </div>
+      <div class="camp-name">${c.name}</div>
+      <div class="camp-desc">${c.desc}</div>
+      <div class="camp-meta">
+        <span class="camp-meta-item">📱 ${c.ch}</span>
+        <span class="camp-meta-item">👥 ${c.contacts.toLocaleString()}</span>
+        <span class="camp-meta-item">📅 ${c.start} → ${c.end}</span>
+      </div>
+      ${c.status!=='draft'?`<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px"><span>Progress</span><span style="font-weight:700;color:var(--text)">${c.prog}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${c.prog}%;background:${sm.bar}"></div></div></div>`:''}
+      <div class="camp-stats">
+        <div class="camp-stat"><div class="camp-stat-val" style="color:var(--brand)">${c.sent.toLocaleString()}</div><div class="camp-stat-lbl">Sent</div></div>
+        <div class="camp-stat"><div class="camp-stat-val" style="color:var(--green)">${c.delivered.toLocaleString()}</div><div class="camp-stat-lbl">Delivered</div></div>
+        <div class="camp-stat"><div class="camp-stat-val" style="color:${rateColor(c.rate)}">${c.rate>0?c.rate+'%':'—'}</div><div class="camp-stat-lbl">Rate</div></div>
+      </div>
+    </div>
+    <div class="camp-actions">
+      ${c.status==='active'?'<button class="camp-act">⏸ Pause</button>':''}
+      ${c.status==='paused'?'<button class="camp-act primary">▶ Resume</button>':''}
+      ${c.status==='draft'?'<button class="camp-act primary" onclick="openModal(\'modalCampaign\')">🚀 Launch</button>':''}
+      ${c.status==='scheduled'?'<button class="camp-act">⚡ Send Now</button>':''}
+      <button class="camp-act" onclick="openModal('modalCampaign')">✏️ Edit</button>
+      <button class="camp-act">📊 Report</button>
+      <button class="camp-act danger">🗑</button>
+    </div>
+  </div>`;
+});
+</script>
+</body>
+</html>
