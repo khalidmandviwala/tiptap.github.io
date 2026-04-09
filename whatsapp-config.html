@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>TipTap — WhatsApp API Configuration</title>
+<title>BroadcastIQ — WhatsApp API Configuration</title>
 
 <!-- Fonts (also loaded in main.css via @import, keep here for FOUC prevention) -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet"/>
 
 <!-- Main stylesheet -->
 <link rel="stylesheet" href="assets/css/main.css"/>
@@ -348,7 +348,7 @@
 
     <!-- Topbar -->
     <div class="topbar">
-      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      <button class="hamburger" onclick="toggleSidebar()" title="Menu">☰</button>
       <div>
         <div class="topbar-breadcrumb">
           <span>Configuration</span>
@@ -357,11 +357,9 @@
         </div>
         <div class="topbar-title">WhatsApp Configuration</div>
       </div>
-      <div class="topbar-actions" style="margin-inline-start:auto">
+      <div class="topbar-actions">
         <button class="btn btn-ghost btn-sm" onclick="showToast('Documentation opened in new tab','info')">📖 Docs</button>
-        <button class="btn btn-wa btn-sm" onclick="testConnection()">
-          <span>⚡</span> Test Connection
-        </button>
+        <button class="btn btn-wa btn-sm" onclick="testConnection()">⚡ Test Connection</button>
       </div>
     </div>
 
@@ -373,7 +371,7 @@
         <div class="wa-hero-icon">📱</div>
         <div class="wa-hero-text">
           <div class="wa-hero-title">WhatsApp Business API</div>
-          <div class="wa-hero-sub">Connected via Meta Cloud API · Business Account: <strong style="color:#fff">TipTap Demo</strong> · WABA ID: 123456789012345</div>
+          <div class="wa-hero-sub">Connected via Meta Cloud API · Business Account: <strong style="color:#fff">BroadcastIQ Demo</strong> · WABA ID: 123456789012345</div>
         </div>
         <div class="wa-hero-status" onclick="showToast('API Status: All systems operational ✅','success')">
           <span style="width:9px;height:9px;border-radius:50%;background:#7FFFB5;box-shadow:0 0 0 3px rgba(127,255,181,0.3);animation:pulse 1.8s infinite;"></span>
@@ -605,7 +603,7 @@
                   <td>
                     <div class="flex items-center gap-2">
                       <div style="width:32px;height:32px;background:var(--wa-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;">📱</div>
-                      <span style="font-weight:600">TipTap Main</span>
+                      <span style="font-weight:600">BroadcastIQ Main</span>
                     </div>
                   </td>
                   <td style="font-family:monospace;font-weight:600">+968 9X XXX XXXX</td>
@@ -680,7 +678,7 @@
             <div class="form-group">
               <label class="form-label">Webhook Callback URL</label>
               <div class="copy-field">
-                <input type="text" id="webhook-url" value="https://api.TipTap.com/webhooks/whatsapp" readonly/>
+                <input type="text" id="webhook-url" value="https://api.broadcastiq.com/webhooks/whatsapp" readonly/>
                 <button class="copy-btn" onclick="copyText(document.getElementById('webhook-url').value, this)">📋 Copy</button>
               </div>
               <div class="form-hint">Add this URL in Meta App Dashboard → WhatsApp → Configuration → Webhooks</div>
@@ -846,14 +844,14 @@
               <label class="form-label">Message</label>
               <textarea class="form-control" id="test-message" rows="3"
                 oninput="updatePreview()"
-                placeholder="Hello {{name}}! This is a test message from TipTap.">Hello! 👋 This is a test message from TipTap. Your integration is working correctly. 🎉</textarea>
+                placeholder="Hello {{name}}! This is a test message from BroadcastIQ.">Hello! 👋 This is a test message from BroadcastIQ. Your integration is working correctly. 🎉</textarea>
             </div>
 
             <div class="form-group" style="margin-bottom:0">
               <label class="form-label">Live Preview</label>
               <div class="wa-preview">
                 <div class="wa-bubble" id="wa-preview-bubble">
-                  Hello! 👋 This is a test message from TipTap. Your integration is working correctly. 🎉
+                  Hello! 👋 This is a test message from BroadcastIQ. Your integration is working correctly. 🎉
                 </div>
                 <div class="wa-time">10:35 AM ✓✓</div>
               </div>
@@ -932,7 +930,7 @@
     <div class="modal-body">
       <div class="form-group">
         <label class="form-label">Display Name</label>
-        <input type="text" class="form-control" placeholder="e.g. TipTap Support"/>
+        <input type="text" class="form-control" placeholder="e.g. BroadcastIQ Support"/>
         <div class="form-hint">This name will appear in WhatsApp conversations</div>
       </div>
       <div class="form-group">
@@ -940,18 +938,10 @@
         <input type="tel" class="form-control" placeholder="+968 XXXXXXXX"/>
         <div class="form-hint">Must be in E.164 format. Cannot be an existing WhatsApp personal account.</div>
       </div>
-      <div class="form-row-2">
-        <div class="form-group" style="margin-bottom:0">
-          <label class="form-label">Verification Method</label>
-          <select class="form-control">
-            <option>SMS OTP</option>
-            <option>Voice Call</option>
-          </select>
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label class="form-label">Certificate (optional)</label>
-          <input type="text" class="form-control" placeholder="Leave blank for auto"/>
-        </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Certificate (optional)</label>
+        <input type="text" class="form-control" placeholder="Leave blank for auto-generation"/>
+        <div class="form-hint">Meta will send an OTP to your registered business email to verify ownership.</div>
       </div>
     </div>
     <div class="modal-footer">
@@ -968,18 +958,18 @@
       <div class="modal-header-icon" style="background:var(--brand-light)">✏️</div>
       <div>
         <div class="modal-title">Edit Phone Number</div>
-        <div class="modal-subtitle">TipTap Main · +968 9X XXX XXXX</div>
+        <div class="modal-subtitle">BroadcastIQ Main · +968 9X XXX XXXX</div>
       </div>
       <button class="modal-close" onclick="closeModal('modalEditPhone')">✕</button>
     </div>
     <div class="modal-body">
       <div class="form-group">
         <label class="form-label">Display Name</label>
-        <input type="text" class="form-control" value="TipTap Main"/>
+        <input type="text" class="form-control" value="BroadcastIQ Main"/>
       </div>
       <div class="form-group">
         <label class="form-label">About / Description</label>
-        <textarea class="form-control" rows="2">Official broadcast channel for TipTap customers.</textarea>
+        <textarea class="form-control" rows="2">Official broadcast channel for BroadcastIQ customers.</textarea>
       </div>
       <div class="form-row-2">
         <div class="form-group" style="margin-bottom:0">
@@ -993,7 +983,7 @@
         </div>
         <div class="form-group" style="margin-bottom:0">
           <label class="form-label">Email for Contacts</label>
-          <input type="email" class="form-control" value="hello@TipTap.com"/>
+          <input type="email" class="form-control" value="hello@broadcastiq.com"/>
         </div>
       </div>
     </div>
