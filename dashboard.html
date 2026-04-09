@@ -1,161 +1,569 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" dir="ltr">
-<head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>BroadcastIQ — Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="assets/css/main.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-<style>
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
-.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:20px;}
-.bottom-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
-.chart-canvas-wrap{position:relative;height:200px;}
-.top-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);}
-.top-item:last-child{border-bottom:none;}
-.top-rank{font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--muted);width:22px;flex-shrink:0;}
-.gauge-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:12px;}
-.gauge-lbl{color:var(--muted);width:64px;font-weight:600;}
-.gauge-val{font-weight:700;width:36px;text-align:end;}
-@media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr);}.charts-row{grid-template-columns:1fr;}.bottom-row{grid-template-columns:1fr 1fr;}}
-@media(max-width:640px){.stats-grid{grid-template-columns:1fr 1fr;}.bottom-row{grid-template-columns:1fr;}}
-</style>
-</head>
-<body>
-<script src="assets/js/sidebar.js"></script>
-<script src="assets/js/app.js"></script>
-<div class="app-shell">
-  <div class="main-content">
-    <div class="topbar">
-      <button class="hamburger" onclick="toggleSidebar()" title="Menu">☰</button>
-      <div class="topbar-title">Dashboard</div>
-      <div class="topbar-actions">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>BroadcastIQ — Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <style>
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .charts-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+      .bottom-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+      }
+      .chart-canvas-wrap {
+        position: relative;
+        height: 200px;
+      }
+      .top-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .top-item:last-child {
+        border-bottom: none;
+      }
+      .top-rank {
+        font-family: var(--font-display);
+        font-size: 17px;
+        font-weight: 900;
+        color: var(--muted);
+        width: 22px;
+        flex-shrink: 0;
+      }
+      .gauge-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-size: 12px;
+      }
+      .gauge-lbl {
+        color: var(--muted);
+        width: 64px;
+        font-weight: 600;
+      }
+      .gauge-val {
+        font-weight: 700;
+        width: 36px;
+        text-align: end;
+      }
+      @media (max-width: 1100px) {
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .charts-row {
+          grid-template-columns: 1fr;
+        }
+        .bottom-row {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 640px) {
+        .stats-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .bottom-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script src="assets/js/sidebar.js"></script>
+    <script src="assets/js/app.js"></script>
+    <div class="app-shell">
+      <div class="main-content">
+        <div class="topbar">
+          <button class="hamburger" onclick="toggleSidebar()" title="Menu">
+            ☰
+          </button>
+          <div class="topbar-title">Dashboard</div>
+          <div class="topbar-actions"></div>
+        </div>
+        <div class="page-body">
+          <!-- Stat Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div
+                class="stat-card-accent"
+                style="
+                  background: linear-gradient(90deg, var(--brand), #4d9fff);
+                "></div>
+              <div
+                class="stat-icon-wrap"
+                style="background: var(--brand-light)">
+                📨
+              </div>
+              <div class="stat-value">1.24M</div>
+              <div class="stat-label">Messages Sent</div>
+              <div class="stat-trend up">↑ 18.3% vs last month</div>
+            </div>
+            <div class="stat-card">
+              <div
+                class="stat-card-accent"
+                style="
+                  background: linear-gradient(90deg, var(--green), #00e5a0);
+                "></div>
+              <div
+                class="stat-icon-wrap"
+                style="background: var(--green-light)">
+                ⏳
+              </div>
+              <div class="stat-value">8,412</div>
+              <div class="stat-label">Ready to Dispatch</div>
+              <div class="stat-trend up">↑ 4.1% queued</div>
+            </div>
+            <div class="stat-card">
+              <div
+                class="stat-card-accent"
+                style="
+                  background: linear-gradient(90deg, var(--orange), #ff9a60);
+                "></div>
+              <div
+                class="stat-icon-wrap"
+                style="background: var(--orange-light)">
+                🏁
+              </div>
+              <div class="stat-value">47</div>
+              <div class="stat-label">Campaigns Completed</div>
+              <div class="stat-trend up">↑ 12% this month</div>
+            </div>
+            <div class="stat-card">
+              <div
+                class="stat-card-accent"
+                style="
+                  background: linear-gradient(90deg, var(--purple), #a57eff);
+                "></div>
+              <div
+                class="stat-icon-wrap"
+                style="background: var(--purple-light)">
+                🔄
+              </div>
+              <div class="stat-value">12</div>
+              <div class="stat-label">Campaigns In-Progress</div>
+              <div class="stat-trend down">↓ 2 from yesterday</div>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="charts-row">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Messages Trend</div>
+                  <div class="card-subtitle">Monthly delivery volume</div>
+                </div>
+                <div style="display: flex; gap: 4px">
+                  <button
+                    class="btn btn-ghost btn-sm"
+                    style="font-size: 11px; padding: 4px 10px"
+                    onclick="
+                      this.parentElement
+                        .querySelectorAll('button')
+                        .forEach((b) => (b.style.background = ''));
+                      this.style.background = 'var(--brand-light)';
+                      this.style.color = 'var(--brand)';
+                    ">
+                    Monthly
+                  </button>
+                  <button
+                    class="btn btn-ghost btn-sm"
+                    style="font-size: 11px; padding: 4px 10px">
+                    Weekly
+                  </button>
+                  <button
+                    class="btn btn-ghost btn-sm"
+                    style="font-size: 11px; padding: 4px 10px">
+                    Daily
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-canvas-wrap">
+                  <canvas id="msgChart"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Campaign Status</div>
+                  <div class="card-subtitle">By current state</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-canvas-wrap" style="height: 165px">
+                  <canvas id="donutChart"></canvas>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 8px;
+                    margin-top: 14px;
+                  ">
+                  <span style="font-size: 12px; color: var(--muted)"
+                    ><span style="color: var(--brand)">●</span> Active 40%</span
+                  >
+                  <span style="font-size: 12px; color: var(--muted)"
+                    ><span style="color: var(--green)">●</span> Done 35%</span
+                  >
+                  <span style="font-size: 12px; color: var(--muted)"
+                    ><span style="color: var(--orange)">●</span> Paused
+                    15%</span
+                  >
+                  <span style="font-size: 12px; color: var(--muted)"
+                    ><span style="color: var(--purple)">●</span> Draft 10%</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Row -->
+          <div class="bottom-row">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Campaign Trend</div>
+                  <div class="card-subtitle">Launched vs completed</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-canvas-wrap">
+                  <canvas id="campChart"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Delivery Analytics</div>
+                  <div class="card-subtitle">Performance breakdown</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div style="text-align: center; margin-bottom: 18px">
+                  <div
+                    style="
+                      font-size: 11px;
+                      color: var(--muted);
+                      font-weight: 600;
+                      text-transform: uppercase;
+                      letter-spacing: 0.5px;
+                      margin-bottom: 4px;
+                    ">
+                    Delivery Rate
+                  </div>
+                  <div
+                    style="
+                      font-family: var(--font-display);
+                      font-size: 38px;
+                      font-weight: 900;
+                      color: var(--green);
+                      letter-spacing: -1px;
+                    ">
+                    94.7%
+                  </div>
+                  <div style="font-size: 12px; color: var(--muted)">
+                    1,173,880 delivered
+                  </div>
+                </div>
+                <div class="gauge-row">
+                  <div class="gauge-lbl" style="color: var(--green)">
+                    Delivered
+                  </div>
+                  <div style="flex: 1" class="progress-bar">
+                    <div
+                      class="progress-fill"
+                      style="width: 94.7%; background: var(--green)"></div>
+                  </div>
+                  <div class="gauge-val">95%</div>
+                </div>
+                <div class="gauge-row">
+                  <div class="gauge-lbl" style="color: var(--brand)">Read</div>
+                  <div style="flex: 1" class="progress-bar">
+                    <div
+                      class="progress-fill"
+                      style="width: 72%; background: var(--brand)"></div>
+                  </div>
+                  <div class="gauge-val">72%</div>
+                </div>
+                <div class="gauge-row">
+                  <div class="gauge-lbl" style="color: var(--orange)">
+                    Clicked
+                  </div>
+                  <div style="flex: 1" class="progress-bar">
+                    <div
+                      class="progress-fill"
+                      style="width: 38%; background: var(--orange)"></div>
+                  </div>
+                  <div class="gauge-val">38%</div>
+                </div>
+                <div class="gauge-row">
+                  <div class="gauge-lbl" style="color: var(--red)">Failed</div>
+                  <div style="flex: 1" class="progress-bar">
+                    <div
+                      class="progress-fill"
+                      style="width: 5.3%; background: var(--red)"></div>
+                  </div>
+                  <div class="gauge-val">5%</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Top Campaigns</div>
+                  <div class="card-subtitle">By delivery rate this month</div>
+                </div>
+              </div>
+              <div
+                class="card-body"
+                style="padding-top: 12px; padding-bottom: 12px">
+                <div class="top-item">
+                  <div class="top-rank" style="color: goldenrod">1</div>
+                  <div style="flex: 1">
+                    <div style="font-weight: 600; font-size: 13px">
+                      Eid Promo 2026
+                    </div>
+                    <div style="font-size: 11px; color: var(--muted)">
+                      42,100 sent
+                    </div>
+                  </div>
+                  <div style="font-weight: 700; color: var(--green)">98.2%</div>
+                </div>
+                <div class="top-item">
+                  <div class="top-rank" style="color: silver">2</div>
+                  <div style="flex: 1">
+                    <div style="font-weight: 600; font-size: 13px">
+                      Flash Sale April
+                    </div>
+                    <div style="font-size: 11px; color: var(--muted)">
+                      31,450 sent
+                    </div>
+                  </div>
+                  <div style="font-weight: 700; color: var(--green)">96.7%</div>
+                </div>
+                <div class="top-item">
+                  <div class="top-rank" style="color: #cd7f32">3</div>
+                  <div style="flex: 1">
+                    <div style="font-weight: 600; font-size: 13px">
+                      Newsletter Q2
+                    </div>
+                    <div style="font-size: 11px; color: var(--muted)">
+                      28,900 sent
+                    </div>
+                  </div>
+                  <div style="font-weight: 700; color: var(--brand)">94.1%</div>
+                </div>
+                <div class="top-item">
+                  <div class="top-rank">4</div>
+                  <div style="flex: 1">
+                    <div style="font-weight: 600; font-size: 13px">
+                      Reactivation Drive
+                    </div>
+                    <div style="font-size: 11px; color: var(--muted)">
+                      19,200 sent
+                    </div>
+                  </div>
+                  <div style="font-weight: 700; color: var(--brand)">91.3%</div>
+                </div>
+                <div class="top-item">
+                  <div class="top-rank">5</div>
+                  <div style="flex: 1">
+                    <div style="font-weight: 600; font-size: 13px">
+                      Loyalty Rewards
+                    </div>
+                    <div style="font-size: 11px; color: var(--muted)">
+                      15,870 sent
+                    </div>
+                  </div>
+                  <div style="font-weight: 700; color: var(--orange)">
+                    88.9%
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="page-body">
-      <!-- Stat Cards -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-card-accent" style="background:linear-gradient(90deg,var(--brand),#4D9FFF)"></div>
-          <div class="stat-icon-wrap" style="background:var(--brand-light)">📨</div>
-          <div class="stat-value">1.24M</div>
-          <div class="stat-label">Messages Sent</div>
-          <div class="stat-trend up">↑ 18.3% vs last month</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-accent" style="background:linear-gradient(90deg,var(--green),#00E5A0)"></div>
-          <div class="stat-icon-wrap" style="background:var(--green-light)">⏳</div>
-          <div class="stat-value">8,412</div>
-          <div class="stat-label">Ready to Dispatch</div>
-          <div class="stat-trend up">↑ 4.1% queued</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-accent" style="background:linear-gradient(90deg,var(--orange),#FF9A60)"></div>
-          <div class="stat-icon-wrap" style="background:var(--orange-light)">🏁</div>
-          <div class="stat-value">47</div>
-          <div class="stat-label">Campaigns Completed</div>
-          <div class="stat-trend up">↑ 12% this month</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-accent" style="background:linear-gradient(90deg,var(--purple),#A57EFF)"></div>
-          <div class="stat-icon-wrap" style="background:var(--purple-light)">🔄</div>
-          <div class="stat-value">12</div>
-          <div class="stat-label">Campaigns In-Progress</div>
-          <div class="stat-trend down">↓ 2 from yesterday</div>
-        </div>
-      </div>
-
-      <!-- Charts Row -->
-      <div class="charts-row">
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Messages Trend</div>
-              <div class="card-subtitle">Monthly delivery volume</div>
-            </div>
-            <div style="display:flex;gap:4px">
-              <button class="btn btn-ghost btn-sm" style="font-size:11px;padding:4px 10px" onclick="this.parentElement.querySelectorAll('button').forEach(b=>b.style.background='');this.style.background='var(--brand-light)';this.style.color='var(--brand)'">Monthly</button>
-              <button class="btn btn-ghost btn-sm" style="font-size:11px;padding:4px 10px">Weekly</button>
-              <button class="btn btn-ghost btn-sm" style="font-size:11px;padding:4px 10px">Daily</button>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="chart-canvas-wrap"><canvas id="msgChart"></canvas></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <div><div class="card-title">Campaign Status</div><div class="card-subtitle">By current state</div></div>
-          </div>
-          <div class="card-body">
-            <div class="chart-canvas-wrap" style="height:165px"><canvas id="donutChart"></canvas></div>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px">
-              <span style="font-size:12px;color:var(--muted)"><span style="color:var(--brand)">●</span> Active 40%</span>
-              <span style="font-size:12px;color:var(--muted)"><span style="color:var(--green)">●</span> Done 35%</span>
-              <span style="font-size:12px;color:var(--muted)"><span style="color:var(--orange)">●</span> Paused 15%</span>
-              <span style="font-size:12px;color:var(--muted)"><span style="color:var(--purple)">●</span> Draft 10%</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bottom Row -->
-      <div class="bottom-row">
-        <div class="card">
-          <div class="card-header">
-            <div><div class="card-title">Campaign Trend</div><div class="card-subtitle">Launched vs completed</div></div>
-          </div>
-          <div class="card-body">
-            <div class="chart-canvas-wrap"><canvas id="campChart"></canvas></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div><div class="card-title">Delivery Analytics</div><div class="card-subtitle">Performance breakdown</div></div>
-          </div>
-          <div class="card-body">
-            <div style="text-align:center;margin-bottom:18px">
-              <div style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Delivery Rate</div>
-              <div style="font-family:var(--font-display);font-size:38px;font-weight:900;color:var(--green);letter-spacing:-1px">94.7%</div>
-              <div style="font-size:12px;color:var(--muted)">1,173,880 delivered</div>
-            </div>
-            <div class="gauge-row"><div class="gauge-lbl" style="color:var(--green)">Delivered</div><div style="flex:1" class="progress-bar"><div class="progress-fill" style="width:94.7%;background:var(--green)"></div></div><div class="gauge-val">95%</div></div>
-            <div class="gauge-row"><div class="gauge-lbl" style="color:var(--brand)">Read</div><div style="flex:1" class="progress-bar"><div class="progress-fill" style="width:72%;background:var(--brand)"></div></div><div class="gauge-val">72%</div></div>
-            <div class="gauge-row"><div class="gauge-lbl" style="color:var(--orange)">Clicked</div><div style="flex:1" class="progress-bar"><div class="progress-fill" style="width:38%;background:var(--orange)"></div></div><div class="gauge-val">38%</div></div>
-            <div class="gauge-row"><div class="gauge-lbl" style="color:var(--red)">Failed</div><div style="flex:1" class="progress-bar"><div class="progress-fill" style="width:5.3%;background:var(--red)"></div></div><div class="gauge-val">5%</div></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div><div class="card-title">Top Campaigns</div><div class="card-subtitle">By delivery rate this month</div></div>
-          </div>
-          <div class="card-body" style="padding-top:12px;padding-bottom:12px">
-            <div class="top-item"><div class="top-rank" style="color:goldenrod">1</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Eid Promo 2026</div><div style="font-size:11px;color:var(--muted)">42,100 sent</div></div><div style="font-weight:700;color:var(--green)">98.2%</div></div>
-            <div class="top-item"><div class="top-rank" style="color:silver">2</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Flash Sale April</div><div style="font-size:11px;color:var(--muted)">31,450 sent</div></div><div style="font-weight:700;color:var(--green)">96.7%</div></div>
-            <div class="top-item"><div class="top-rank" style="color:#cd7f32">3</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Newsletter Q2</div><div style="font-size:11px;color:var(--muted)">28,900 sent</div></div><div style="font-weight:700;color:var(--brand)">94.1%</div></div>
-            <div class="top-item"><div class="top-rank">4</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Reactivation Drive</div><div style="font-size:11px;color:var(--muted)">19,200 sent</div></div><div style="font-weight:700;color:var(--brand)">91.3%</div></div>
-            <div class="top-item"><div class="top-rank">5</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Loyalty Rewards</div><div style="font-size:11px;color:var(--muted)">15,870 sent</div></div><div style="font-weight:700;color:var(--orange)">88.9%</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<script>
-const opts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',borderColor:'#E2E8F5',borderWidth:1,titleColor:'#0D1B3E',bodyColor:'#7A88A8',titleFont:{family:'Sora',size:13},bodyFont:{family:'Sora',size:12},padding:12}}};
-const months=['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
-// Messages
-const mCtx=document.getElementById('msgChart').getContext('2d');
-const g1=mCtx.createLinearGradient(0,0,0,200);g1.addColorStop(0,'rgba(10,110,255,.18)');g1.addColorStop(1,'rgba(10,110,255,0)');
-const g2=mCtx.createLinearGradient(0,0,0,200);g2.addColorStop(0,'rgba(0,196,140,.15)');g2.addColorStop(1,'rgba(0,196,140,0)');
-new Chart(mCtx,{type:'line',data:{labels:months,datasets:[{label:'Sent',data:[820,940,1050,980,1120,1050,1080,1150,1190,1240],borderColor:'#0A6EFF',borderWidth:2.5,backgroundColor:g1,fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#0A6EFF'},{label:'Delivered',data:[775,890,1000,930,1060,990,1020,1090,1130,1175],borderColor:'#00C48C',borderWidth:2,backgroundColor:g2,fill:true,tension:.4,pointRadius:2,pointBackgroundColor:'#00C48C'}]},options:{...opts,plugins:{...opts.plugins,legend:{display:true,labels:{color:'#7A88A8',font:{family:'Sora',size:11},boxWidth:10}}},scales:{x:{grid:{color:'rgba(13,27,62,.05)'},ticks:{color:'#7A88A8',font:{family:'Sora',size:11}}},y:{grid:{color:'rgba(13,27,62,.05)'},ticks:{color:'#7A88A8',font:{family:'Sora',size:11}}}}}});
-// Donut
-new Chart(document.getElementById('donutChart').getContext('2d'),{type:'doughnut',data:{labels:['Active','Done','Paused','Draft'],datasets:[{data:[40,35,15,10],backgroundColor:['#0A6EFF','#00C48C','#FF6B2B','#7B5CF0'],borderWidth:0,hoverOffset:6}]},options:{...opts,cutout:'72%'}});
-// Campaign bar
-new Chart(document.getElementById('campChart').getContext('2d'),{type:'bar',data:{labels:months,datasets:[{label:'Launched',data:[8,11,9,14,12,10,13,15,11,12],backgroundColor:'rgba(10,110,255,.7)',borderRadius:5},{label:'Completed',data:[6,10,8,12,11,9,12,13,10,10],backgroundColor:'rgba(0,196,140,.65)',borderRadius:5}]},options:{...opts,plugins:{...opts.plugins,legend:{display:true,labels:{color:'#7A88A8',font:{family:'Sora',size:11},boxWidth:10}}},scales:{x:{grid:{color:'rgba(13,27,62,.04)'},ticks:{color:'#7A88A8',font:{family:'Sora',size:11}}},y:{grid:{color:'rgba(13,27,62,.04)'},ticks:{color:'#7A88A8',font:{family:'Sora',size:11}}}}}});
-</script>
-</body>
+    <script>
+      const opts = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {display: false},
+          tooltip: {
+            backgroundColor: "#fff",
+            borderColor: "#E2E8F5",
+            borderWidth: 1,
+            titleColor: "#0D1B3E",
+            bodyColor: "#7A88A8",
+            titleFont: {family: "Sora", size: 13},
+            bodyFont: {family: "Sora", size: 12},
+            padding: 12,
+          },
+        },
+      };
+      const months = [
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+      ];
+      // Messages
+      const mCtx = document.getElementById("msgChart").getContext("2d");
+      const g1 = mCtx.createLinearGradient(0, 0, 0, 200);
+      g1.addColorStop(0, "rgba(10,110,255,.18)");
+      g1.addColorStop(1, "rgba(10,110,255,0)");
+      const g2 = mCtx.createLinearGradient(0, 0, 0, 200);
+      g2.addColorStop(0, "rgba(0,196,140,.15)");
+      g2.addColorStop(1, "rgba(0,196,140,0)");
+      new Chart(mCtx, {
+        type: "line",
+        data: {
+          labels: months,
+          datasets: [
+            {
+              label: "Sent",
+              data: [820, 940, 1050, 980, 1120, 1050, 1080, 1150, 1190, 1240],
+              borderColor: "#0A6EFF",
+              borderWidth: 2.5,
+              backgroundColor: g1,
+              fill: true,
+              tension: 0.4,
+              pointRadius: 3,
+              pointBackgroundColor: "#0A6EFF",
+            },
+            {
+              label: "Delivered",
+              data: [775, 890, 1000, 930, 1060, 990, 1020, 1090, 1130, 1175],
+              borderColor: "#00C48C",
+              borderWidth: 2,
+              backgroundColor: g2,
+              fill: true,
+              tension: 0.4,
+              pointRadius: 2,
+              pointBackgroundColor: "#00C48C",
+            },
+          ],
+        },
+        options: {
+          ...opts,
+          plugins: {
+            ...opts.plugins,
+            legend: {
+              display: true,
+              labels: {
+                color: "#7A88A8",
+                font: {family: "Sora", size: 11},
+                boxWidth: 10,
+              },
+            },
+          },
+          scales: {
+            x: {
+              grid: {color: "rgba(13,27,62,.05)"},
+              ticks: {color: "#7A88A8", font: {family: "Sora", size: 11}},
+            },
+            y: {
+              grid: {color: "rgba(13,27,62,.05)"},
+              ticks: {color: "#7A88A8", font: {family: "Sora", size: 11}},
+            },
+          },
+        },
+      });
+      // Donut
+      new Chart(document.getElementById("donutChart").getContext("2d"), {
+        type: "doughnut",
+        data: {
+          labels: ["Active", "Done", "Paused", "Draft"],
+          datasets: [
+            {
+              data: [40, 35, 15, 10],
+              backgroundColor: ["#0A6EFF", "#00C48C", "#FF6B2B", "#7B5CF0"],
+              borderWidth: 0,
+              hoverOffset: 6,
+            },
+          ],
+        },
+        options: {...opts, cutout: "72%"},
+      });
+      // Campaign bar
+      new Chart(document.getElementById("campChart").getContext("2d"), {
+        type: "bar",
+        data: {
+          labels: months,
+          datasets: [
+            {
+              label: "Launched",
+              data: [8, 11, 9, 14, 12, 10, 13, 15, 11, 12],
+              backgroundColor: "rgba(10,110,255,.7)",
+              borderRadius: 5,
+            },
+            {
+              label: "Completed",
+              data: [6, 10, 8, 12, 11, 9, 12, 13, 10, 10],
+              backgroundColor: "rgba(0,196,140,.65)",
+              borderRadius: 5,
+            },
+          ],
+        },
+        options: {
+          ...opts,
+          plugins: {
+            ...opts.plugins,
+            legend: {
+              display: true,
+              labels: {
+                color: "#7A88A8",
+                font: {family: "Sora", size: 11},
+                boxWidth: 10,
+              },
+            },
+          },
+          scales: {
+            x: {
+              grid: {color: "rgba(13,27,62,.04)"},
+              ticks: {color: "#7A88A8", font: {family: "Sora", size: 11}},
+            },
+            y: {
+              grid: {color: "rgba(13,27,62,.04)"},
+              ticks: {color: "#7A88A8", font: {family: "Sora", size: 11}},
+            },
+          },
+        },
+      });
+    </script>
+  </body>
 </html>
