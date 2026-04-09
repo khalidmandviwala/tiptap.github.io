@@ -233,6 +233,7 @@
     </style>
   </head>
   <body>
+    <script src="assets/js/i18n.js"></script>
     <script src="assets/js/sidebar.js"></script>
     <script src="assets/js/app.js"></script>
     <div class="app-shell">
@@ -241,13 +242,15 @@
           <button class="hamburger" onclick="toggleSidebar()" title="Menu">
             ☰
           </button>
-          <div class="topbar-title">Campaigns</div>
+          <div class="topbar-title" data-i18n="campaigns_title">Campaigns</div>
           <div class="topbar-actions">
-            <button class="btn btn-ghost btn-sm">📊 Analytics</button>
+            <button class="btn btn-ghost btn-sm">
+              <span data-i18n="campaigns_analytics">Analytics</span>
+            </button>
             <button
               class="btn btn-primary"
               onclick="openModal('modalCampaign')">
-              + New Campaign
+              <span data-i18n="campaigns_add">+ New Campaign</span>
             </button>
           </div>
         </div>
@@ -279,6 +282,7 @@
                 class="form-control"
                 style="padding-inline-start: 36px"
                 type="text"
+                data-i18n-placeholder="campaigns_search"
                 placeholder="Search campaigns…" />
             </div>
             <select class="form-control" style="width: auto">

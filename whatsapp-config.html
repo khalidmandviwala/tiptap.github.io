@@ -465,17 +465,47 @@
           align-items: flex-start;
           gap: 14px;
         }
+        .wa-hero-status {
+          width: 100%;
+          justify-content: center;
+        }
         .rate-cards {
           grid-template-columns: 1fr;
         }
         .event-grid {
           grid-template-columns: 1fr 1fr;
         }
+        /* cred row wraps on small screens */
+        .cred-row {
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .cred-row .cred-actions {
+          width: 100%;
+          justify-content: flex-end;
+        }
+        /* phone number table: hide less critical cols */
+        .phone-col-id,
+        .phone-col-limit {
+          display: none;
+        }
+      }
+      @media (max-width: 400px) {
+        .setup-step {
+          padding: 10px 14px;
+        }
+        .step-info-sub {
+          display: none;
+        }
+        .event-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
     <!-- Sidebar injected by sidebar.js -->
+    <script src="assets/js/i18n.js"></script>
     <script src="assets/js/sidebar.js"></script>
     <script src="assets/js/app.js"></script>
 
@@ -491,9 +521,13 @@
             <div class="topbar-breadcrumb">
               <span>Configuration</span>
               <span class="sep">›</span>
-              <span class="crumb-active">WhatsApp Business API</span>
+              <span class="crumb-active" data-i18n="wa_breadcrumb_page"
+                >WhatsApp Business API</span
+              >
             </div>
-            <div class="topbar-title">WhatsApp Configuration</div>
+            <div class="topbar-title" data-i18n="wa_title">
+              WhatsApp Configuration
+            </div>
           </div>
           <div class="topbar-actions">
             <button
@@ -889,9 +923,9 @@
                     <tr>
                       <th>Display Name</th>
                       <th>Phone Number</th>
-                      <th>Phone Number ID</th>
-                      <th>Quality Rating</th>
-                      <th>Messaging Limit</th>
+                      <th class="phone-col-id">Phone Number ID</th>
+                      <th>Quality</th>
+                      <th class="phone-col-limit">Messaging Limit</th>
                       <th>Status</th>
                       <th>Default</th>
                       <th>Actions</th>
@@ -920,7 +954,9 @@
                       <td style="font-family: monospace; font-weight: 600">
                         +968 9X XXX XXXX
                       </td>
-                      <td style="font-family: monospace; color: var(--muted)">
+                      <td
+                        style="font-family: monospace; color: var(--muted)"
+                        class="phone-col-id">
                         109876543210123
                       </td>
                       <td>
@@ -931,7 +967,9 @@
                           >
                         </div>
                       </td>
-                      <td><span class="badge badge-blue">100K / day</span></td>
+                      <td class="phone-col-limit">
+                        <span class="badge badge-blue">100K / day</span>
+                      </td>
                       <td>
                         <span class="badge badge-green">● Connected</span>
                       </td>
@@ -974,7 +1012,9 @@
                       <td style="font-family: monospace; font-weight: 600">
                         +968 9X XXX YYYY
                       </td>
-                      <td style="font-family: monospace; color: var(--muted)">
+                      <td
+                        style="font-family: monospace; color: var(--muted)"
+                        class="phone-col-id">
                         209876543210456
                       </td>
                       <td>
@@ -985,7 +1025,9 @@
                           >
                         </div>
                       </td>
-                      <td><span class="badge badge-blue">1K / day</span></td>
+                      <td class="phone-col-limit">
+                        <span class="badge badge-blue">1K / day</span>
+                      </td>
                       <td>
                         <span class="badge badge-green">● Connected</span>
                       </td>
@@ -1027,7 +1069,7 @@
                     <input
                       type="text"
                       id="webhook-url"
-                      value="https://api.TipTap.com/webhooks/whatsapp"
+                      value="https://api.broadcastiq.com/webhooks/whatsapp"
                       readonly />
                     <button
                       class="copy-btn"
@@ -1473,9 +1515,7 @@ Hello! 👋 This is a test message from TipTap. Your integration is working corr
           </div>
           <div>
             <div class="modal-title">Edit Phone Number</div>
-            <div class="modal-subtitle">
-              TipTap Main · +968 9X XXX XXXX
-            </div>
+            <div class="modal-subtitle">TipTap Main · +968 9X XXX XXXX</div>
           </div>
           <button class="modal-close" onclick="closeModal('modalEditPhone')">
             ✕
@@ -1507,7 +1547,7 @@ Official broadcast channel for TipTap customers.</textarea
               <input
                 type="email"
                 class="form-control"
-                value="hello@TipTap.com" />
+                value="hello@broadcastiq.com" />
             </div>
           </div>
         </div>

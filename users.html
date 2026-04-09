@@ -232,6 +232,7 @@
     </style>
   </head>
   <body>
+    <script src="assets/js/i18n.js"></script>
     <script src="assets/js/sidebar.js"></script>
     <script src="assets/js/app.js"></script>
     <div class="app-shell">
@@ -240,7 +241,9 @@
           <button class="hamburger" onclick="toggleSidebar()" title="Menu">
             ☰
           </button>
-          <div class="topbar-title">User Management</div>
+          <div class="topbar-title" data-i18n="users_title">
+            User Management
+          </div>
           <div class="topbar-actions">
             <button
               class="btn btn-primary"
@@ -257,8 +260,8 @@
             <div class="invite-text">
               <h3>Invite Team Members</h3>
               <p>
-                Add colleagues to your TipTap workspace. Assign roles to
-                control what each person can access and manage.
+                Add colleagues to your TipTap workspace. Assign roles to control
+                what each person can access and manage.
               </p>
             </div>
             <button
@@ -562,7 +565,7 @@
       const users = [
         {
           name: "Ahmed Al-Hassan",
-          email: "admin@TipTap.com",
+          email: "admin@broadcastiq.com",
           role: "Administrator",
           status: "active",
           avatar: "AH",
@@ -574,7 +577,7 @@
         },
         {
           name: "Fatima Al-Balushi",
-          email: "fatima@TipTap.com",
+          email: "fatima@broadcastiq.com",
           role: "Manager",
           status: "active",
           avatar: "FB",
@@ -586,7 +589,7 @@
         },
         {
           name: "Omar Al-Kindi",
-          email: "omar@TipTap.com",
+          email: "omar@broadcastiq.com",
           role: "Manager",
           status: "active",
           avatar: "OK",
@@ -598,7 +601,7 @@
         },
         {
           name: "Sara Al-Zadjali",
-          email: "sara@TipTap.com",
+          email: "sara@broadcastiq.com",
           role: "Agent",
           status: "active",
           avatar: "SZ",
@@ -610,7 +613,7 @@
         },
         {
           name: "Khalid Al-Mawali",
-          email: "khalid@TipTap.com",
+          email: "khalid@broadcastiq.com",
           role: "Agent",
           status: "active",
           avatar: "KM",
@@ -622,7 +625,7 @@
         },
         {
           name: "Layla Al-Hinai",
-          email: "layla@TipTap.com",
+          email: "layla@broadcastiq.com",
           role: "Viewer",
           status: "active",
           avatar: "LH",
@@ -634,7 +637,7 @@
         },
         {
           name: "Yousuf Al-Harthi",
-          email: "yousuf@TipTap.com",
+          email: "yousuf@broadcastiq.com",
           role: "Agent",
           status: "pending",
           avatar: "YH",
@@ -646,7 +649,7 @@
         },
         {
           name: "Mariam Al-Siyabi",
-          email: "mariam@TipTap.com",
+          email: "mariam@broadcastiq.com",
           role: "Manager",
           status: "suspended",
           avatar: "MS",

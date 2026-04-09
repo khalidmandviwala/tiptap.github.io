@@ -1,5 +1,5 @@
 /* =========================================================
-   BroadcastIQ — app.js
+   TipTap — app.js
    Shared UI utilities: sidebar, RTL, active nav, clipboard
    ========================================================= */
 
@@ -33,14 +33,16 @@ document.addEventListener("DOMContentLoaded", () => {
   applyDir(savedDir, false);
 });
 
-/* ── Language / RTL toggle ── */
+/* ── Language / RTL toggle (kept for compatibility) ── */
 function applyDir(dir, save = true) {
   document.documentElement.setAttribute("dir", dir);
   document.documentElement.setAttribute("lang", dir === "rtl" ? "ar" : "en");
   if (save) localStorage.setItem("biq_dir", dir);
   document.querySelectorAll("[data-lang-btn]").forEach((btn) => {
-    const isActive = btn.dataset.langBtn === dir;
-    btn.classList.toggle("active", isActive);
+    btn.classList.toggle(
+      "active",
+      btn.dataset.langBtn === (dir === "rtl" ? "ar" : "en"),
+    );
   });
 }
 

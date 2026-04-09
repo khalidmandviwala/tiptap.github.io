@@ -1,119 +1,56 @@
 /* =========================================================
-   BroadcastIQ — sidebar.js  v2
-   Injects sidebar, topbar user dropdown, notification panel,
-   FAB, site footer into every inner page
+   TipTap — sidebar.js  v3
+   Injects sidebar, topbar extras, FAB, footer.
+   All text uses data-i18n — translated by i18n.js
    ========================================================= */
 
 (function () {
-  /* ── Sidebar HTML ── */
-  const sidebarHTML = `
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-mark">📡</div>
-      <div class="logo-wordmark">Tip<em>Tap</em></div>
-    </div>
-
-    <nav class="sidebar-nav">
-      <div class="nav-group-label">Main</div>
-      <a class="nav-link" href="dashboard.html">
-        <span class="nav-icon-wrap">📊</span><span>Dashboard</span>
-      </a>
-      <a class="nav-link" href="campaigns.html">
-        <span class="nav-icon-wrap">🚀</span><span>Campaigns</span>
-        <span class="nav-badge">3</span>
-      </a>
-      <a class="nav-link" href="broadcasts.html">
-        <span class="nav-icon-wrap">📋</span><span>Broadcasts</span>
-      </a>
-      <a class="nav-link" href="#">
-        <span class="nav-icon-wrap">📬</span><span>Inbox</span>
-        <span class="nav-badge orange">7</span>
-      </a>
-
-      <div class="nav-group-label">Management</div>
-      <a class="nav-link" href="contacts.html">
-        <span class="nav-icon-wrap">👥</span><span>Contacts</span>
-      </a>
-      <a class="nav-link" href="#">
-        <span class="nav-icon-wrap">📝</span><span>Templates</span>
-      </a>
-      <a class="nav-link" href="#">
-        <span class="nav-icon-wrap">📅</span><span>Schedule</span>
-      </a>
-
-      <div class="nav-group-label">Configuration</div>
-      <a class="nav-link" href="whatsapp-config.html">
-        <span class="nav-icon-wrap">💬</span><span>WhatsApp API</span>
-        <span class="nav-badge green">Live</span>
-      </a>
-      <a class="nav-link" href="settings.html">
-        <span class="nav-icon-wrap">⚙️</span><span>Settings</span>
-      </a>
-      <a class="nav-link" href="users.html">
-        <span class="nav-icon-wrap">👤</span><span>Users</span>
-      </a>
-    </nav>
-
-    <div class="sidebar-footer" id="sidebarFooter">
-      <div class="user-card" onclick="toggleUserDropdownSidebar()">
-        <div class="user-avatar" id="sbUserAvatar">AH</div>
-        <div>
-          <div class="user-name">Ahmed Al-Hassan</div>
-          <div class="user-role">Administrator</div>
-        </div>
-        <span class="user-caret">▾</span>
-      </div>
-    </div>
-  </aside>`;
-
-  /* ── Notification data ── */
+  /* ── Notification data (keys map to i18n if needed) ── */
   const notifs = [
     {
       icon: "🚀",
       iconBg: "var(--brand-light)",
-      title: "Campaign Launched",
-      desc: "Eid Al-Fitr Promo is now live — 21,340 recipients queued.",
+      titleKey: "Campaign Launched",
+      desc: "Eid Al-Fitr Promo is live — 21,340 recipients queued.",
       time: "2 min ago",
       unread: true,
     },
     {
       icon: "✅",
       iconBg: "var(--green-light)",
-      title: "Broadcast Delivered",
-      desc: "Flash Sale April — 7,954 messages delivered (96.9%).",
+      titleKey: "Broadcast Delivered",
+      desc: "Flash Sale — 7,954 messages delivered (96.9%).",
       time: "18 min ago",
       unread: true,
     },
     {
       icon: "⚠️",
       iconBg: "var(--orange-light)",
-      title: "Delivery Warning",
-      desc: "New Arrivals broadcast has 43% failure rate. Check your template.",
+      titleKey: "Delivery Warning",
+      desc: "New Arrivals broadcast has 43% failure rate.",
       time: "1h ago",
       unread: true,
     },
     {
       icon: "💬",
       iconBg: "var(--wa-light)",
-      title: "WhatsApp API Connected",
-      desc: "Meta Cloud API handshake successful. All systems operational.",
+      titleKey: "WhatsApp API Connected",
+      desc: "Meta Cloud API handshake successful.",
       time: "2h ago",
       unread: false,
     },
     {
       icon: "👤",
       iconBg: "var(--purple-light)",
-      title: "New Contact Imported",
-      desc: "CSV import completed — 1,240 contacts added successfully.",
+      titleKey: "New Contact Imported",
+      desc: "CSV import completed — 1,240 contacts added.",
       time: "5h ago",
       unread: false,
     },
     {
       icon: "🏆",
       iconBg: "var(--yellow-light)",
-      title: "Campaign Completed",
+      titleKey: "Campaign Completed",
       desc: "Loyalty Rewards Drive finished with 94.6% delivery rate.",
       time: "1d ago",
       unread: false,
@@ -127,7 +64,7 @@
     <div class="notif-item ${n.unread ? "unread" : ""}" onclick="markNotifRead(this)">
       <div class="notif-item-icon" style="background:${n.iconBg}">${n.icon}</div>
       <div style="flex:1;min-width:0">
-        <div class="notif-item-title">${n.title}</div>
+        <div class="notif-item-title">${n.titleKey}</div>
         <div class="notif-item-desc">${n.desc}</div>
         <div class="notif-item-time">${n.time}</div>
       </div>
@@ -136,28 +73,101 @@
     )
     .join("");
 
-  /* ── Topbar injected elements ── */
+  /* ── Sidebar HTML ── */
+  const sidebarHTML = `
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">📡</div>
+      <div class="logo-wordmark"><span data-i18n="app_name">TipTap</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-group-label" data-i18n="nav_group_main">Main</div>
+      <a class="nav-link" href="dashboard.html">
+        <span class="nav-icon-wrap">📊</span>
+        <span data-i18n="nav_dashboard">Dashboard</span>
+      </a>
+      <a class="nav-link" href="campaigns.html">
+        <span class="nav-icon-wrap">🚀</span>
+        <span data-i18n="nav_campaigns">Campaigns</span>
+        <span class="nav-badge">3</span>
+      </a>
+      <a class="nav-link" href="broadcasts.html">
+        <span class="nav-icon-wrap">📋</span>
+        <span data-i18n="nav_broadcasts">Broadcasts</span>
+      </a>
+      <a class="nav-link" href="#">
+        <span class="nav-icon-wrap">📬</span>
+        <span data-i18n="nav_inbox">Inbox</span>
+        <span class="nav-badge orange">7</span>
+      </a>
+      <div class="nav-group-label" data-i18n="nav_group_management">Management</div>
+      <a class="nav-link" href="contacts.html">
+        <span class="nav-icon-wrap">👥</span>
+        <span data-i18n="nav_contacts">Contacts</span>
+      </a>
+      <a class="nav-link" href="#">
+        <span class="nav-icon-wrap">📝</span>
+        <span data-i18n="nav_templates">Templates</span>
+      </a>
+      <a class="nav-link" href="#">
+        <span class="nav-icon-wrap">📅</span>
+        <span data-i18n="nav_schedule">Schedule</span>
+      </a>
+      <div class="nav-group-label" data-i18n="nav_group_config">Configuration</div>
+      <a class="nav-link" href="whatsapp-config.html">
+        <span class="nav-icon-wrap">💬</span>
+        <span data-i18n="nav_whatsapp">WhatsApp API</span>
+        <span class="nav-badge green" data-i18n="status_live">Live</span>
+      </a>
+      <a class="nav-link" href="settings.html">
+        <span class="nav-icon-wrap">⚙️</span>
+        <span data-i18n="nav_settings">Settings</span>
+      </a>
+      <a class="nav-link" href="users.html">
+        <span class="nav-icon-wrap">👤</span>
+        <span data-i18n="nav_users">Users</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer" id="sidebarFooter">
+      <div class="user-card" onclick="window.location.href='settings.html'">
+        <div class="user-avatar" id="sbUserAvatar">AH</div>
+        <div>
+          <div class="user-name">Ahmed Al-Hassan</div>
+          <div class="user-role" data-i18n="user_role_admin">Administrator</div>
+        </div>
+        <span class="user-caret">▾</span>
+      </div>
+    </div>
+  </aside>`;
+
+  /* ── Topbar extras HTML ── */
   const topbarExtrasHTML = `
-  <!-- Notification Panel -->
+  <!-- Notifications -->
   <div class="notif-wrap" id="notifWrap">
-    <button class="notif-btn" id="notifBtn" onclick="toggleNotif(event)" title="Notifications">
+    <button class="notif-btn" id="notifBtn" onclick="toggleNotif(event)" data-i18n-title="topbar_notifications">
       🔔
       <span class="notif-count" id="notifCount">${unreadCount}</span>
     </button>
     <div class="notif-panel" id="notifPanel">
       <div class="notif-panel-head">
-        <div class="notif-panel-title">Notifications <span style="color:var(--brand);font-size:12px">(${unreadCount} new)</span></div>
-        <button class="notif-mark-all" onclick="markAllRead()">Mark all read</button>
+        <div class="notif-panel-title">
+          <span data-i18n="topbar_notifications">Notifications</span>
+          <span style="color:var(--brand);font-size:12px;margin-inline-start:6px">(${unreadCount} <span data-i18n="notif_new">new</span>)</span>
+        </div>
+        <button class="notif-mark-all" onclick="markAllRead()" data-i18n="topbar_mark_all_read">Mark all read</button>
       </div>
       <div class="notif-list" id="notifList">${notifItemsHTML}</div>
-      <div class="notif-panel-footer"><a href="#">View all notifications</a></div>
+      <div class="notif-panel-footer">
+        <a href="#" data-i18n="topbar_view_all">View all notifications</a>
+      </div>
     </div>
   </div>
 
   <!-- Lang Toggle -->
   <div class="lang-toggle" id="topbarLang">
-    <button class="lang-toggle-btn" data-lang-btn="ltr" onclick="applyDir('ltr')">🇬🇧 EN</button>
-    <button class="lang-toggle-btn" data-lang-btn="rtl" onclick="applyDir('rtl')">🇴🇲 AR</button>
+    <button class="lang-toggle-btn" data-lang-btn="en" onclick="I18n.setLang('en')">🇬🇧 EN</button>
+    <button class="lang-toggle-btn" data-lang-btn="ar" onclick="I18n.setLang('ar')">🇴🇲 AR</button>
   </div>
 
   <!-- User Dropdown -->
@@ -170,20 +180,20 @@
     <div class="user-dropdown" id="userDropdown">
       <div class="dropdown-header">
         <div class="dropdown-name">Ahmed Al-Hassan</div>
-        <div class="dropdown-email">admin@broadcastiq.com</div>
+        <div class="dropdown-email">admin@tiptap.com</div>
       </div>
       <a class="dropdown-item" href="settings.html">
-        <span class="dropdown-icon">⚙️</span> Settings
+        <span class="dropdown-icon">⚙️</span>
+        <span data-i18n="nav_settings">Settings</span>
       </a>
       <a class="dropdown-item" href="users.html">
-        <span class="dropdown-icon">👥</span> User Management
-      </a>
-      <a class="dropdown-item" href="#">
-        <span class="dropdown-icon">🔔</span> Notification Preferences
+        <span class="dropdown-icon">👥</span>
+        <span data-i18n="nav_users">Users</span>
       </a>
       <div style="height:1px;background:var(--border);margin:4px 0"></div>
       <a class="dropdown-item danger" href="login.html">
-        <span class="dropdown-icon">🚪</span> Sign Out
+        <span class="dropdown-icon">🚪</span>
+        <span data-i18n="nav_signout">Sign Out</span>
       </a>
     </div>
   </div>`;
@@ -193,101 +203,169 @@
   <div class="fab-wrap" id="fabWrap">
     <div class="fab-sub-items">
       <div class="fab-sub" onclick="openModal('modalAddContact')">
-        <span class="fab-sub-label">Add Contact</span>
-        <button class="fab-sub-btn" style="background:var(--green);color:#fff" title="Add Contact">👤</button>
+        <span class="fab-sub-label" data-i18n="fab_contact">Add Contact</span>
+        <button class="fab-sub-btn" style="background:var(--green);color:#fff">👤</button>
       </div>
       <div class="fab-sub" onclick="openModal('modalAddBroadcast')">
-        <span class="fab-sub-label">New Broadcast</span>
-        <button class="fab-sub-btn" style="background:var(--wa);color:#fff" title="New Broadcast">📤</button>
+        <span class="fab-sub-label" data-i18n="fab_broadcast">New Broadcast</span>
+        <button class="fab-sub-btn" style="background:var(--wa);color:#fff">📤</button>
       </div>
       <div class="fab-sub" onclick="openModal('modalAddCampaign')">
-        <span class="fab-sub-label">New Campaign</span>
-        <button class="fab-sub-btn" style="background:var(--brand);color:#fff" title="New Campaign">🚀</button>
+        <span class="fab-sub-label" data-i18n="fab_campaign">New Campaign</span>
+        <button class="fab-sub-btn" style="background:var(--brand);color:#fff">🚀</button>
       </div>
     </div>
-    <button class="fab-main" id="fabMain" onclick="toggleFab()" title="Quick Actions">+</button>
+    <button class="fab-main" id="fabMain" onclick="toggleFab()">+</button>
   </div>
 
-  <!-- FAB: Add Contact Modal -->
+  <!-- FAB: Add Contact -->
   <div class="modal-backdrop" id="modalAddContact">
     <div class="modal">
       <div class="modal-header">
         <div class="modal-header-icon" style="background:var(--green-light)">👤</div>
-        <div><div class="modal-title">Add New Contact</div><div class="modal-subtitle">Stored in your database — no Meta registration needed</div></div>
+        <div>
+          <div class="modal-title" data-i18n="modal_add_contact">Add New Contact</div>
+          <div class="modal-subtitle" data-i18n="modal_add_contact_sub">Stored in your database</div>
+        </div>
         <button class="modal-close" onclick="closeModal('modalAddContact')">✕</button>
       </div>
       <div class="modal-body">
         <div class="form-row-2">
-          <div class="form-group"><label class="form-label">First Name</label><input class="form-control" type="text" placeholder="Ahmed"/></div>
-          <div class="form-group"><label class="form-label">Last Name</label><input class="form-control" type="text" placeholder="Al-Hassan"/></div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="field_first_name">First Name</label>
+            <input class="form-control" type="text" data-i18n-placeholder="field_first_name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="field_last_name">Last Name</label>
+            <input class="form-control" type="text" data-i18n-placeholder="field_last_name"/>
+          </div>
         </div>
         <div class="form-row-2">
-          <div class="form-group"><label class="form-label">Phone (WhatsApp)</label><input class="form-control" type="tel" placeholder="+968 9X XXX XXXX"/><div class="form-hint">E.164 format — required for WhatsApp delivery</div></div>
-          <div class="form-group"><label class="form-label">Email</label><input class="form-control" type="email" placeholder="contact@email.com"/></div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="field_phone">Phone (WhatsApp)</label>
+            <input class="form-control" type="tel" placeholder="+968 9X XXX XXXX"/>
+            <div class="form-hint" data-i18n="field_phone_hint">E.164 format required</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="field_email">Email</label>
+            <input class="form-control" type="email" data-i18n-placeholder="field_email"/>
+          </div>
         </div>
         <div class="form-row-2">
-          <div class="form-group" style="margin-bottom:0"><label class="form-label">Group</label><select class="form-control"><option>VIP</option><option>Regular</option><option>New Lead</option><option>Corporate</option></select></div>
-          <div class="form-group" style="margin-bottom:0"><label class="form-label">Status</label><select class="form-control"><option>Subscribed</option><option>Pending</option><option>Unsubscribed</option></select></div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label" data-i18n="field_group">Group</label>
+            <select class="form-control">
+              <option>VIP</option><option>Regular</option><option>New Lead</option><option>Corporate</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label" data-i18n="field_status">Status</label>
+            <select class="form-control">
+              <option data-i18n="status_subscribed">Subscribed</option>
+              <option data-i18n="status_pending">Pending</option>
+              <option data-i18n="status_unsubscribed">Unsubscribed</option>
+            </select>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-ghost" onclick="closeModal('modalAddContact')">Cancel</button>
-        <button class="btn btn-primary" onclick="closeModal('modalAddContact');showToast('Contact saved ✅','success')">Save Contact</button>
+        <button class="btn btn-ghost" onclick="closeModal('modalAddContact')" data-i18n="btn_cancel">Cancel</button>
+        <button class="btn btn-primary" onclick="closeModal('modalAddContact');showToast(t('modal_add_contact')+' ✅','success')" data-i18n="btn_save">Save</button>
       </div>
     </div>
   </div>
 
-  <!-- FAB: Add Broadcast Modal -->
+  <!-- FAB: Add Broadcast -->
   <div class="modal-backdrop" id="modalAddBroadcast">
     <div class="modal">
       <div class="modal-header">
         <div class="modal-header-icon" style="background:var(--wa-light)">📤</div>
-        <div><div class="modal-title">New Broadcast</div><div class="modal-subtitle">WhatsApp Business — send to your database contacts</div></div>
+        <div>
+          <div class="modal-title" data-i18n="fab_broadcast">New Broadcast</div>
+          <div class="modal-subtitle" data-i18n="modal_add_contact_sub">WhatsApp Business</div>
+        </div>
         <button class="modal-close" onclick="closeModal('modalAddBroadcast')">✕</button>
       </div>
       <div class="modal-body">
-        <div class="form-group"><label class="form-label">Broadcast Name</label><input class="form-control" type="text" placeholder="e.g. Weekend Deals – Apr 12"/></div>
-        <div class="form-row-2">
-          <div class="form-group"><label class="form-label">Audience</label><select class="form-control"><option>All Contacts (24,180)</option><option>VIP (948)</option><option>Retail (8,200)</option></select></div>
-          <div class="form-group"><label class="form-label">Send At</label><select class="form-control"><option>Send Immediately</option><option>Schedule for later</option></select></div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="field_campaign_name">Name</label>
+          <input class="form-control" type="text"/>
         </div>
-        <div class="form-group" style="margin-bottom:0"><label class="form-label">Message</label><textarea class="form-control" rows="3" placeholder="Hello {{name}}, here's a special offer…"></textarea></div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label" data-i18n="field_audience">Audience</label>
+            <select class="form-control">
+              <option>All Contacts (24,180)</option><option>VIP (948)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="field_dispatch">Send At</label>
+            <select class="form-control">
+              <option data-i18n="dispatch_now">Send Now</option>
+              <option data-i18n="dispatch_schedule">Schedule</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label" data-i18n="field_message">Message</label>
+          <textarea class="form-control" rows="3"></textarea>
+        </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-ghost" onclick="closeModal('modalAddBroadcast')">Cancel</button>
-        <button class="btn btn-wa" onclick="closeModal('modalAddBroadcast');showToast('Broadcast sent 📤','success')">📤 Send Broadcast</button>
+        <button class="btn btn-ghost" onclick="closeModal('modalAddBroadcast')" data-i18n="btn_cancel">Cancel</button>
+        <button class="btn btn-wa" onclick="closeModal('modalAddBroadcast');showToast('Broadcast sent 📤','success')" data-i18n="btn_send">Send</button>
       </div>
     </div>
   </div>
 
-  <!-- FAB: Add Campaign Modal -->
+  <!-- FAB: Add Campaign -->
   <div class="modal-backdrop" id="modalAddCampaign">
     <div class="modal" style="max-width:580px">
       <div class="modal-header">
         <div class="modal-header-icon" style="background:var(--brand-light)">🚀</div>
-        <div><div class="modal-title">New Campaign</div><div class="modal-subtitle">WhatsApp Business campaign</div></div>
+        <div>
+          <div class="modal-title" data-i18n="modal_campaign">New Campaign</div>
+          <div class="modal-subtitle" data-i18n="modal_campaign_sub">WhatsApp Business campaign</div>
+        </div>
         <button class="modal-close" onclick="closeModal('modalAddCampaign')">✕</button>
       </div>
       <div class="modal-body">
-        <div class="form-group"><label class="form-label">Campaign Name</label><input class="form-control" type="text" placeholder="e.g. Eid Greetings 2026"/></div>
-        <div class="form-row-2">
-          <div class="form-group"><label class="form-label">Audience</label><select class="form-control"><option>All Contacts (24,180)</option><option>VIP (948)</option></select></div>
-          <div class="form-group"><label class="form-label">Dispatch</label><select class="form-control"><option>Send Now</option><option>Schedule</option></select></div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="field_campaign_name">Campaign Name</label>
+          <input class="form-control" type="text"/>
         </div>
-        <div class="form-group" style="margin-bottom:0"><label class="form-label">Message</label><textarea class="form-control" rows="3" placeholder="Hello {{name}}! Use double braces for personalization."></textarea></div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label" data-i18n="field_audience">Audience</label>
+            <select class="form-control"><option>All Contacts (24,180)</option><option>VIP (948)</option></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="field_dispatch">Dispatch</label>
+            <select class="form-control">
+              <option data-i18n="dispatch_now">Send Now</option>
+              <option data-i18n="dispatch_schedule">Schedule</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label" data-i18n="field_message">Message</label>
+          <textarea class="form-control" rows="3"></textarea>
+        </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-ghost" onclick="closeModal('modalAddCampaign')">Cancel</button>
-        <button class="btn btn-primary" onclick="closeModal('modalAddCampaign');showToast('Campaign launched 🚀','success')">🚀 Launch Campaign</button>
+        <button class="btn btn-ghost" onclick="closeModal('modalAddCampaign')" data-i18n="btn_cancel">Cancel</button>
+        <button class="btn btn-primary" onclick="closeModal('modalAddCampaign');showToast('Campaign launched 🚀','success')" data-i18n="btn_launch">🚀 Launch</button>
       </div>
     </div>
   </div>`;
 
-  /* ── Site Footer HTML ── */
+  /* ── Footer HTML ── */
   const footerHTML = `
   <footer class="site-footer">
     <div class="footer-copy">
-      © ${new Date().getFullYear()} BroadcastIQ. All Rights Reserved by <a href="https://92techoman.com" target="_blank">92TechOman.com</a>
+      © ${new Date().getFullYear()} <span data-i18n="app_name">TipTap</span>.
+      <span data-i18n="footer_rights">All Rights Reserved by</span>
+      <a href="https://92techoman.com" target="_blank">92TechOman.com</a>
     </div>
     <div class="footer-links">
       <a href="#">Privacy Policy</a>
@@ -302,86 +380,90 @@
   /* ── Inject FAB + modals ── */
   document.body.insertAdjacentHTML("beforeend", fabHTML);
 
-  /* ── Inject topbar extras & footer after DOM ready ── */
+  /* ── DOMContentLoaded: inject topbar extras + footer + setup ── */
   document.addEventListener("DOMContentLoaded", () => {
-    /* Mark active nav */
+    /* Active nav */
     const page = location.pathname.split("/").pop() || "dashboard.html";
     document.querySelectorAll(".nav-link").forEach((link) => {
       if (link.getAttribute("href") === page) link.classList.add("active");
     });
 
-    /* Inject topbar extras into .topbar-actions */
+    /* Topbar extras → append to .topbar-actions */
     const actions = document.querySelector(".topbar-actions");
     if (actions) actions.insertAdjacentHTML("beforeend", topbarExtrasHTML);
 
-    /* Inject sidebar toggle btn at start of topbar */
+    /* Sidebar desktop toggle button → prepend to .topbar */
     const topbar = document.querySelector(".topbar");
     if (topbar) {
-      const toggleBtn = document.createElement("button");
-      toggleBtn.className = "sidebar-toggle-btn";
-      toggleBtn.title = "Toggle Sidebar";
-      toggleBtn.innerHTML = "<span></span><span></span><span></span>";
-      toggleBtn.onclick = toggleSidebarDesktop;
-      topbar.insertBefore(toggleBtn, topbar.firstChild);
+      const btn = document.createElement("button");
+      btn.className = "sidebar-toggle-btn";
+      btn.title = "Toggle Sidebar";
+      btn.innerHTML = "<span></span><span></span><span></span>";
+      btn.onclick = toggleSidebarDesktop;
+      topbar.insertBefore(btn, topbar.firstChild);
     }
 
-    /* Inject footer into main-content */
-    const main = document.querySelector(".main-content");
-    if (main) main.insertAdjacentHTML("beforeend", footerHTML);
+    /* Footer → append to main-content */
+    document
+      .querySelector(".main-content")
+      ?.insertAdjacentHTML("beforeend", footerHTML);
 
-    /* Apply saved dir */
-    const savedDir = localStorage.getItem("biq_dir") || "ltr";
-    applyDir(savedDir, false);
-
-    /* Apply saved sidebar state */
-    const collapsed = localStorage.getItem("biq_sidebar_collapsed") === "true";
-    if (collapsed && window.innerWidth > 768) {
+    /* Restore sidebar collapse state */
+    if (
+      localStorage.getItem("biq_sidebar_collapsed") === "true" &&
+      window.innerWidth > 768
+    ) {
       document.querySelector(".app-shell")?.classList.add("sidebar-collapsed");
     }
 
-    /* Style lang buttons */
-    syncLangButtons(savedDir);
-
-    /* Load saved avatar */
-    const savedAvatar = localStorage.getItem("biq_avatar");
-    if (savedAvatar) {
+    /* Restore avatar */
+    const av = localStorage.getItem("biq_avatar");
+    if (av) {
       document
-        .querySelectorAll(".topbar-avatar, .user-avatar, #sbUserAvatar")
+        .querySelectorAll(".topbar-avatar, #sbUserAvatar")
         .forEach((el) => {
-          el.innerHTML = `<img src="${savedAvatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`;
+          el.innerHTML = `<img src="${av}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`;
         });
     }
 
-    /* Close dropdowns on outside click */
+    /* Close dropdowns / FAB on outside click */
     document.addEventListener("click", (e) => {
       if (!e.target.closest("#notifWrap"))
         document.getElementById("notifPanel")?.classList.remove("open");
       if (!e.target.closest("#topbarUser")) closeUserDropdown();
       if (!e.target.closest("#fabWrap")) closeFab();
     });
+
+    /* Overlay close */
+    document
+      .getElementById("sidebarOverlay")
+      ?.addEventListener("click", toggleSidebar);
   });
 
-  /* ── Sidebar toggle (mobile) ── */
+  /* ── Public: sidebar toggle (mobile) ── */
   window.toggleSidebar = function () {
     const sb = document.getElementById("sidebar");
     const ov = document.getElementById("sidebarOverlay");
+    if (!sb) return;
     sb.classList.toggle("open");
-    ov.classList.toggle("open");
+    ov?.classList.toggle("open");
     document.body.style.overflow = sb.classList.contains("open")
       ? "hidden"
       : "";
   };
 
-  /* ── Sidebar collapse/expand (desktop) ── */
+  /* ── Public: sidebar collapse (desktop) ── */
   window.toggleSidebarDesktop = function () {
     if (window.innerWidth <= 768) {
       toggleSidebar();
       return;
     }
     const shell = document.querySelector(".app-shell");
-    shell.classList.toggle("sidebar-collapsed");
-    const collapsed = shell.classList.contains("sidebar-collapsed");
-    localStorage.setItem("biq_sidebar_collapsed", collapsed);
+    shell?.classList.toggle("sidebar-collapsed");
+    localStorage.setItem(
+      "biq_sidebar_collapsed",
+      String(shell?.classList.contains("sidebar-collapsed")),
+    );
   };
 
   /* ── User dropdown ── */
@@ -389,17 +471,14 @@
     e.stopPropagation();
     const dd = document.getElementById("userDropdown");
     const btn = document.getElementById("topbarUserBtn");
-    const isOpen = dd.classList.toggle("open");
-    btn.setAttribute("aria-expanded", isOpen);
+    const now = dd?.classList.toggle("open");
+    btn?.setAttribute("aria-expanded", String(now));
   };
   window.closeUserDropdown = function () {
     document.getElementById("userDropdown")?.classList.remove("open");
     document
       .getElementById("topbarUserBtn")
       ?.setAttribute("aria-expanded", "false");
-  };
-  window.toggleUserDropdownSidebar = function () {
-    window.location.href = "settings.html";
   };
 
   /* ── Notifications ── */
@@ -410,21 +489,21 @@
   window.markNotifRead = function (el) {
     el.classList.remove("unread");
     el.querySelector(".notif-unread-dot")?.remove();
-    updateNotifCount();
+    _updateNotifCount();
   };
   window.markAllRead = function () {
     document.querySelectorAll(".notif-item.unread").forEach((el) => {
       el.classList.remove("unread");
       el.querySelector(".notif-unread-dot")?.remove();
     });
-    updateNotifCount();
+    _updateNotifCount();
   };
-  function updateNotifCount() {
-    const count = document.querySelectorAll(".notif-item.unread").length;
+  function _updateNotifCount() {
+    const n = document.querySelectorAll(".notif-item.unread").length;
     const el = document.getElementById("notifCount");
     if (el) {
-      el.textContent = count;
-      el.style.display = count ? "flex" : "none";
+      el.textContent = n;
+      el.style.display = n ? "flex" : "none";
     }
   }
 
@@ -435,18 +514,4 @@
   window.closeFab = function () {
     document.getElementById("fabWrap")?.classList.remove("open");
   };
-
-  /* ── Lang sync ── */
-  function syncLangButtons(dir) {
-    document.querySelectorAll("[data-lang-btn]").forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.langBtn === dir);
-    });
-  }
-
-  /* Overlay close */
-  document.addEventListener("DOMContentLoaded", () => {
-    document
-      .getElementById("sidebarOverlay")
-      ?.addEventListener("click", toggleSidebar);
-  });
 })();
