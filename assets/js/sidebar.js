@@ -12,7 +12,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <div class="logo-mark">📡</div>
-      <div class="logo-wordmark">Broadcast<em>IQ</em></div>
+      <div class="logo-wordmark">Tip<em>Tap</em></div>
     </div>
 
     <nav class="sidebar-nav">
