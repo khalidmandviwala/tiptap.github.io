@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TipTap — Mobile Screens</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --tt:        #0A6EFF;
+  --tt-light:  #EBF2FF;
+  --tt-mid:    #C2D9FF;
+  --wa:        #25D366;
+  --wa-dk:     #128C7E;
+  --wa-bg:     #E8FDF2;
+  --green:     #00C48C;
+  --green-lt:  #E6FAF5;
+  --orange:    #FF6B2B;
+  --purple:    #7B5CF0;
+  --red:       #FF3D57;
+  --yellow:    #F5A623;
+  --bg:        #F0F2F5;
+  --surface:   #FFFFFF;
+  --surface2:  #F7F8FA;
+  --border:    #E8EAED;
+  --text:      #0D1B3E;
+  --text2:     #3C4257;
+  --muted:     #8A94A6;
+  --ph-w:      210px;
+  --ph-h:      420px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Sora', sans-serif;
+  background: #1a1a2e;
+  min-height: 100vh;
+  padding: 32px 20px 48px;
+}
+.page-title {
+  text-align: center;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+.page-sub {
+  text-align: center;
+  color: rgba(255,255,255,0.5);
+  font-size: 13px;
+  margin-bottom: 36px;
+}
+.screens-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  justify-content: center;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+/* Phone frame */
+.phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.phone-label {
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.phone {
+  width: var(--ph-w);
+  height: var(--ph-h);
+  background: var(--surface);
+  border-radius: 32px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 6px solid #1e1e2e;
+  box-shadow: 0 0 0 1px #333, 0 24px 48px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+/* Notch */
+.phone::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 60px; height: 18px;
+  background: #1e1e2e;
+  border-radius: 0 0 12px 12px;
+  z-index: 100;
+}
+/* Status bar */
+.status-bar {
+  height: 28px;
+  padding: 0 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 4px;
+  flex-shrink: 0;
+  z-index: 10;
+}
+.status-time { font-size: 9px; font-weight: 700; color: var(--text); }
+.status-icons { font-size: 8px; color: var(--muted); display: flex; gap: 3px; align-items: center; }
+.signal-bar { width: 3px; background: var(--text); border-radius: 1px; }
+/* Top AppBar */
+.appbar {
+  height: 46px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-bottom: 0.5px solid var(--border);
+}
+.appbar.brand { background: var(--tt); border-bottom: none; }
+.appbar.white { background: var(--surface); }
+.appbar-title { font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
+.appbar.brand .appbar-title { color: #fff; }
+.appbar-sub { font-size: 9px; color: var(--muted); margin-top: 1px; }
+.appbar-icon { font-size: 15px; color: var(--muted); cursor: pointer; }
+.appbar.brand .appbar-icon { color: rgba(255,255,255,0.8); }
+.back-btn { font-size: 17px; color: var(--tt); font-weight: 300; cursor: pointer; }
+.appbar.brand .back-btn { color: #fff; }
+/* Avatar */
+.av { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; flex-shrink: 0; }
+.av-sm { width: 30px; height: 30px; font-size: 10px; }
+.av-md { width: 36px; height: 36px; font-size: 12px; }
+.av-lg { width: 48px; height: 48px; font-size: 16px; }
+/* Content scroll area */
+.content { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+/* Search bar */
+.search-bar {
+  margin: 6px 10px;
+  background: var(--surface2);
+  border: 0.5px solid var(--border);
+  border-radius: 10px;
+  padding: 7px 11px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.search-bar span { font-size: 10px; color: var(--muted); }
+/* Chat list item */
+.chat-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 12px;
+  border-bottom: 0.5px solid var(--border);
+  cursor: pointer;
+}
+.chat-item:active, .chat-item.active { background: var(--surface2); }
+.chat-info { flex: 1; min-width: 0; }
+.chat-name-row { display: flex; justify-content: space-between; align-items: baseline; }
+.chat-name { font-size: 12px; font-weight: 600; color: var(--text); }
+.chat-time { font-size: 9px; color: var(--muted); }
+.chat-preview { font-size: 10px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+.badge { background: var(--tt); color: #fff; font-size: 8px; font-weight: 700; border-radius: 10px; padding: 1px 6px; }
+.badge.green { background: var(--green); }
+/* Bottom nav */
+.bottom-nav {
+  height: 50px;
+  border-top: 0.5px solid var(--border);
+  display: flex;
+  flex-shrink: 0;
+}
+.nav-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  cursor: pointer;
+}
+.nav-tab-icon { font-size: 16px; color: var(--muted); }
+.nav-tab-label { font-size: 8px; color: var(--muted); font-weight: 500; }
+.nav-tab.active .nav-tab-icon { color: var(--tt); }
+.nav-tab.active .nav-tab-label { color: var(--tt); }
+/* FAB */
+.fab {
+  position: absolute;
+  bottom: 58px;
+  right: 12px;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--tt);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 300;
+  box-shadow: 0 4px 12px rgba(10,110,255,0.4);
+  z-index: 10;
+}
+/* Chat bubbles */
+.chat-messages { flex: 1; padding: 8px 10px; display: flex; flex-direction: column; gap: 5px; overflow: hidden; }
+.bubble-row { display: flex; }
+.bubble-row.in { justify-content: flex-start; }
+.bubble-row.out { justify-content: flex-end; }
+.bubble {
+  max-width: 70%;
+  padding: 7px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  line-height: 1.5;
+}
+.bubble.in { background: var(--surface2); border-bottom-left-radius: 3px; color: var(--text); }
+.bubble.out { background: #DCF8C6; border-bottom-right-radius: 3px; color: #0a2200; }
+.bubble-meta { font-size: 8px; color: var(--muted); margin-top: 2px; }
+.bubble-meta.out { text-align: right; }
+.bubble-img { width: 110px; height: 65px; background: linear-gradient(135deg, #e8eaed 0%, #d5d8de 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 4px; }
+/* Date divider */
+.date-chip { text-align: center; margin: 4px 0; }
+.date-chip span { background: rgba(0,0,0,0.06); color: var(--muted); font-size: 8.5px; padding: 2px 9px; border-radius: 8px; }
+/* Message input */
+.msg-input-bar {
+  height: 44px;
+  border-top: 0.5px solid var(--border);
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.msg-input-box {
+  flex: 1;
+  background: var(--surface2);
+  border: 0.5px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.send-btn {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--tt);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+/* Section header */
+.section-hdr {
+  padding: 6px 12px 3px;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--tt);
+  background: var(--surface);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+/* Contact row */
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 12px;
+  border-bottom: 0.5px solid var(--border);
+  cursor: pointer;
+}
+.contact-name { font-size: 11px; font-weight: 600; color: var(--text); }
+.contact-meta { font-size: 9px; color: var(--muted); margin-top: 1px; }
+/* Tabs */
+.tabs { display: flex; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
+.tab { flex: 1; text-align: center; padding: 9px 0; font-size: 11px; font-weight: 500; color: var(--muted); cursor: pointer; }
+.tab.active { color: var(--tt); border-bottom: 2px solid var(--tt); }
+/* Stats mini row */
+.stats-mini { display: flex; gap: 5px; padding: 7px 10px; flex-shrink: 0; }
+.stat-mini-card { flex: 1; border-radius: 8px; padding: 6px 8px; text-align: center; }
+.stat-mini-val { font-size: 14px; font-weight: 700; }
+.stat-mini-lbl { font-size: 7.5px; color: var(--muted); margin-top: 1px; }
+/* Broadcast */
+.bc-label { font-size: 9px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 5px; }
+.bc-type-row { display: flex; gap: 5px; margin-bottom: 9px; }
+.bc-type { flex: 1; border: 1px solid var(--border); border-radius: 7px; padding: 5px; text-align: center; font-size: 9px; color: var(--muted); }
+.bc-type.active { border-color: var(--tt); background: var(--tt-light); color: var(--tt); font-weight: 600; }
+.img-drop { width: 100%; height: 58px; border: 1.5px dashed var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--surface2); margin-bottom: 9px; flex-direction: column; gap: 3px; cursor: pointer; }
+.img-drop span { font-size: 18px; }
+.img-drop p { font-size: 8.5px; color: var(--muted); }
+.msg-textarea { width: 100%; background: var(--surface2); border: 0.5px solid var(--border); border-radius: 8px; padding: 7px 9px; font-size: 10px; color: var(--text); line-height: 1.5; height: 50px; font-family: 'Sora', sans-serif; }
+.audience-chip { display: inline-flex; align-items: center; gap: 3px; background: var(--tt-light); color: var(--tt); border-radius: 10px; padding: 3px 8px; font-size: 8.5px; font-weight: 600; margin: 2px 2px 0 0; }
+.primary-btn { background: var(--tt); color: #fff; border-radius: 10px; padding: 10px; text-align: center; font-size: 11px; font-weight: 600; }
+/* Dashboard */
+.dash-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px 10px; }
+.dash-card { background: var(--surface2); border: 0.5px solid var(--border); border-radius: 10px; padding: 9px; }
+.dash-val { font-size: 18px; font-weight: 700; }
+.dash-lbl { font-size: 8px; color: var(--muted); margin-top: 2px; }
+.dash-trend { font-size: 8px; font-weight: 600; margin-top: 3px; }
+.progress-row { padding: 4px 10px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 8.5px; color: var(--muted); margin-bottom: 3px; }
+.progress-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; }
+.mini-bar-chart { padding: 4px 10px 2px; }
+.bars-row { display: flex; align-items: flex-end; gap: 2px; height: 38px; }
+.bar { flex: 1; border-radius: 3px 3px 0 0; min-height: 3px; }
+.bar-labels { display: flex; justify-content: space-between; font-size: 7px; color: var(--muted); margin-top: 2px; }
+/* Login screen */
+.login-center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; gap: 10px; }
+.login-logo { width: 52px; height: 52px; background: var(--tt); border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+.login-name { font-size: 20px; font-weight: 700; color: var(--text); }
+.login-tagline { font-size: 10px; color: var(--muted); }
+.login-input { width: 100%; background: var(--surface2); border: 0.5px solid var(--border); border-radius: 9px; padding: 9px 12px; font-size: 10.5px; color: var(--text); font-family: 'Sora', sans-serif; margin-bottom: 7px; }
+.login-btn { width: 100%; background: var(--tt); color: #fff; border-radius: 9px; padding: 10px; text-align: center; font-size: 11px; font-weight: 600; margin-top: 2px; }
+.lang-row { display: flex; gap: 6px; justify-content: center; }
+.lang-btn { padding: 4px 12px; border-radius: 16px; border: 1px solid var(--border); background: transparent; font-size: 10px; color: var(--muted); cursor: pointer; font-family: 'Sora', sans-serif; }
+.lang-btn.active { background: var(--tt-light); border-color: var(--tt-mid); color: var(--tt); font-weight: 600; }
+/* Group cards */
+.group-card { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 0.5px solid var(--border); }
+.group-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.group-name { font-size: 11px; font-weight: 600; color: var(--text); }
+.group-count { font-size: 9px; color: var(--muted); margin-top: 1px; }
+/* Scrollable simulation */
+.simscroll { overflow: hidden; flex: 1; display: flex; flex-direction: column; }
+</style>
+</head>
+<body>
+
+<div class="page-title">TipTap Mobile App</div>
+<div class="page-sub">Flutter UI Screens · WhatsApp Business Platform</div>
+
+<div class="screens-grid">
+
+  <!-- ══════════════════════════════════════
+       SCREEN 1 · LOGIN
+  ══════════════════════════════════════ -->
+  <div class="phone-wrap">
+    <div class="phone-label">01 · Login</div>
+    <div class="phone">
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-bar" style="height:4px"></div>
+          <div class="signal-bar" style="height:6px"></div>
+          <div class="signal-bar" style="height:8px"></div>
+          <div class="signal-bar" style="height:10px"></div>
+          <span style="font-size:8px;margin-left:2px">■</span>
+        </div>
+      </div>
+      <div class="login-center">
+        <div class="login-logo">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <circle cx="13" cy="13" r="9" stroke="#fff" stroke-width="1.8"/>
+            <path d="M8.5 13 L12 16.5 L17.5 9.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="login-name">TipTap</div>
+          <div class="login-tagline" style="text-align:center">Smart WhatsApp Platform</div>
+        </div>
+        <div style="width:100%;margin-top:8px">
+          <div style="font-size:9px;color:var(--muted);margin-bottom:4px;font-weight:500">EMAIL ADDRESS</div>
+          <input class="login-input" type="email" value="admin@tiptap.com" readonly/>
+          <div style="font-size:9px;color:var(--muted);margin-bottom:4px;font-weight:500">PASSWORD</div>
+          <input class="login-input" type="password" value="password123" readonly/>
+          <div style="text-align:right;font-size:9px;color:var(--tt);margin:-4px 0 8px;font-weight:500">Forgot password?</div>
+          <div class="login-btn">Sign In</div>
+        </div>
+        <div style="width:100%;text-align:center;margin-top:4px">
+          <div style="font-size:9px;color:var(--muted);margin-bottom:8px">Select language</div>
+          <div class="lang-row">
+            <button class="lang-btn">🇬🇧 English</button>
+            <button class="lang-btn active">🇴🇲 العربية</button>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;padding:6px;font-size:8px;color:var(--muted);border-top:0.5px solid var(--border)">
+        © 2026 TipTap · 92TechOman.com
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 2 · CHAT LIST
+  ══════════════════════════════════════ -->
+  <div class="phone-wrap">
+    <div class="phone-label">02 · Chats</div>
+    <div class="phone">
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-bar" style="height:4px"></div>
+          <div class="signal-bar" style="height:6px"></div>
+          <div class="signal-bar" style="height:8px"></div>
+          <div class="signal-bar" style="height:10px"></div>
+          <span style="font-size:8px;margin-left:2px">■</span>
+        </div>
+      </div>
+      <div class="appbar brand">
+        <span class="appbar-title">TipTap</span>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);margin-right:4px">🔍</span>
+        <span style="font-size:15px;color:rgba(255,255,255,0.7)">⋯</span>
+      </div>
+      <div class="search-bar" style="margin:7px 10px">
+        <span style="font-size:12px;color:var(--muted)">🔍</span>
+        <span style="font-size:10px;color:var(--muted)">Search chats…</span>
+      </div>
+      <div class="content">
+        <div class="chat-item active">
+          <div class="av av-md" style="background:#0A6EFF">AH</div>
+          <div class="chat-info">
+            <div class="chat-name-row">
+              <span class="chat-name">Ahmed Al-Hassan</span>
+              <span class="chat-time">10:42</span>
+            </div>
+            <div class="chat-preview">Thanks for the update! 🎉</div>
+          </div>
+        </div>
+        <div class="chat-item">
+          <div class="av av-md" style="background:#00C48C">FA</div>
+          <div class="chat-info">
+            <div class="chat-name-row">
+              <span class="chat-name">Fatima Al-Balushi</span>
+              <span class="chat-time">10:31</span>
+            </div>
+            <div class="chat-preview">Can you resend the promo image?</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+            <span class="badge">3</span>
+          </div>
+        </div>
+        <div class="chat-item">
+          <div class="av av-md" style="background:#7B5CF0">OK</div>
+          <div class="chat-info">
+            <div class="chat-name-row">
+              <span class="chat-name">Omar Al-Kindi</span>
+              <span class="chat-time">9:58</span>
+            </div>
+            <div class="chat-preview">✓✓ When does the sale start?</div>
+          </div>
+        </div>
+        <div class="chat-item">
+          <div class="av av-md" style="background:#FF6B2B">SA</div>
+          <div class="chat-info">
+            <div class="chat-name-row">
+              <span class="chat-name">Sara Al-Zadjali</span>
+              <span class="chat-time">9:14</span>
+            </div>
+            <div class="chat-preview">📷 Photo</div>
+          </div>
+        </div>
+        <div class="chat-item">
+          <div class="av av-md" style="background:#F5A623">KM</div>
+          <div class="chat-info">
+            <div class="chat-name-row">
+              <span class="chat-name">Khalid Al-Mawali</span>
+              <span class="chat-time">Yesterday</span>
+            </div>
+            <div class="chat-preview">Got it, thanks!</div>
+          </div>
+        </div>
+        <div class="chat-item">
+          <div class="av av-md" style="background:#FF3D57">LH</div>
+          <div class="chat-info">
+            <div class="chat-name-row">
+              <span class="chat-name">Layla Al-Hinai</span>
+              <span class="chat-time">Yesterday</span>
+            </div>
+            <div class="chat-preview">Please send me the catalogue</div>
+          </div>
+        </div>
+        <div class="chat-item">
+          <div class="av av-md" style="background:#00C48C">MR</div>
+          <div class="chat-info">
+            <div class="chat-name-row">
+              <span class="chat-name">Mariam Al-Rawahi</span>
+              <span class="chat-time">Mon</span>
+            </div>
+            <div class="chat-preview">Your order is confirmed ✓</div>
+          </div>
+        </div>
+      </div>
+      <div class="fab">+</div>
+      <div class="bottom-nav">
+        <div class="nav-tab active">
+          <div class="nav-tab-icon">💬</div>
+          <div class="nav-tab-label" style="color:var(--tt)">Chats</div>
+        </div>
+        <div class="nav-tab">
+          <div class="nav-tab-icon">👥</div>
+          <div class="nav-tab-label">Contacts</div>
+        </div>
+        <div class="nav-tab">
+          <div class="nav-tab-icon">📡</div>
+          <div class="nav-tab-label">Broadcast</div>
+        </div>
+        <div class="nav-tab">
+          <div class="nav-tab-icon">📊</div>
+          <div class="nav-tab-label">Dashboard</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 3 · CHAT DETAIL
+  ══════════════════════════════════════ -->
+  <div class="phone-wrap">
+    <div class="phone-label">03 · Chat Detail</div>
+    <div class="phone">
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-bar" style="height:4px"></div>
+          <div class="signal-bar" style="height:6px"></div>
+          <div class="signal-bar" style="height:8px"></div>
+          <div class="signal-bar" style="height:10px"></div>
+          <span style="font-size:8px;margin-left:2px">■</span>
+        </div>
+      </div>
+      <div class="appbar white">
+        <span class="back-btn">‹</span>
+        <div class="av av-sm" style="background:#00C48C">FA</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:600;color:var(--text)">Fatima Al-Balushi</div>
+          <div style="font-size:8.5px;color:var(--green)">● online</div>
+        </div>
+        <span class="appbar-icon">📞</span>
+        <span class="appbar-icon" style="margin-left:4px">⋯</span>
+      </div>
+      <!-- chat background -->
+      <div style="flex:1;background:#E5DDD5;display:flex;flex-direction:column;overflow:hidden">
+        <div class="date-chip" style="padding-top:6px">
+          <span>Today</span>
+        </div>
+        <div class="chat-messages">
+          <div class="bubble-row in">
+            <div>
+              <div class="bubble in">Hi! Can you resend the promo image for the Eid campaign?</div>
+              <div class="bubble-meta">10:28</div>
+            </div>
+          </div>
+          <div class="bubble-row out">
+            <div style="display:flex;flex-direction:column;align-items:flex-end">
+              <div class="bubble out">
+                <div class="bubble-img">🖼️</div>
+                <div>Eid-Promo-2026.jpg</div>
+              </div>
+              <div class="bubble-meta out">10:31 ✓✓</div>
+            </div>
+          </div>
+          <div class="bubble-row in">
+            <div>
+              <div class="bubble in">Perfect, thank you! 🎉</div>
+              <div class="bubble-meta">10:33</div>
+            </div>
+          </div>
+          <div class="bubble-row out">
+            <div style="display:flex;flex-direction:column;align-items:flex-end">
+              <div class="bubble out">You're welcome. Let me know if you need anything.</div>
+              <div class="bubble-meta out">10:35 ✓✓</div>
+            </div>
+          </div>
+          <div class="bubble-row in">
+            <div>
+              <div class="bubble in">Actually can you also share the Arabic version?</div>
+              <div class="bubble-meta">10:41</div>
+            </div>
+          </div>
+        </div>
+        <div class="msg-input-bar" style="background:var(--surface);border-top:0.5px solid var(--border)">
+          <span style="font-size:15px;color:var(--muted)">😊</span>
+          <div class="msg-input-box">Message…</div>
+          <span style="font-size:15px;color:var(--muted)">📎</span>
+          <span style="font-size:15px;color:var(--muted)">🎤</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 4 · NEW CHAT (Contact Picker)
+  ══════════════════════════════════════ -->
+  <div class="phone-wrap">
+    <div class="phone-label">04 · New Chat</div>
+    <div class="phone">
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-bar" style="height:4px"></div>
+          <div class="signal-bar" style="height:6px"></div>
+          <div class="signal-bar" style="height:8px"></div>
+          <div class="signal-bar" style="height:10px"></div>
+          <span style="font-size:8px;margin-left:2px">■</span>
+        </div>
+      </div>
+      <div class="appbar brand">
+        <span class="back-btn">✕</span>
+        <span class="appbar-title" style="margin-left:4px">New Chat</span>
+      </div>
+      <div class="search-bar" style="margin:7px 10px">
+        <span style="font-size:12px;color:var(--muted)">🔍</span>
+        <span style="font-size:10px;color:var(--muted)">Search name or number…</span>
+      </div>
+      <div class="content">
+        <!-- new contact CTA -->
+        <div class="contact-row" style="background:var(--tt-light)">
+          <div class="av av-sm" style="background:var(--tt)">+</div>
+          <div>
+            <div class="contact-name" style="color:var(--tt)">New Contact</div>
+            <div class="contact-meta">Add from phone number</div>
+          </div>
+        </div>
+        <div class="section-hdr">Frequent</div>
+        <div class="contact-row">
+          <div class="av av-sm" style="background:#0A6EFF">AH</div>
+          <div><div class="contact-name">Ahmed Al-Hassan</div><div class="contact-meta">+968 9123 4567</div></div>
+        </div>
+        <div class="contact-row">
+          <div class="av av-sm" style="background:#00C48C">FA</div>
+          <div><div class="contact-name">Fatima Al-Balushi</div><div class="contact-meta">+968 9234 5678</div></div>
+        </div>
+        <div class="section-hdr">All Contacts — A</div>
+        <div class="contact-row">
+          <div class="av av-sm" style="background:#0A6EFF">AH</div>
+          <div><div class="contact-name">Ahmed Al-Hassan</div><div class="contact-meta">+968 9123 4567</div></div>
+        </div>
+        <div class="section-hdr">All Contacts — F</div>
+        <div class="contact-row">
+          <div class="av av-sm" style="background:#00C48C">FA</div>
+          <div><div class="contact-name">Fatima Al-Balushi</div><div class="contact-meta">+968 9234 5678</div></div>
+        </div>
+        <div class="contact-row">
+          <div class="av av-sm" style="background:#7B5CF0">FK</div>
+          <div><div class="contact-name">Faisal Al-Khalili</div><div class="contact-meta">+968 9245 6789</div></div>
+        </div>
+        <div class="section-hdr">All Contacts — K</div>
+        <div class="contact-row">
+          <div class="av av-sm" style="background:#F5A623">KM</div>
+          <div><div class="contact-name">Khalid Al-Mawali</div><div class="contact-meta">+968 9567 8901</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 5 · CONTACTS & GROUPS
+  ══════════════════════════════════════ -->
+  <div class="phone-wrap">
+    <div class="phone-label">05 · Contacts & Groups</div>
+    <div class="phone">
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-bar" style="height:4px"></div>
+          <div class="signal-bar" style="height:6px"></div>
+          <div class="signal-bar" style="height:8px"></div>
+          <div class="signal-bar" style="height:10px"></div>
+          <span style="font-size:8px;margin-left:2px">■</span>
+        </div>
+      </div>
+      <div class="appbar brand">
+        <span class="appbar-title">Contacts</span>
+        <span style="font-size:14px;color:rgba(255,255,255,0.9);margin-right:6px">🔍</span>
+        <span style="font-size:16px;color:rgba(255,255,255,0.9)">+</span>
+      </div>
+      <div class="tabs">
+        <div class="tab active">Contacts</div>
+        <div class="tab">Groups</div>
+      </div>
+      <div class="search-bar" style="margin:6px 10px">
+        <span style="font-size:11px;color:var(--muted)">🔍</span>
+        <span style="font-size:10px;color:var(--muted)">Search contacts…</span>
+      </div>
+      <!-- mini stats -->
+      <div class="stats-mini">
+        <div class="stat-mini-card" style="background:var(--tt-light)">
+          <div class="stat-mini-val" style="color:var(--tt)">24K</div>
+          <div class="stat-mini-lbl">Total</div>
+        </div>
+        <div class="stat-mini-card" style="background:var(--green-lt)">
+          <div class="stat-mini-val" style="color:var(--green)">21K</div>
+          <div class="stat-mini-lbl">Active</div>
+        </div>
+        <div class="stat-mini-card" style="background:#F0ECFF">
+          <div class="stat-mini-val" style="color:var(--purple)">948</div>
+          <div class="stat-mini-lbl">VIP</div>
+        </div>
+        <div class="stat-mini-card" style="background:#FFF0E8">
+          <div class="stat-mini-val" style="color:var(--orange)">1.8K</div>
+          <div class="stat-mini-lbl">Unsub.</div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="section-hdr">A</div>
+        <div class="contact-row">
+          <div class="av av-sm" style="background:#0A6EFF">AH</div>
+          <div style="flex:1">
+            <div class="contact-name">Ahmed Al-Hassan</div>
+            <div class="contact-meta">+968 9123 4567 · VIP</div>
+          </div>
+          <span style="font-size:11px;color:var(--muted)">›</span>
+        </div>
+        <div class="section-hdr">F</div>
+        <div class="contact-row">
+          <div class="av av-sm" style="background:#00C48C">FA</div>
+          <div style="flex:1">
+            <div class="contact-name">Fatima Al-Balushi</div>
+            <div class="contact-meta">+968 9234 5678 · Corporate</div>
+          </div>
+          <span style="font-size:11px;color:var(--muted)">›</span>
+        </div>
+        <div class="contact-row">
+          <div class="av av-sm" style="background:#7B5CF0">FK</div>
+          <div style="flex:1">
+            <div class="contact-name">Faisal Al-Khalili</div>
+            <div class="contact-meta">+968 9245 6789 · Regular</div>
+          </div>
+          <span style="font-size:11px;color:var(--muted)">›</span>
+        </div>
+        <div class="section-hdr">K</div>
+        <div class="contact-row">
+          <div class="av av-sm" style="background:#F5A623">KM</div>
+          <div style="flex:1">
+            <div class="contact-name">Khalid Al-Mawali</div>
+            <div class="contact-meta">+968 9567 8901 · Regular</div>
+          </div>
+          <span style="font-size:11px;color:var(--muted)">›</span>
+        </div>
+        <div class="section-hdr">L</div>
+        <div class="contact-row">
+          <div class="av av-sm" style="background:#FF3D57">LH</div>
+          <div style="flex:1">
+            <div class="contact-name">Layla Al-Hinai</div>
+            <div class="contact-meta">+968 9678 9012 · Regular</div>
+          </div>
+          <span style="font-size:11px;color:var(--muted)">›</span>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-tab"><div class="nav-tab-icon">💬</div><div class="nav-tab-label">Chats</div></div>
+        <div class="nav-tab active"><div class="nav-tab-icon" style="color:var(--tt)">👥</div><div class="nav-tab-label" style="color:var(--tt)">Contacts</div></div>
+        <div class="nav-tab"><div class="nav-tab-icon">📡</div><div class="nav-tab-label">Broadcast</div></div>
+        <div class="nav-tab"><div class="nav-tab-icon">📊</div><div class="nav-tab-label">Dashboard</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 5b · GROUPS TAB
+  ══════════════════════════════════════ -->
+  <div class="phone-wrap">
+    <div class="phone-label">05b · Groups</div>
+    <div class="phone">
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-bar" style="height:4px"></div>
+          <div class="signal-bar" style="height:6px"></div>
+          <div class="signal-bar" style="height:8px"></div>
+          <div class="signal-bar" style="height:10px"></div>
+          <span style="font-size:8px;margin-left:2px">■</span>
+        </div>
+      </div>
+      <div class="appbar brand">
+        <span class="appbar-title">Contacts</span>
+        <span style="font-size:14px;color:rgba(255,255,255,0.9);margin-right:6px">🔍</span>
+        <span style="font-size:16px;color:rgba(255,255,255,0.9)">+</span>
+      </div>
+      <div class="tabs">
+        <div class="tab">Contacts</div>
+        <div class="tab active">Groups</div>
+      </div>
+      <!-- add group CTA -->
+      <div class="contact-row" style="background:var(--tt-light)">
+        <div class="av av-sm" style="background:var(--tt)">+</div>
+        <div>
+          <div class="contact-name" style="color:var(--tt)">Create New Group</div>
+          <div class="contact-meta">Organise contacts into groups</div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="group-card">
+          <div class="group-icon" style="background:#EBF2FF">⭐</div>
+          <div style="flex:1">
+            <div class="group-name">VIP Members</div>
+            <div class="group-count">948 contacts</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <span style="font-size:12px;color:var(--muted);cursor:pointer">✏️</span>
+            <span style="font-size:12px;color:var(--muted);cursor:pointer">🗑</span>
+          </div>
+        </div>
+        <div class="group-card">
+          <div class="group-icon" style="background:#E6FAF5">🏢</div>
+          <div style="flex:1">
+            <div class="group-name">Corporate</div>
+            <div class="group-count">3,210 contacts</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <span style="font-size:12px;color:var(--muted);cursor:pointer">✏️</span>
+            <span style="font-size:12px;color:var(--muted);cursor:pointer">🗑</span>
+          </div>
+        </div>
+        <div class="group-card">
+          <div class="group-icon" style="background:#FFF0E8">🛍</div>
+          <div style="flex:1">
+            <div class="group-name">Retail Customers</div>
+            <div class="group-count">8,200 contacts</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <span style="font-size:12px;color:var(--muted);cursor:pointer">✏️</span>
+            <span style="font-size:12px;color:var(--muted);cursor:pointer">🗑</span>
+          </div>
+        </div>
+        <div class="group-card">
+          <div class="group-icon" style="background:#F0ECFF">🌟</div>
+          <div style="flex:1">
+            <div class="group-name">Loyalty Members</div>
+            <div class="group-count">4,800 contacts</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <span style="font-size:12px;color:var(--muted);cursor:pointer">✏️</span>
+            <span style="font-size:12px;color:var(--muted);cursor:pointer">🗑</span>
+          </div>
+        </div>
+        <div class="group-card">
+          <div class="group-icon" style="background:#EBF2FF">🆕</div>
+          <div style="flex:1">
+            <div class="group-name">New Leads</div>
+            <div class="group-count">1,240 contacts</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <span style="font-size:12px;color:var(--muted);cursor:pointer">✏️</span>
+            <span style="font-size:12px;color:var(--muted);cursor:pointer">🗑</span>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-tab"><div class="nav-tab-icon">💬</div><div class="nav-tab-label">Chats</div></div>
+        <div class="nav-tab active"><div class="nav-tab-icon" style="color:var(--tt)">👥</div><div class="nav-tab-label" style="color:var(--tt)">Contacts</div></div>
+        <div class="nav-tab"><div class="nav-tab-icon">📡</div><div class="nav-tab-label">Broadcast</div></div>
+        <div class="nav-tab"><div class="nav-tab-icon">📊</div><div class="nav-tab-label">Dashboard</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 6 · BROADCAST COMPOSER
+  ══════════════════════════════════════ -->
+  <div class="phone-wrap">
+    <div class="phone-label">06 · Broadcast</div>
+    <div class="phone">
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-bar" style="height:4px"></div>
+          <div class="signal-bar" style="height:6px"></div>
+          <div class="signal-bar" style="height:8px"></div>
+          <div class="signal-bar" style="height:10px"></div>
+          <span style="font-size:8px;margin-left:2px">■</span>
+        </div>
+      </div>
+      <div class="appbar brand">
+        <span class="back-btn">‹</span>
+        <span class="appbar-title" style="margin-left:4px">New Broadcast</span>
+        <span style="font-size:12px;color:rgba(255,255,255,0.7)">✕</span>
+      </div>
+      <div class="content" style="overflow-y:hidden">
+        <div style="padding:9px 12px;flex:1;display:flex;flex-direction:column;gap:0;overflow:hidden">
+          <div class="bc-label">Message type</div>
+          <div class="bc-type-row">
+            <div class="bc-type active">Text</div>
+            <div class="bc-type">Image + Text</div>
+            <div class="bc-type">Template</div>
+          </div>
+          <div class="bc-label">Image (optional)</div>
+          <div class="img-drop">
+            <span>🖼️</span>
+            <p>Tap to add image from gallery or camera</p>
+          </div>
+          <div class="bc-label">Message</div>
+          <div class="msg-textarea">Hello {{name}}! 🎉 Here is a special Eid offer exclusively for you. Use code EID30 for 30% off your next order.</div>
+          <div style="text-align:right;font-size:8px;color:var(--muted);margin-top:3px">148 / 160 chars</div>
+          <div style="height:0.5px;background:var(--border);margin:8px 0"></div>
+          <div class="bc-label">Recipients</div>
+          <div style="margin-bottom:7px">
+            <span class="audience-chip">VIP Members (948)</span>
+            <span class="audience-chip">Loyalty (4.8K)</span>
+            <span style="font-size:9px;color:var(--tt);cursor:pointer;font-weight:500">+ Add group</span>
+          </div>
+          <div class="bc-label">Schedule</div>
+          <div style="display:flex;gap:6px;margin-bottom:8px">
+            <div style="flex:1;border:1.5px solid var(--tt);background:var(--tt-light);color:var(--tt);border-radius:7px;padding:6px;text-align:center;font-size:9.5px;font-weight:600">⚡ Send Now</div>
+            <div style="flex:1;border:0.5px solid var(--border);border-radius:7px;padding:6px;text-align:center;font-size:9.5px;color:var(--muted)">📅 Schedule</div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:10px 12px;border-top:0.5px solid var(--border)">
+        <div class="primary-btn">Send to 5,748 contacts</div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-tab"><div class="nav-tab-icon">💬</div><div class="nav-tab-label">Chats</div></div>
+        <div class="nav-tab"><div class="nav-tab-icon">👥</div><div class="nav-tab-label">Contacts</div></div>
+        <div class="nav-tab active"><div class="nav-tab-icon" style="color:var(--tt)">📡</div><div class="nav-tab-label" style="color:var(--tt)">Broadcast</div></div>
+        <div class="nav-tab"><div class="nav-tab-icon">📊</div><div class="nav-tab-label">Dashboard</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 7 · DASHBOARD
+  ══════════════════════════════════════ -->
+  <div class="phone-wrap">
+    <div class="phone-label">07 · Dashboard</div>
+    <div class="phone">
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-bar" style="height:4px"></div>
+          <div class="signal-bar" style="height:6px"></div>
+          <div class="signal-bar" style="height:8px"></div>
+          <div class="signal-bar" style="height:10px"></div>
+          <span style="font-size:8px;margin-left:2px">■</span>
+        </div>
+      </div>
+      <div class="appbar brand">
+        <span class="appbar-title">Dashboard</span>
+        <span style="font-size:11px;color:rgba(255,255,255,0.8)">Apr 2026 ▾</span>
+      </div>
+      <div class="content" style="overflow-y:hidden">
+        <!-- stat cards -->
+        <div class="dash-cards">
+          <div class="dash-card">
+            <div class="dash-val" style="color:var(--tt)">1.24M</div>
+            <div class="dash-lbl">Messages Sent</div>
+            <div class="dash-trend" style="color:var(--green)">↑ 18.3%</div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-val" style="color:var(--green)">94.7%</div>
+            <div class="dash-lbl">Delivery Rate</div>
+            <div class="dash-trend" style="color:var(--green)">↑ 1.2%</div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-val" style="color:var(--purple)">12</div>
+            <div class="dash-lbl">Active Campaigns</div>
+            <div class="dash-trend" style="color:var(--muted)">→ Same</div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-val" style="color:var(--orange)">8.4K</div>
+            <div class="dash-lbl">Queued Today</div>
+            <div class="dash-trend" style="color:var(--green)">↑ 4.1%</div>
+          </div>
+        </div>
+        <!-- delivery bar -->
+        <div style="padding:2px 10px 0;font-size:9px;font-weight:600;color:var(--tt)">Delivery breakdown</div>
+        <div class="progress-row">
+          <div class="progress-label"><span>Delivered</span><span>94.7%</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:94.7%;background:var(--green)"></div></div>
+        </div>
+        <div class="progress-row" style="padding-top:3px">
+          <div class="progress-label"><span>Read</span><span>72%</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:72%;background:var(--tt)"></div></div>
+        </div>
+        <div class="progress-row" style="padding-top:3px">
+          <div class="progress-label"><span>Failed</span><span>5.3%</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:5.3%;background:var(--red)"></div></div>
+        </div>
+        <!-- mini chart -->
+        <div style="padding:6px 10px 2px;font-size:9px;font-weight:600;color:var(--tt)">Messages — last 7 days</div>
+        <div class="mini-bar-chart">
+          <div class="bars-row">
+            <div class="bar" style="height:60%;background:#0A6EFF55"></div>
+            <div class="bar" style="height:78%;background:#0A6EFF55"></div>
+            <div class="bar" style="height:55%;background:#0A6EFF55"></div>
+            <div class="bar" style="height:90%;background:#0A6EFF55"></div>
+            <div class="bar" style="height:68%;background:#0A6EFF55"></div>
+            <div class="bar" style="height:82%;background:#0A6EFF55"></div>
+            <div class="bar" style="height:100%;background:var(--tt)"></div>
+          </div>
+          <div class="bar-labels">
+            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Today</span>
+          </div>
+        </div>
+        <!-- top campaigns -->
+        <div style="padding:4px 10px 0;font-size:9px;font-weight:600;color:var(--tt)">Top campaigns</div>
+        <div style="padding:4px 10px">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid var(--border)">
+            <div>
+              <div style="font-size:10px;font-weight:600;color:var(--text)">Eid Promo 2026</div>
+              <div style="font-size:8.5px;color:var(--muted)">42,100 sent</div>
+            </div>
+            <div style="font-size:11px;font-weight:700;color:var(--green)">98.2%</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid var(--border)">
+            <div>
+              <div style="font-size:10px;font-weight:600;color:var(--text)">Flash Sale April</div>
+              <div style="font-size:8.5px;color:var(--muted)">31,450 sent</div>
+            </div>
+            <div style="font-size:11px;font-weight:700;color:var(--green)">96.7%</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0">
+            <div>
+              <div style="font-size:10px;font-weight:600;color:var(--text)">Newsletter Q2</div>
+              <div style="font-size:8.5px;color:var(--muted)">28,900 sent</div>
+            </div>
+            <div style="font-size:11px;font-weight:700;color:var(--tt)">94.1%</div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-tab"><div class="nav-tab-icon">💬</div><div class="nav-tab-label">Chats</div></div>
+        <div class="nav-tab"><div class="nav-tab-icon">👥</div><div class="nav-tab-label">Contacts</div></div>
+        <div class="nav-tab"><div class="nav-tab-icon">📡</div><div class="nav-tab-label">Broadcast</div></div>
+        <div class="nav-tab active"><div class="nav-tab-icon" style="color:var(--tt)">📊</div><div class="nav-tab-label" style="color:var(--tt)">Dashboard</div></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /screens-grid -->
+
+<div style="text-align:center;margin-top:40px;color:rgba(255,255,255,0.3);font-size:11px">
+  TipTap Mobile · Flutter UI Screens · © 2026 92TechOman.com
+</div>
+
+</body>
+</html>
