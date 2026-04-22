@@ -1,1731 +1,1126 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TipTap — WhatsApp API Configuration</title>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Humood Al Azri — WhatsApp API Configuration</title>
 
-    <!-- Fonts (also loaded in main.css via @import, keep here for FOUC prevention) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap"
-      rel="stylesheet" />
+<!-- Fonts (also loaded in main.css via @import, keep here for FOUC prevention) -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet"/>
 
-    <!-- Main stylesheet -->
-    <link rel="stylesheet" href="assets/css/main.css" />
+<!-- Main stylesheet -->
+<link rel="stylesheet" href="assets/css/main.css"/>
 
-    <style>
-      /* ── Page-specific styles ── */
+<style>
+/* ── Page-specific styles ── */
 
-      /* WhatsApp brand header strip */
-      .wa-hero {
-        background: linear-gradient(
-          135deg,
-          #075e54 0%,
-          #128c7e 55%,
-          #25d366 100%
-        );
-        border-radius: var(--radius-lg);
-        padding: 28px 32px;
-        margin-bottom: 28px;
-        display: flex;
-        align-items: center;
-        gap: 22px;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 8px 32px rgba(7, 94, 84, 0.25);
-      }
+/* WhatsApp brand header strip */
+.wa-hero {
+  background: linear-gradient(135deg, #075E54 0%, #128C7E 55%, #25D366 100%);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(7,94,84,0.25);
+}
 
-      .wa-hero::before {
-        content: "";
-        position: absolute;
-        inset-inline-end: -40px;
-        inset-block-start: -40px;
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.07);
-      }
-      .wa-hero::after {
-        content: "";
-        position: absolute;
-        inset-inline-end: 60px;
-        inset-block-end: -30px;
-        width: 130px;
-        height: 130px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.05);
-      }
+.wa-hero::before {
+  content: '';
+  position: absolute;
+  inset-inline-end: -40px;
+  inset-block-start: -40px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+}
+.wa-hero::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: 60px;
+  inset-block-end: -30px;
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+}
 
-      .wa-hero-icon {
-        width: 64px;
-        height: 64px;
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 34px;
-        flex-shrink: 0;
-        backdrop-filter: blur(6px);
-        border: 1.5px solid rgba(255, 255, 255, 0.2);
-        position: relative;
-        z-index: 1;
-      }
+.wa-hero-icon {
+  width: 64px; height: 64px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px;
+  flex-shrink: 0;
+  backdrop-filter: blur(6px);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  position: relative; z-index:1;
+}
 
-      .wa-hero-text {
-        flex: 1;
-        position: relative;
-        z-index: 1;
-      }
-      .wa-hero-title {
-        font-family: var(--font-display);
-        font-size: 22px;
-        font-weight: 900;
-        color: #fff;
-        letter-spacing: -0.4px;
-        margin-bottom: 5px;
-      }
-      .wa-hero-sub {
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.8);
-        line-height: 1.5;
-      }
+.wa-hero-text { flex:1; position:relative; z-index:1; }
+.wa-hero-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.4px;
+  margin-bottom: 5px;
+}
+.wa-hero-sub { font-size: 14px; color: rgba(255,255,255,0.80); line-height: 1.5; }
 
-      .wa-hero-status {
-        background: rgba(255, 255, 255, 0.15);
-        border: 1.5px solid rgba(255, 255, 255, 0.25);
-        border-radius: 50px;
-        padding: 8px 18px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 13px;
-        font-weight: 700;
-        color: #fff;
-        cursor: pointer;
-        transition: background 0.2s;
-        white-space: nowrap;
-        position: relative;
-        z-index: 1;
-      }
-      .wa-hero-status:hover {
-        background: rgba(255, 255, 255, 0.25);
-      }
+.wa-hero-status {
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: 50px;
+  padding: 8px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  transition: background .2s;
+  white-space: nowrap;
+  position: relative; z-index:1;
+}
+.wa-hero-status:hover { background: rgba(255,255,255,0.25); }
 
-      /* Connection status card */
-      .conn-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        overflow: hidden;
-        box-shadow: var(--shadow-card);
-      }
+/* Connection status card */
+.conn-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
 
-      .conn-status-bar {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 16px 22px;
-        background: var(--green-light);
-        border-block-end: 1px solid #b8f0dc;
-      }
-      .conn-status-bar.disconnected {
-        background: var(--red-light);
-        border-color: #ffd0d7;
-      }
-      .conn-status-bar.pending {
-        background: var(--orange-light);
-        border-color: #ffd5bc;
-      }
+.conn-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 22px;
+  background: var(--green-light);
+  border-block-end: 1px solid var(--border);
+}
+.conn-status-bar.disconnected {
+  background: var(--red-light);
+  border-color: var(--red-light);
+}
+.conn-status-bar.pending {
+  background: var(--orange-light);
+  border-color: var(--orange-light);
+}
 
-      /* Page grid */
-      .config-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-      }
-      .config-grid .full-width {
-        grid-column: 1 / -1;
-      }
+/* Page grid */
+.config-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.config-grid .full-width { grid-column: 1 / -1; }
 
-      /* Credential row */
-      .cred-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 14px 0;
-        border-block-end: 1px solid var(--border);
-      }
-      .cred-row:last-child {
-        border-block-end: none;
-      }
-      .cred-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 9px;
-        background: var(--brand-light);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-        flex-shrink: 0;
-      }
-      .cred-label {
-        font-size: 12px;
-        color: var(--muted);
-        font-weight: 600;
-        margin-bottom: 2px;
-      }
-      .cred-value {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--text);
-        font-family: "Courier New", monospace;
-      }
-      .cred-actions {
-        margin-inline-start: auto;
-        display: flex;
-        gap: 6px;
-      }
+/* Credential row */
+.cred-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 0;
+  border-block-end: 1px solid var(--border);
+}
+.cred-row:last-child { border-block-end: none; }
+.cred-icon {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  background: var(--brand-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.cred-label { font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+.cred-value { font-size: 14px; font-weight: 600; color: var(--text); font-family: 'Courier New', monospace; }
+.cred-actions { margin-inline-start: auto; display: flex; gap: 6px; }
 
-      /* Webhook events */
-      .event-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-        gap: 10px;
-      }
-      .event-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px 14px;
-        border-radius: var(--radius-sm);
-        border: 1.5px solid var(--border);
-        cursor: pointer;
-        transition:
-          border-color 0.15s,
-          background 0.15s;
-      }
-      .event-item:hover {
-        border-color: var(--brand-mid);
-        background: var(--brand-light);
-      }
-      .event-item.checked {
-        border-color: var(--brand);
-        background: var(--brand-light);
-      }
-      .event-check {
-        width: 18px;
-        height: 18px;
-        border-radius: 5px;
-        border: 2px solid var(--border-strong);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 10px;
-        flex-shrink: 0;
-        transition: all 0.15s;
-      }
-      .event-item.checked .event-check {
-        background: var(--brand);
-        border-color: var(--brand);
-        color: #fff;
-      }
-      .event-label {
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--text-2);
-      }
+/* Webhook events */
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px;
+}
+.event-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.event-item:hover { border-color: var(--brand-mid); background: var(--brand-light); }
+.event-item.checked { border-color: var(--brand); background: var(--brand-light); }
+.event-check {
+  width: 18px; height: 18px;
+  border-radius: 5px;
+  border: 2px solid var(--border-strong);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+  transition: all .15s;
+}
+.event-item.checked .event-check {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+.event-label { font-size: 13px; font-weight: 500; color: var(--text-2); }
 
-      /* Phone number table */
-      .phone-table-wrap {
-        overflow-x: auto;
-      }
+/* Phone number table */
+.phone-table-wrap { overflow-x: auto; }
 
-      /* Test message panel */
-      .test-panel {
-        background: linear-gradient(135deg, var(--wa-light) 0%, #fff 100%);
-        border: 1.5px solid #a8f0cb;
-        border-radius: var(--radius-lg);
-        padding: 24px;
-      }
+/* Test message panel */
+.test-panel {
+  background: linear-gradient(135deg, var(--wa-light) 0%, #fff 100%);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
 
-      .wa-preview {
-        background: #e5ddd5;
-        border-radius: var(--radius);
-        padding: 16px;
-        min-height: 140px;
-        position: relative;
-        overflow: hidden;
-      }
-      .wa-preview::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0z' fill='none'/%3E%3C/svg%3E");
-        opacity: 0.03;
-      }
-      .wa-bubble {
-        background: #fff;
-        border-radius: 0 10px 10px 10px;
-        padding: 10px 14px;
-        max-width: 80%;
-        font-size: 13.5px;
-        line-height: 1.55;
-        color: #111;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        position: relative;
-      }
-      .wa-bubble::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        inset-inline-start: -8px;
-        border: 8px solid transparent;
-        border-inline-end: 8px solid #fff;
-        border-block-start: 0;
-      }
-      .wa-time {
-        text-align: end;
-        font-size: 10px;
-        color: var(--muted);
-        margin-top: 5px;
-      }
+.wa-preview {
+  background: #D4B483;
+  border-radius: var(--radius);
+  padding: 16px;
+  min-height: 140px;
+  position: relative;
+  overflow: hidden;
+}
+.wa-preview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0z' fill='none'/%3E%3C/svg%3E");
+  opacity: .03;
+}
+.wa-bubble {
+  background: #fff;
+  border-radius: 0 10px 10px 10px;
+  padding: 10px 14px;
+  max-width: 80%;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #111;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1);
+  position: relative;
+}
+.wa-bubble::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  inset-inline-start: -8px;
+  border: 8px solid transparent;
+  border-inline-end: 8px solid #fff;
+  border-block-start: 0;
+}
+.wa-time {
+  text-align: end;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 5px;
+}
 
-      /* Rate limits */
-      .rate-cards {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-      }
-      .rate-card {
-        border: 1.5px solid var(--border);
-        border-radius: var(--radius);
-        padding: 16px;
-        text-align: center;
-        cursor: pointer;
-        transition:
-          border-color 0.15s,
-          background 0.15s;
-      }
-      .rate-card:hover {
-        border-color: var(--brand-mid);
-        background: var(--brand-light);
-      }
-      .rate-card.selected {
-        border-color: var(--brand);
-        background: var(--brand-light);
-      }
-      .rate-card-val {
-        font-family: var(--font-display);
-        font-size: 22px;
-        font-weight: 900;
-        color: var(--text);
-        margin-bottom: 4px;
-      }
-      .rate-card.selected .rate-card-val {
-        color: var(--brand);
-      }
-      .rate-card-label {
-        font-size: 11px;
-        color: var(--muted);
-        font-weight: 600;
-      }
+/* Rate limits */
+.rate-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.rate-card {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.rate-card:hover { border-color: var(--brand-mid); background: var(--brand-light); }
+.rate-card.selected {
+  border-color: var(--brand);
+  background: var(--brand-light);
+}
+.rate-card-val {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.rate-card.selected .rate-card-val { color: var(--brand); }
+.rate-card-label { font-size: 11px; color: var(--muted); font-weight: 600; }
 
-      /* Log rows */
-      .log-row {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        padding: 12px 0;
-        border-block-end: 1px solid var(--border);
-        font-size: 13px;
-      }
-      .log-row:last-child {
-        border-block-end: none;
-      }
-      .log-time {
-        color: var(--muted);
-        font-size: 11px;
-        white-space: nowrap;
-        padding-top: 2px;
-        min-width: 70px;
-      }
-      .log-level {
-        padding: 1px 8px;
-        border-radius: 4px;
-        font-size: 10px;
-        font-weight: 700;
-        flex-shrink: 0;
-      }
-      .log-level.info {
-        background: var(--brand-light);
-        color: var(--brand);
-      }
-      .log-level.success {
-        background: var(--green-light);
-        color: var(--green);
-      }
-      .log-level.warn {
-        background: var(--yellow-light);
-        color: var(--yellow);
-      }
-      .log-level.error {
-        background: var(--red-light);
-        color: var(--red);
-      }
-      .log-msg {
-        flex: 1;
-        color: var(--text-2);
-        line-height: 1.5;
-      }
+/* Log rows */
+.log-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-block-end: 1px solid var(--border);
+  font-size: 13px;
+}
+.log-row:last-child { border-block-end: none; }
+.log-time { color: var(--muted); font-size: 11px; white-space: nowrap; padding-top: 2px; min-width: 70px; }
+.log-level {
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.log-level.info    { background: var(--brand-light); color: var(--brand); }
+.log-level.success { background: var(--green-light); color: var(--green); }
+.log-level.warn    { background: var(--yellow-light); color: var(--yellow); }
+.log-level.error   { background: var(--red-light); color: var(--red); }
+.log-msg { flex:1; color: var(--text-2); line-height: 1.5; }
 
-      /* Step indicator */
-      .setup-steps {
-        display: flex;
-        gap: 0;
-        margin-bottom: 28px;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        overflow: hidden;
-      }
-      .setup-step {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 14px 18px;
-        background: var(--surface2);
-        border-inline-end: 1px solid var(--border);
-        transition: background 0.15s;
-      }
-      .setup-step:last-child {
-        border-inline-end: none;
-      }
-      .setup-step.done {
-        background: var(--green-light);
-      }
-      .setup-step.active {
-        background: var(--brand-light);
-      }
-      .step-num {
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-        font-weight: 800;
-        background: var(--border);
-        color: var(--muted);
-        flex-shrink: 0;
-      }
-      .setup-step.done .step-num {
-        background: var(--green);
-        color: #fff;
-      }
-      .setup-step.active .step-num {
-        background: var(--brand);
-        color: #fff;
-      }
-      .step-info-label {
-        font-size: 12px;
-        font-weight: 700;
-        color: var(--text);
-      }
-      .step-info-sub {
-        font-size: 11px;
-        color: var(--muted);
-      }
+/* Step indicator */
+.setup-steps {
+  display: flex;
+  gap: 0;
+  margin-bottom: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.setup-step {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: var(--surface2);
+  border-inline-end: 1px solid var(--border);
+  transition: background .15s;
+}
+.setup-step:last-child { border-inline-end: none; }
+.setup-step.done { background: var(--green-light); }
+.setup-step.active { background: var(--brand-light); }
+.step-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  background: var(--border);
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.setup-step.done  .step-num { background: var(--green);  color: #fff; }
+.setup-step.active .step-num { background: var(--brand); color: #fff; }
+.step-info-label { font-size: 12px; font-weight: 700; color: var(--text); }
+.step-info-sub   { font-size: 11px; color: var(--muted); }
 
-      @media (max-width: 900px) {
-        .config-grid {
-          grid-template-columns: 1fr;
-        }
-        .rate-cards {
-          grid-template-columns: 1fr 1fr;
-        }
-        .setup-steps {
-          flex-direction: column;
-        }
-        .setup-step {
-          border-inline-end: none;
-          border-block-end: 1px solid var(--border);
-        }
-        .setup-step:last-child {
-          border-block-end: none;
-        }
-      }
-      @media (max-width: 600px) {
-        .wa-hero {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 14px;
-        }
-        .wa-hero-status {
-          width: 100%;
-          justify-content: center;
-        }
-        .rate-cards {
-          grid-template-columns: 1fr;
-        }
-        .event-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-        /* cred row wraps on small screens */
-        .cred-row {
-          flex-wrap: wrap;
-          gap: 8px;
-        }
-        .cred-row .cred-actions {
-          width: 100%;
-          justify-content: flex-end;
-        }
-        /* phone number table: hide less critical cols */
-        .phone-col-id,
-        .phone-col-limit {
-          display: none;
-        }
-      }
-      @media (max-width: 400px) {
-        .setup-step {
-          padding: 10px 14px;
-        }
-        .step-info-sub {
-          display: none;
-        }
-        .event-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Sidebar injected by sidebar.js -->
-    <script src="assets/js/i18n.js"></script>
-    <script src="assets/js/sidebar.js"></script>
-    <script src="assets/js/app.js"></script>
+@media(max-width: 900px) {
+  .config-grid { grid-template-columns: 1fr; }
+  .rate-cards  { grid-template-columns: 1fr 1fr; }
+  .setup-steps { flex-direction: column; }
+  .setup-step  { border-inline-end: none; border-block-end: 1px solid var(--border); }
+  .setup-step:last-child { border-block-end: none; }
+}
+@media(max-width: 600px) {
+  .wa-hero { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .wa-hero-status { width: 100%; justify-content: center; }
+  .rate-cards { grid-template-columns: 1fr; }
+  .event-grid { grid-template-columns: 1fr 1fr; }
+  /* cred row wraps on small screens */
+  .cred-row { flex-wrap: wrap; gap: 8px; }
+  .cred-row .cred-actions { width: 100%; justify-content: flex-end; }
+  /* phone number table: hide less critical cols */
+  .phone-col-id, .phone-col-limit { display: none; }
+}
+@media(max-width: 400px) {
+  .setup-step { padding: 10px 14px; }
+  .step-info-sub { display: none; }
+  .event-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
 
-    <div class="app-shell">
-      <!-- Main -->
-      <div class="main-content">
-        <!-- Topbar -->
-        <div class="topbar">
-          <button class="hamburger" onclick="toggleSidebar()" title="Menu">
-            ☰
-          </button>
+<!-- Sidebar injected by sidebar.js -->
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/sidebar.js"></script>
+<script src="assets/js/app.js"></script>
+
+<div class="app-shell">
+  <!-- Main -->
+  <div class="main-content">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <button class="hamburger" onclick="toggleSidebar()" title="Menu">☰</button>
+      <div>
+        <div class="topbar-breadcrumb">
+          <span>Configuration</span>
+          <span class="sep">›</span>
+          <span class="crumb-active" data-i18n="wa_breadcrumb_page">WhatsApp Business API</span>
+        </div>
+        <div class="topbar-title" data-i18n="wa_title">WhatsApp Configuration</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-ghost btn-sm" onclick="showToast('Documentation opened in new tab','info')">📖 Docs</button>
+        <button class="btn btn-wa btn-sm" onclick="testConnection()">⚡ Test Connection</button>
+      </div>
+    </div>
+
+    <!-- Page Body -->
+    <div class="page-body">
+
+      <!-- WhatsApp Hero -->
+      <div class="wa-hero">
+        <div class="wa-hero-icon">📱</div>
+        <div class="wa-hero-text">
+          <div class="wa-hero-title">WhatsApp Business API</div>
+          <div class="wa-hero-sub">Connected via Meta Cloud API · Business Account: <strong style="color:#fff">Humood Al Azri Demo</strong> · WABA ID: 123456789012345</div>
+        </div>
+        <div class="wa-hero-status" onclick="showToast('API Status: All systems operational ✅','success')">
+          <span style="width:9px;height:9px;border-radius:50%;background:#4A8C6F;box-shadow:0 0 0 3px rgba(74,140,111,0.3);animation:pulse 1.8s infinite;"></span>
+          Connected · Live
+        </div>
+      </div>
+
+      <!-- Setup Progress -->
+      <div class="setup-steps">
+        <div class="setup-step done">
+          <div class="step-num">✓</div>
           <div>
-            <div class="topbar-breadcrumb">
-              <span>Configuration</span>
-              <span class="sep">›</span>
-              <span class="crumb-active" data-i18n="wa_breadcrumb_page"
-                >WhatsApp Business API</span
-              >
-            </div>
-            <div class="topbar-title" data-i18n="wa_title">
-              WhatsApp Configuration
-            </div>
-          </div>
-          <div class="topbar-actions">
-            <button
-              class="btn btn-ghost btn-sm"
-              onclick="showToast('Documentation opened in new tab', 'info')">
-              📖 Docs
-            </button>
-            <button class="btn btn-wa btn-sm" onclick="testConnection()">
-              ⚡ Test Connection
-            </button>
+            <div class="step-info-label">Meta App Created</div>
+            <div class="step-info-sub">App ID configured</div>
           </div>
         </div>
-
-        <!-- Page Body -->
-        <div class="page-body">
-          <!-- WhatsApp Hero -->
-          <div class="wa-hero">
-            <div class="wa-hero-icon">📱</div>
-            <div class="wa-hero-text">
-              <div class="wa-hero-title">WhatsApp Business API</div>
-              <div class="wa-hero-sub">
-                Connected via Meta Cloud API · Business Account:
-                <strong style="color: #fff">TipTap Demo</strong> · WABA ID:
-                123456789012345
-              </div>
-            </div>
-            <div
-              class="wa-hero-status"
-              onclick="
-                showToast('API Status: All systems operational ✅', 'success')
-              ">
-              <span
-                style="
-                  width: 9px;
-                  height: 9px;
-                  border-radius: 50%;
-                  background: #7fffb5;
-                  box-shadow: 0 0 0 3px rgba(127, 255, 181, 0.3);
-                  animation: pulse 1.8s infinite;
-                "></span>
-              Connected · Live
-            </div>
+        <div class="setup-step done">
+          <div class="step-num">✓</div>
+          <div>
+            <div class="step-info-label">WABA Connected</div>
+            <div class="step-info-sub">Business verified</div>
           </div>
-
-          <!-- Setup Progress -->
-          <div class="setup-steps">
-            <div class="setup-step done">
-              <div class="step-num">✓</div>
-              <div>
-                <div class="step-info-label">Meta App Created</div>
-                <div class="step-info-sub">App ID configured</div>
-              </div>
-            </div>
-            <div class="setup-step done">
-              <div class="step-num">✓</div>
-              <div>
-                <div class="step-info-label">WABA Connected</div>
-                <div class="step-info-sub">Business verified</div>
-              </div>
-            </div>
-            <div class="setup-step done">
-              <div class="step-num">✓</div>
-              <div>
-                <div class="step-info-label">Phone Number Added</div>
-                <div class="step-info-sub">+968 9X XXX XXXX</div>
-              </div>
-            </div>
-            <div class="setup-step active">
-              <div class="step-num">4</div>
-              <div>
-                <div class="step-info-label">Webhook Configured</div>
-                <div class="step-info-sub">Set delivery callbacks</div>
-              </div>
-            </div>
-            <div class="setup-step">
-              <div class="step-num">5</div>
-              <div>
-                <div class="step-info-label">Templates Approved</div>
-                <div class="step-info-sub">Pending review</div>
-              </div>
-            </div>
+        </div>
+        <div class="setup-step done">
+          <div class="step-num">✓</div>
+          <div>
+            <div class="step-info-label">Phone Number Added</div>
+            <div class="step-info-sub">+968 9X XXX XXXX</div>
           </div>
+        </div>
+        <div class="setup-step active">
+          <div class="step-num">4</div>
+          <div>
+            <div class="step-info-label">Webhook Configured</div>
+            <div class="step-info-sub">Set delivery callbacks</div>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="step-num">5</div>
+          <div>
+            <div class="step-info-label">Templates Approved</div>
+            <div class="step-info-sub">Pending review</div>
+          </div>
+        </div>
+      </div>
 
-          <!-- Alert: Informational -->
-          <div class="alert alert-blue" style="margin-bottom: 24px">
-            <span class="alert-icon">💡</span>
+      <!-- Alert: Informational -->
+      <div class="alert alert-blue" style="margin-bottom:24px">
+        <span class="alert-icon">💡</span>
+        <div>
+          <div class="alert-title">No pre-registration of contacts needed</div>
+          <div class="alert-text">You can send messages directly to phone numbers stored in your own database. For outbound marketing, use approved Message Templates. For contacts who message you first, free-form replies are allowed within a 24-hour window.</div>
+        </div>
+      </div>
+
+      <!-- Main Config Grid -->
+      <div class="config-grid">
+
+        <!-- ── API Credentials ── -->
+        <div class="card">
+          <div class="card-header">
             <div>
-              <div class="alert-title">
-                No pre-registration of contacts needed
-              </div>
-              <div class="alert-text">
-                You can send messages directly to phone numbers stored in your
-                own database. For outbound marketing, use approved Message
-                Templates. For contacts who message you first, free-form replies
-                are allowed within a 24-hour window.
-              </div>
+              <div class="card-title">API Credentials</div>
+              <div class="card-subtitle">Meta Cloud API authentication tokens</div>
             </div>
+            <button class="btn btn-ghost btn-sm" onclick="openModal('modalRegenerateToken')">🔄 Rotate Token</button>
           </div>
+          <div class="card-body">
 
-          <!-- Main Config Grid -->
-          <div class="config-grid">
-            <!-- ── API Credentials ── -->
-            <div class="card">
-              <div class="card-header">
-                <div>
-                  <div class="card-title">API Credentials</div>
-                  <div class="card-subtitle">
-                    Meta Cloud API authentication tokens
-                  </div>
-                </div>
-                <button
-                  class="btn btn-ghost btn-sm"
-                  onclick="openModal('modalRegenerateToken')">
-                  🔄 Rotate Token
-                </button>
+            <div class="cred-row">
+              <div class="cred-icon">🔑</div>
+              <div style="flex:1;min-width:0">
+                <div class="cred-label">Access Token (Permanent)</div>
+                <div class="cred-value" id="access-token-display">EAAxxxxxxxxxxxxxxxxxxxxxxxxx</div>
               </div>
-              <div class="card-body">
-                <div class="cred-row">
-                  <div class="cred-icon">🔑</div>
-                  <div style="flex: 1; min-width: 0">
-                    <div class="cred-label">Access Token (Permanent)</div>
-                    <div class="cred-value" id="access-token-display">
-                      EAAxxxxxxxxxxxxxxxxxxxxxxxxx
-                    </div>
-                  </div>
-                  <div class="cred-actions">
-                    <button
-                      class="icon-btn"
-                      data-tip="Toggle visibility"
-                      onclick="
-                        toggleSecret(
-                          'access-token-display',
-                          'EAAxxxxxxxxxxxxxxxxxxxxxxxxx',
-                          'EAATr9Yz4WqXmK8pL2sN1vRuBjYoGdCeHfI5aObQkMtUwEAAxxxxxxxxx',
-                        )
-                      ">
-                      👁
-                    </button>
-                    <button
-                      class="icon-btn"
-                      data-tip="Copy"
-                      onclick="
-                        copyText(
-                          'EAATr9Yz4WqXmK8pL2sN1vRuBjYoGdCeHfI5aObQkMtUw',
-                          this,
-                        )
-                      ">
-                      📋
-                    </button>
-                  </div>
-                </div>
-
-                <div class="cred-row">
-                  <div class="cred-icon">📱</div>
-                  <div style="flex: 1">
-                    <div class="cred-label">Phone Number ID</div>
-                    <div class="cred-value">109876543210123</div>
-                  </div>
-                  <div class="cred-actions">
-                    <button
-                      class="icon-btn"
-                      data-tip="Copy"
-                      onclick="copyText('109876543210123', this)">
-                      📋
-                    </button>
-                  </div>
-                </div>
-
-                <div class="cred-row">
-                  <div class="cred-icon">🏢</div>
-                  <div style="flex: 1">
-                    <div class="cred-label">WhatsApp Business Account ID</div>
-                    <div class="cred-value">123456789012345</div>
-                  </div>
-                  <div class="cred-actions">
-                    <button
-                      class="icon-btn"
-                      data-tip="Copy"
-                      onclick="copyText('123456789012345', this)">
-                      📋
-                    </button>
-                  </div>
-                </div>
-
-                <div class="cred-row">
-                  <div class="cred-icon">🔒</div>
-                  <div style="flex: 1">
-                    <div class="cred-label">App Secret</div>
-                    <div class="cred-value" id="app-secret-display">
-                      ••••••••••••••••••••••
-                    </div>
-                  </div>
-                  <div class="cred-actions">
-                    <button
-                      class="icon-btn"
-                      data-tip="Toggle"
-                      onclick="
-                        toggleSecret(
-                          'app-secret-display',
-                          '••••••••••••••••••••••',
-                          'a7f2c3d8e1b4g9h5i6j0k',
-                        )
-                      ">
-                      👁
-                    </button>
-                    <button
-                      class="icon-btn"
-                      data-tip="Copy"
-                      onclick="copyText('a7f2c3d8e1b4g9h5i6j0k', this)">
-                      📋
-                    </button>
-                  </div>
-                </div>
-
-                <div class="cred-row">
-                  <div class="cred-icon">🌐</div>
-                  <div style="flex: 1">
-                    <div class="cred-label">API Version</div>
-                    <div class="cred-value">v20.0</div>
-                  </div>
-                  <div class="cred-actions">
-                    <button
-                      class="btn btn-ghost btn-sm"
-                      onclick="
-                        showToast(
-                          'Latest: v20.0 — you are up to date ✅',
-                          'success',
-                        )
-                      ">
-                      Check Update
-                    </button>
-                  </div>
-                </div>
+              <div class="cred-actions">
+                <button class="icon-btn" data-tip="Toggle visibility" onclick="toggleSecret('access-token-display', 'EAAxxxxxxxxxxxxxxxxxxxxxxxxx', 'EAATr9Yz4WqXmK8pL2sN1vRuBjYoGdCeHfI5aObQkMtUwEAAxxxxxxxxx')">👁</button>
+                <button class="icon-btn" data-tip="Copy" onclick="copyText('EAATr9Yz4WqXmK8pL2sN1vRuBjYoGdCeHfI5aObQkMtUw', this)">📋</button>
               </div>
             </div>
 
-            <!-- ── Connection Status ── -->
-            <div class="card">
-              <div class="card-header">
-                <div>
-                  <div class="card-title">Connection Status</div>
-                  <div class="card-subtitle">
-                    Real-time health of your WhatsApp integration
-                  </div>
-                </div>
-                <button class="btn btn-ghost btn-sm" onclick="refreshStatus()">
-                  ↻ Refresh
-                </button>
+            <div class="cred-row">
+              <div class="cred-icon">📱</div>
+              <div style="flex:1">
+                <div class="cred-label">Phone Number ID</div>
+                <div class="cred-value">109876543210123</div>
               </div>
-              <div class="card-body" style="padding: 0">
-                <div class="conn-status-bar" id="conn-status-bar">
-                  <span class="dot dot-green dot-pulse"></span>
-                  <div style="flex: 1">
-                    <div
-                      style="font-size: 13px; font-weight: 700; color: #006650">
-                      API Connection Active
-                    </div>
-                    <div
-                      style="font-size: 11px; color: #009970; margin-top: 1px">
-                      Last heartbeat: 14 seconds ago
-                    </div>
-                  </div>
-                  <span class="badge badge-green">Live</span>
-                </div>
-
-                <div
-                  style="
-                    padding: 18px 22px;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 14px;
-                  ">
-                  <div class="flex items-center gap-3">
-                    <span style="font-size: 18px">🟢</span>
-                    <div style="flex: 1">
-                      <div style="font-size: 13px; font-weight: 600">
-                        Meta Cloud API
-                      </div>
-                      <div style="font-size: 11px; color: var(--muted)">
-                        api.whatsapp.com · 45ms avg latency
-                      </div>
-                    </div>
-                    <span class="badge badge-green">Online</span>
-                  </div>
-
-                  <div class="flex items-center gap-3">
-                    <span style="font-size: 18px">🟢</span>
-                    <div style="flex: 1">
-                      <div style="font-size: 13px; font-weight: 600">
-                        Webhook Receiver
-                      </div>
-                      <div style="font-size: 11px; color: var(--muted)">
-                        Receiving delivery receipts
-                      </div>
-                    </div>
-                    <span class="badge badge-green">Active</span>
-                  </div>
-
-                  <div class="flex items-center gap-3">
-                    <span style="font-size: 18px">🟡</span>
-                    <div style="flex: 1">
-                      <div style="font-size: 13px; font-weight: 600">
-                        Message Templates
-                      </div>
-                      <div style="font-size: 11px; color: var(--muted)">
-                        3 approved · 2 pending review
-                      </div>
-                    </div>
-                    <span class="badge badge-yellow">Partial</span>
-                  </div>
-
-                  <div class="flex items-center gap-3">
-                    <span style="font-size: 18px">🟢</span>
-                    <div style="flex: 1">
-                      <div style="font-size: 13px; font-weight: 600">
-                        Business Verification
-                      </div>
-                      <div style="font-size: 11px; color: var(--muted)">
-                        Verified · Tier 2 sending limit
-                      </div>
-                    </div>
-                    <span class="badge badge-green">Verified</span>
-                  </div>
-
-                  <div
-                    style="
-                      background: var(--surface3);
-                      border-radius: var(--radius-sm);
-                      padding: 14px;
-                      margin-top: 4px;
-                    ">
-                    <div
-                      style="
-                        font-size: 11px;
-                        color: var(--muted);
-                        font-weight: 700;
-                        text-transform: uppercase;
-                        letter-spacing: 0.5px;
-                        margin-bottom: 10px;
-                      ">
-                      Daily Message Usage
-                    </div>
-                    <div
-                      style="
-                        display: flex;
-                        justify-content: space-between;
-                        font-size: 12px;
-                        margin-bottom: 6px;
-                      ">
-                      <span style="font-weight: 600; color: var(--text)"
-                        >8,412 sent today</span
-                      >
-                      <span style="color: var(--muted)"
-                        >Limit: 100,000/day</span
-                      >
-                    </div>
-                    <div class="progress-bar">
-                      <div
-                        class="progress-fill"
-                        style="width: 8.4%; background: var(--green)"></div>
-                    </div>
-                    <div
-                      style="
-                        font-size: 11px;
-                        color: var(--muted);
-                        margin-top: 5px;
-                      ">
-                      8.4% of daily quota used
-                    </div>
-                  </div>
-                </div>
+              <div class="cred-actions">
+                <button class="icon-btn" data-tip="Copy" onclick="copyText('109876543210123', this)">📋</button>
               </div>
             </div>
 
-            <!-- ── Phone Numbers ── -->
-            <div class="card full-width">
-              <div class="card-header">
-                <div>
-                  <div class="card-title">Registered Phone Numbers</div>
-                  <div class="card-subtitle">
-                    WhatsApp-enabled numbers linked to your WABA
-                  </div>
-                </div>
-                <button
-                  class="btn btn-primary btn-sm"
-                  onclick="openModal('modalAddPhone')">
-                  + Add Number
-                </button>
+            <div class="cred-row">
+              <div class="cred-icon">🏢</div>
+              <div style="flex:1">
+                <div class="cred-label">WhatsApp Business Account ID</div>
+                <div class="cred-value">123456789012345</div>
               </div>
-              <div class="phone-table-wrap">
-                <table class="data-table" id="phoneTable">
-                  <thead>
-                    <tr>
-                      <th>Display Name</th>
-                      <th>Phone Number</th>
-                      <th class="phone-col-id">Phone Number ID</th>
-                      <th>Quality</th>
-                      <th class="phone-col-limit">Messaging Limit</th>
-                      <th>Status</th>
-                      <th>Default</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div class="flex items-center gap-2">
-                          <div
-                            style="
-                              width: 32px;
-                              height: 32px;
-                              background: var(--wa-light);
-                              border-radius: 8px;
-                              display: flex;
-                              align-items: center;
-                              justify-content: center;
-                              font-size: 15px;
-                            ">
-                            📱
-                          </div>
-                          <span style="font-weight: 600">TipTap Main</span>
-                        </div>
-                      </td>
-                      <td style="font-family: monospace; font-weight: 600">
-                        +968 9X XXX XXXX
-                      </td>
-                      <td
-                        style="font-family: monospace; color: var(--muted)"
-                        class="phone-col-id">
-                        109876543210123
-                      </td>
-                      <td>
-                        <div class="flex items-center gap-2">
-                          <span style="font-size: 16px">⭐</span>
-                          <span style="font-weight: 600; color: var(--green)"
-                            >High</span
-                          >
-                        </div>
-                      </td>
-                      <td class="phone-col-limit">
-                        <span class="badge badge-blue">100K / day</span>
-                      </td>
-                      <td>
-                        <span class="badge badge-green">● Connected</span>
-                      </td>
-                      <td>
-                        <label class="toggle" style="width: 38px; height: 22px">
-                          <input type="checkbox" checked />
-                          <span class="toggle-slider"></span>
-                        </label>
-                      </td>
-                      <td>
-                        <div class="flex gap-2">
-                          <button
-                            class="btn btn-ghost btn-sm"
-                            onclick="openModal('modalEditPhone')">
-                            Edit
-                          </button>
-                          <button class="btn btn-danger btn-sm">Remove</button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="flex items-center gap-2">
-                          <div
-                            style="
-                              width: 32px;
-                              height: 32px;
-                              background: var(--orange-light);
-                              border-radius: 8px;
-                              display: flex;
-                              align-items: center;
-                              justify-content: center;
-                              font-size: 15px;
-                            ">
-                            📲
-                          </div>
-                          <span style="font-weight: 600">Support Line</span>
-                        </div>
-                      </td>
-                      <td style="font-family: monospace; font-weight: 600">
-                        +968 9X XXX YYYY
-                      </td>
-                      <td
-                        style="font-family: monospace; color: var(--muted)"
-                        class="phone-col-id">
-                        209876543210456
-                      </td>
-                      <td>
-                        <div class="flex items-center gap-2">
-                          <span style="font-size: 16px">⭐</span>
-                          <span style="font-weight: 600; color: var(--yellow)"
-                            >Medium</span
-                          >
-                        </div>
-                      </td>
-                      <td class="phone-col-limit">
-                        <span class="badge badge-blue">1K / day</span>
-                      </td>
-                      <td>
-                        <span class="badge badge-green">● Connected</span>
-                      </td>
-                      <td>
-                        <label class="toggle" style="width: 38px; height: 22px">
-                          <input type="checkbox" />
-                          <span class="toggle-slider"></span>
-                        </label>
-                      </td>
-                      <td>
-                        <div class="flex gap-2">
-                          <button class="btn btn-ghost btn-sm">Edit</button>
-                          <button class="btn btn-danger btn-sm">Remove</button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="cred-actions">
+                <button class="icon-btn" data-tip="Copy" onclick="copyText('123456789012345', this)">📋</button>
               </div>
             </div>
 
-            <!-- ── Webhook Configuration ── -->
-            <div class="card">
-              <div class="card-header">
-                <div>
-                  <div class="card-title">Webhook Configuration</div>
-                  <div class="card-subtitle">
-                    Meta sends event callbacks to this URL
-                  </div>
-                </div>
-                <button class="btn btn-ghost btn-sm" onclick="verifyWebhook()">
-                  Verify
-                </button>
+            <div class="cred-row">
+              <div class="cred-icon">🔒</div>
+              <div style="flex:1">
+                <div class="cred-label">App Secret</div>
+                <div class="cred-value" id="app-secret-display">••••••••••••••••••••••</div>
               </div>
-              <div class="card-body">
-                <div class="form-group">
-                  <label class="form-label">Webhook Callback URL</label>
-                  <div class="copy-field">
-                    <input
-                      type="text"
-                      id="webhook-url"
-                      value="https://api.broadcastiq.com/webhooks/whatsapp"
-                      readonly />
-                    <button
-                      class="copy-btn"
-                      onclick="
-                        copyText(
-                          document.getElementById('webhook-url').value,
-                          this,
-                        )
-                      ">
-                      📋 Copy
-                    </button>
-                  </div>
-                  <div class="form-hint">
-                    Add this URL in Meta App Dashboard → WhatsApp →
-                    Configuration → Webhooks
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">Verify Token</label>
-                  <div class="input-wrap">
-                    <input
-                      type="text"
-                      id="verify-token"
-                      class="form-control has-icon-end"
-                      value="biq_wh_verify_2026_xK9p"
-                      readonly />
-                    <span
-                      class="input-icon-end"
-                      style="cursor: pointer"
-                      onclick="
-                        copyText(
-                          document.getElementById('verify-token').value,
-                          this,
-                        )
-                      "
-                      >📋</span
-                    >
-                  </div>
-                  <div class="form-hint">
-                    Use this token in Meta's webhook verification challenge
-                  </div>
-                </div>
-
-                <div class="form-group" style="margin-bottom: 8px">
-                  <label class="form-label">Subscribe to Events</label>
-                  <div class="event-grid" id="eventGrid">
-                    <!-- filled by JS -->
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer">
-                <button
-                  class="btn btn-ghost"
-                  onclick="
-                    showToast('Webhook settings restored to defaults', 'info')
-                  ">
-                  Reset
-                </button>
-                <button class="btn btn-primary" onclick="saveWebhook()">
-                  Save Webhook
-                </button>
+              <div class="cred-actions">
+                <button class="icon-btn" data-tip="Toggle" onclick="toggleSecret('app-secret-display','••••••••••••••••••••••','a7f2c3d8e1b4g9h5i6j0k')">👁</button>
+                <button class="icon-btn" data-tip="Copy" onclick="copyText('a7f2c3d8e1b4g9h5i6j0k', this)">📋</button>
               </div>
             </div>
 
-            <!-- ── Messaging Settings ── -->
-            <div class="card">
-              <div class="card-header">
-                <div>
-                  <div class="card-title">Messaging Settings</div>
-                  <div class="card-subtitle">
-                    Rate limits, retries, and delivery behavior
-                  </div>
-                </div>
+            <div class="cred-row">
+              <div class="cred-icon">🌐</div>
+              <div style="flex:1">
+                <div class="cred-label">API Version</div>
+                <div class="cred-value">v20.0</div>
               </div>
-              <div class="card-body">
-                <div class="form-group">
-                  <label class="form-label"
-                    >Messages per Second (Rate Limit)</label
-                  >
-                  <div class="rate-cards" id="rateCards">
-                    <div class="rate-card" onclick="selectRate(this, 10)">
-                      <div class="rate-card-val">10</div>
-                      <div class="rate-card-label">msgs / sec</div>
-                    </div>
-                    <div
-                      class="rate-card selected"
-                      onclick="selectRate(this, 50)">
-                      <div class="rate-card-val">50</div>
-                      <div class="rate-card-label">msgs / sec</div>
-                    </div>
-                    <div class="rate-card" onclick="selectRate(this, 80)">
-                      <div class="rate-card-val">80</div>
-                      <div class="rate-card-label">msgs / sec</div>
-                    </div>
-                  </div>
-                  <div class="form-hint">
-                    Higher rates require Tier 3 business verification. Your
-                    current tier allows up to 80/sec.
-                  </div>
-                </div>
-
-                <div class="section-divider">
-                  <div class="section-divider-line"></div>
-                  <div class="section-divider-label">Retry Policy</div>
-                  <div class="section-divider-line"></div>
-                </div>
-
-                <div class="form-row-2">
-                  <div class="form-group" style="margin-bottom: 0">
-                    <label class="form-label">Retry Failed Messages</label>
-                    <select class="form-control">
-                      <option>Once (recommended)</option>
-                      <option>Twice</option>
-                      <option>3 Times</option>
-                      <option>No Retry</option>
-                    </select>
-                  </div>
-                  <div class="form-group" style="margin-bottom: 0">
-                    <label class="form-label">Retry Delay</label>
-                    <select class="form-control">
-                      <option>30 seconds</option>
-                      <option>1 minute</option>
-                      <option>5 minutes</option>
-                      <option>15 minutes</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="section-divider">
-                  <div class="section-divider-line"></div>
-                  <div class="section-divider-label">Behavior</div>
-                  <div class="section-divider-line"></div>
-                </div>
-
-                <div style="display: flex; flex-direction: column; gap: 14px">
-                  <div class="toggle-wrap">
-                    <label class="toggle"
-                      ><input type="checkbox" checked /><span
-                        class="toggle-slider"></span
-                    ></label>
-                    <div>
-                      <div class="toggle-label">
-                        Track message delivery receipts
-                      </div>
-                      <div class="form-hint" style="margin: 0">
-                        Store sent/delivered/read status per message
-                      </div>
-                    </div>
-                  </div>
-                  <div class="toggle-wrap">
-                    <label class="toggle"
-                      ><input type="checkbox" checked /><span
-                        class="toggle-slider"></span
-                    ></label>
-                    <div>
-                      <div class="toggle-label">
-                        Auto opt-out on STOP keyword
-                      </div>
-                      <div class="form-hint" style="margin: 0">
-                        Automatically unsubscribe contacts who reply "STOP"
-                      </div>
-                    </div>
-                  </div>
-                  <div class="toggle-wrap">
-                    <label class="toggle"
-                      ><input type="checkbox" /><span
-                        class="toggle-slider"></span
-                    ></label>
-                    <div>
-                      <div class="toggle-label">Enable two-way messaging</div>
-                      <div class="form-hint" style="margin: 0">
-                        Route incoming replies to the Inbox module
-                      </div>
-                    </div>
-                  </div>
-                  <div class="toggle-wrap">
-                    <label class="toggle"
-                      ><input type="checkbox" checked /><span
-                        class="toggle-slider"></span
-                    ></label>
-                    <div>
-                      <div class="toggle-label">
-                        Respect 24-hour messaging window
-                      </div>
-                      <div class="form-hint" style="margin: 0">
-                        Only send free-form messages within 24hr of user reply
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer">
-                <button
-                  class="btn btn-primary"
-                  onclick="
-                    showToast(
-                      'Messaging settings saved successfully ✅',
-                      'success',
-                    )
-                  ">
-                  Save Settings
-                </button>
+              <div class="cred-actions">
+                <button class="btn btn-ghost btn-sm" onclick="showToast('Latest: v20.0 — you are up to date ✅', 'success')">Check Update</button>
               </div>
             </div>
 
-            <!-- ── Test Message Sender ── -->
-            <div class="card">
-              <div class="card-header">
-                <div>
-                  <div class="card-title">Send Test Message</div>
-                  <div class="card-subtitle">
-                    Verify your integration is working end-to-end
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="alert alert-wa" style="margin-bottom: 20px">
-                  <span class="alert-icon">✅</span>
-                  <div>
-                    <div class="alert-title">Ready to send</div>
-                    <div class="alert-text">
-                      Your contacts do not need to be stored in Meta — phone
-                      numbers from your own database work directly.
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">Recipient Phone Number</label>
-                  <div class="input-wrap">
-                    <span class="input-icon">📞</span>
-                    <input
-                      type="tel"
-                      id="test-phone"
-                      class="form-control has-icon-start"
-                      placeholder="+968 9X XXX XXXX (include country code)"
-                      value="+96891234567" />
-                  </div>
-                  <div class="form-hint">
-                    Must be a valid WhatsApp account. Use E.164 format.
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">Message Type</label>
-                  <select
-                    class="form-control"
-                    id="msg-type"
-                    onchange="updatePreview()">
-                    <option value="text">📝 Plain Text</option>
-                    <option value="template">📋 Approved Template</option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">Message</label>
-                  <textarea
-                    class="form-control"
-                    id="test-message"
-                    rows="3"
-                    oninput="updatePreview()"
-                    placeholder="Hello {{name}}! This is a test message from TipTap.">
-Hello! 👋 This is a test message from TipTap. Your integration is working correctly. 🎉</textarea
-                  >
-                </div>
-
-                <div class="form-group" style="margin-bottom: 0">
-                  <label class="form-label">Live Preview</label>
-                  <div class="wa-preview">
-                    <div class="wa-bubble" id="wa-preview-bubble">
-                      Hello! 👋 This is a test message from TipTap. Your
-                      integration is working correctly. 🎉
-                    </div>
-                    <div class="wa-time">10:35 AM ✓✓</div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer">
-                <button
-                  class="btn btn-ghost"
-                  onclick="showToast('Message preview copied', 'info')">
-                  Copy API Payload
-                </button>
-                <button class="btn btn-wa" onclick="sendTestMessage()">
-                  📤 Send Test Message
-                </button>
-              </div>
-            </div>
-
-            <!-- ── Activity Log ── -->
-            <div class="card">
-              <div class="card-header">
-                <div>
-                  <div class="card-title">API Activity Log</div>
-                  <div class="card-subtitle">
-                    Recent API calls and webhook events
-                  </div>
-                </div>
-                <button
-                  class="btn btn-ghost btn-sm"
-                  onclick="showToast('Log exported as CSV', 'success')">
-                  ⬇ Export
-                </button>
-              </div>
-              <div class="card-body" style="padding: 16px 22px">
-                <div id="activity-log"></div>
-              </div>
-            </div>
           </div>
-          <!-- /config-grid -->
         </div>
-        <!-- /page-body -->
-      </div>
-      <!-- /main-content -->
-    </div>
-    <!-- /app-shell -->
 
-    <!-- ── Modal: Rotate Token ── -->
-    <div class="modal-backdrop" id="modalRegenerateToken">
-      <div class="modal">
-        <div class="modal-header">
-          <div
-            class="modal-header-icon"
-            style="background: var(--orange-light)">
-            🔄
-          </div>
-          <div>
-            <div class="modal-title">Rotate Access Token</div>
-            <div class="modal-subtitle">
-              This will invalidate your current token immediately
-            </div>
-          </div>
-          <button
-            class="modal-close"
-            onclick="closeModal('modalRegenerateToken')">
-            ✕
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="alert alert-orange">
-            <span class="alert-icon">⚠️</span>
+        <!-- ── Connection Status ── -->
+        <div class="card">
+          <div class="card-header">
             <div>
-              <div class="alert-title">
-                Warning: All active campaigns will pause
-              </div>
-              <div class="alert-text">
-                After rotating, update the new token in all your integrations
-                and resume campaigns manually.
-              </div>
+              <div class="card-title">Connection Status</div>
+              <div class="card-subtitle">Real-time health of your WhatsApp integration</div>
             </div>
+            <button class="btn btn-ghost btn-sm" onclick="refreshStatus()">↻ Refresh</button>
           </div>
-          <div class="form-group">
-            <label class="form-label">Confirm by typing: ROTATE TOKEN</label>
-            <input
-              type="text"
-              class="form-control"
-              id="rotateConfirm"
-              placeholder="ROTATE TOKEN" />
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button
-            class="btn btn-ghost"
-            onclick="closeModal('modalRegenerateToken')">
-            Cancel
-          </button>
-          <button class="btn btn-danger" onclick="rotateToken()">
-            🔄 Rotate Now
-          </button>
-        </div>
-      </div>
-    </div>
+          <div class="card-body" style="padding:0">
 
-    <!-- ── Modal: Add Phone Number ── -->
-    <div class="modal-backdrop" id="modalAddPhone">
-      <div class="modal">
-        <div class="modal-header">
-          <div class="modal-header-icon" style="background: var(--wa-light)">
-            📱
-          </div>
-          <div>
-            <div class="modal-title">Add Phone Number</div>
-            <div class="modal-subtitle">
-              Register a new number with your WABA
+            <div class="conn-status-bar" id="conn-status-bar">
+              <span class="dot dot-green dot-pulse"></span>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:700;color:var(--green)">API Connection Active</div>
+                <div style="font-size:11px;color:var(--green);margin-top:1px">Last heartbeat: 14 seconds ago</div>
+              </div>
+              <span class="badge badge-green">Live</span>
             </div>
-          </div>
-          <button class="modal-close" onclick="closeModal('modalAddPhone')">
-            ✕
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="form-label">Display Name</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="e.g. TipTap Support" />
-            <div class="form-hint">
-              This name will appear in WhatsApp conversations
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Phone Number</label>
-            <input
-              type="tel"
-              class="form-control"
-              placeholder="+968 XXXXXXXX" />
-            <div class="form-hint">
-              Must be in E.164 format. Cannot be an existing WhatsApp personal
-              account.
-            </div>
-          </div>
-          <div class="form-group" style="margin-bottom: 0">
-            <label class="form-label">Certificate (optional)</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Leave blank for auto-generation" />
-            <div class="form-hint">
-              Meta will send an OTP to your registered business email to verify
-              ownership.
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-ghost" onclick="closeModal('modalAddPhone')">
-            Cancel
-          </button>
-          <button class="btn btn-primary" onclick="addPhone()">
-            Add & Verify Number
-          </button>
-        </div>
-      </div>
-    </div>
 
-    <!-- ── Modal: Edit Phone ── -->
-    <div class="modal-backdrop" id="modalEditPhone">
-      <div class="modal">
-        <div class="modal-header">
-          <div class="modal-header-icon" style="background: var(--brand-light)">
-            ✏️
+            <div style="padding:18px 22px;display:flex;flex-direction:column;gap:14px">
+
+              <div class="flex items-center gap-3">
+                <span style="font-size:18px">🟢</span>
+                <div style="flex:1">
+                  <div style="font-size:13px;font-weight:600">Meta Cloud API</div>
+                  <div style="font-size:11px;color:var(--muted)">api.whatsapp.com · 45ms avg latency</div>
+                </div>
+                <span class="badge badge-green">Online</span>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <span style="font-size:18px">🟢</span>
+                <div style="flex:1">
+                  <div style="font-size:13px;font-weight:600">Webhook Receiver</div>
+                  <div style="font-size:11px;color:var(--muted)">Receiving delivery receipts</div>
+                </div>
+                <span class="badge badge-green">Active</span>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <span style="font-size:18px">🟡</span>
+                <div style="flex:1">
+                  <div style="font-size:13px;font-weight:600">Message Templates</div>
+                  <div style="font-size:11px;color:var(--muted)">3 approved · 2 pending review</div>
+                </div>
+                <span class="badge badge-yellow">Partial</span>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <span style="font-size:18px">🟢</span>
+                <div style="flex:1">
+                  <div style="font-size:13px;font-weight:600">Business Verification</div>
+                  <div style="font-size:11px;color:var(--muted)">Verified · Tier 2 sending limit</div>
+                </div>
+                <span class="badge badge-green">Verified</span>
+              </div>
+
+              <div style="background:var(--surface3);border-radius:var(--radius-sm);padding:14px;margin-top:4px">
+                <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Daily Message Usage</div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px">
+                  <span style="font-weight:600;color:var(--text)">8,412 sent today</span>
+                  <span style="color:var(--muted)">Limit: 100,000/day</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width:8.4%;background:var(--green)"></div>
+                </div>
+                <div style="font-size:11px;color:var(--muted);margin-top:5px">8.4% of daily quota used</div>
+              </div>
+
+            </div>
           </div>
-          <div>
-            <div class="modal-title">Edit Phone Number</div>
-            <div class="modal-subtitle">TipTap Main · +968 9X XXX XXXX</div>
-          </div>
-          <button class="modal-close" onclick="closeModal('modalEditPhone')">
-            ✕
-          </button>
         </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="form-label">Display Name</label>
-            <input type="text" class="form-control" value="TipTap Main" />
+
+        <!-- ── Phone Numbers ── -->
+        <div class="card full-width">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Registered Phone Numbers</div>
+              <div class="card-subtitle">WhatsApp-enabled numbers linked to your WABA</div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('modalAddPhone')">+ Add Number</button>
           </div>
-          <div class="form-group">
-            <label class="form-label">About / Description</label>
-            <textarea class="form-control" rows="2">
-Official broadcast channel for TipTap customers.</textarea
-            >
+          <div class="phone-table-wrap">
+            <table class="data-table" id="phoneTable">
+              <thead>
+                <tr>
+                  <th>Display Name</th>
+                  <th>Phone Number</th>
+                  <th class="phone-col-id">Phone Number ID</th>
+                  <th>Quality</th>
+                  <th class="phone-col-limit">Messaging Limit</th>
+                  <th>Status</th>
+                  <th>Default</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="flex items-center gap-2">
+                      <div style="width:32px;height:32px;background:var(--wa-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;">📱</div>
+                      <span style="font-weight:600">Humood Al Azri Main</span>
+                    </div>
+                  </td>
+                  <td style="font-family:monospace;font-weight:600">+968 9X XXX XXXX</td>
+                  <td style="font-family:monospace;color:var(--muted)" class="phone-col-id">109876543210123</td>
+                  <td>
+                    <div class="flex items-center gap-2">
+                      <span style="font-size:16px">⭐</span>
+                      <span style="font-weight:600;color:var(--green)">High</span>
+                    </div>
+                  </td>
+                  <td class="phone-col-limit"><span class="badge badge-blue">100K / day</span></td>
+                  <td><span class="badge badge-green">● Connected</span></td>
+                  <td>
+                    <label class="toggle" style="width:38px;height:22px">
+                      <input type="checkbox" checked/>
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="flex gap-2">
+                      <button class="btn btn-ghost btn-sm" onclick="openModal('modalEditPhone')">Edit</button>
+                      <button class="btn btn-danger btn-sm">Remove</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="flex items-center gap-2">
+                      <div style="width:32px;height:32px;background:var(--orange-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;">📲</div>
+                      <span style="font-weight:600">Support Line</span>
+                    </div>
+                  </td>
+                  <td style="font-family:monospace;font-weight:600">+968 9X XXX YYYY</td>
+                  <td style="font-family:monospace;color:var(--muted)" class="phone-col-id">209876543210456</td>
+                  <td>
+                    <div class="flex items-center gap-2">
+                      <span style="font-size:16px">⭐</span>
+                      <span style="font-weight:600;color:var(--yellow)">Medium</span>
+                    </div>
+                  </td>
+                  <td class="phone-col-limit"><span class="badge badge-blue">1K / day</span></td>
+                  <td><span class="badge badge-green">● Connected</span></td>
+                  <td>
+                    <label class="toggle" style="width:38px;height:22px">
+                      <input type="checkbox"/>
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="flex gap-2">
+                      <button class="btn btn-ghost btn-sm">Edit</button>
+                      <button class="btn btn-danger btn-sm">Remove</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="form-row-2">
-            <div class="form-group" style="margin-bottom: 0">
-              <label class="form-label">Business Category</label>
-              <select class="form-control">
-                <option>Technology</option>
-                <option>Retail</option>
-                <option>Finance</option>
-                <option>Healthcare</option>
+        </div>
+
+        <!-- ── Webhook Configuration ── -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Webhook Configuration</div>
+              <div class="card-subtitle">Meta sends event callbacks to this URL</div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="verifyWebhook()">Verify</button>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group">
+              <label class="form-label">Webhook Callback URL</label>
+              <div class="copy-field">
+                <input type="text" id="webhook-url" value="https://api.broadcastiq.com/webhooks/whatsapp" readonly/>
+                <button class="copy-btn" onclick="copyText(document.getElementById('webhook-url').value, this)">📋 Copy</button>
+              </div>
+              <div class="form-hint">Add this URL in Meta App Dashboard → WhatsApp → Configuration → Webhooks</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Verify Token</label>
+              <div class="input-wrap">
+                <input type="text" id="verify-token" class="form-control has-icon-end" value="biq_wh_verify_2026_xK9p" readonly/>
+                <span class="input-icon-end" style="cursor:pointer" onclick="copyText(document.getElementById('verify-token').value, this)">📋</span>
+              </div>
+              <div class="form-hint">Use this token in Meta's webhook verification challenge</div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:8px">
+              <label class="form-label">Subscribe to Events</label>
+              <div class="event-grid" id="eventGrid">
+                <!-- filled by JS -->
+              </div>
+            </div>
+
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-ghost" onclick="showToast('Webhook settings restored to defaults','info')">Reset</button>
+            <button class="btn btn-primary" onclick="saveWebhook()">Save Webhook</button>
+          </div>
+        </div>
+
+        <!-- ── Messaging Settings ── -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Messaging Settings</div>
+              <div class="card-subtitle">Rate limits, retries, and delivery behavior</div>
+            </div>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group">
+              <label class="form-label">Messages per Second (Rate Limit)</label>
+              <div class="rate-cards" id="rateCards">
+                <div class="rate-card" onclick="selectRate(this, 10)">
+                  <div class="rate-card-val">10</div>
+                  <div class="rate-card-label">msgs / sec</div>
+                </div>
+                <div class="rate-card selected" onclick="selectRate(this, 50)">
+                  <div class="rate-card-val">50</div>
+                  <div class="rate-card-label">msgs / sec</div>
+                </div>
+                <div class="rate-card" onclick="selectRate(this, 80)">
+                  <div class="rate-card-val">80</div>
+                  <div class="rate-card-label">msgs / sec</div>
+                </div>
+              </div>
+              <div class="form-hint">Higher rates require Tier 3 business verification. Your current tier allows up to 80/sec.</div>
+            </div>
+
+            <div class="section-divider">
+              <div class="section-divider-line"></div>
+              <div class="section-divider-label">Retry Policy</div>
+              <div class="section-divider-line"></div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Retry Failed Messages</label>
+                <select class="form-control">
+                  <option>Once (recommended)</option>
+                  <option>Twice</option>
+                  <option>3 Times</option>
+                  <option>No Retry</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Retry Delay</label>
+                <select class="form-control">
+                  <option>30 seconds</option>
+                  <option>1 minute</option>
+                  <option>5 minutes</option>
+                  <option>15 minutes</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="section-divider">
+              <div class="section-divider-line"></div>
+              <div class="section-divider-label">Behavior</div>
+              <div class="section-divider-line"></div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div class="toggle-wrap">
+                <label class="toggle"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+                <div>
+                  <div class="toggle-label">Track message delivery receipts</div>
+                  <div class="form-hint" style="margin:0">Store sent/delivered/read status per message</div>
+                </div>
+              </div>
+              <div class="toggle-wrap">
+                <label class="toggle"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+                <div>
+                  <div class="toggle-label">Auto opt-out on STOP keyword</div>
+                  <div class="form-hint" style="margin:0">Automatically unsubscribe contacts who reply "STOP"</div>
+                </div>
+              </div>
+              <div class="toggle-wrap">
+                <label class="toggle"><input type="checkbox"/><span class="toggle-slider"></span></label>
+                <div>
+                  <div class="toggle-label">Enable two-way messaging</div>
+                  <div class="form-hint" style="margin:0">Route incoming replies to the Inbox module</div>
+                </div>
+              </div>
+              <div class="toggle-wrap">
+                <label class="toggle"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+                <div>
+                  <div class="toggle-label">Respect 24-hour messaging window</div>
+                  <div class="form-hint" style="margin:0">Only send free-form messages within 24hr of user reply</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary" onclick="showToast('Messaging settings saved successfully ✅', 'success')">Save Settings</button>
+          </div>
+        </div>
+
+        <!-- ── Test Message Sender ── -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Send Test Message</div>
+              <div class="card-subtitle">Verify your integration is working end-to-end</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-wa" style="margin-bottom:20px">
+              <span class="alert-icon">✅</span>
+              <div>
+                <div class="alert-title">Ready to send</div>
+                <div class="alert-text">Your contacts do not need to be stored in Meta — phone numbers from your own database work directly.</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Recipient Phone Number</label>
+              <div class="input-wrap">
+                <span class="input-icon">📞</span>
+                <input type="tel" id="test-phone" class="form-control has-icon-start" placeholder="+968 9X XXX XXXX (include country code)" value="+96891234567"/>
+              </div>
+              <div class="form-hint">Must be a valid WhatsApp account. Use E.164 format.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Message Type</label>
+              <select class="form-control" id="msg-type" onchange="updatePreview()">
+                <option value="text">📝 Plain Text</option>
+                <option value="template">📋 Approved Template</option>
               </select>
             </div>
-            <div class="form-group" style="margin-bottom: 0">
-              <label class="form-label">Email for Contacts</label>
-              <input
-                type="email"
-                class="form-control"
-                value="hello@broadcastiq.com" />
+
+            <div class="form-group">
+              <label class="form-label">Message</label>
+              <textarea class="form-control" id="test-message" rows="3"
+                oninput="updatePreview()"
+                placeholder="Hello {{name}}! This is a test message from Humood Al Azri.">Hello! 👋 This is a test message from Humood Al Azri. Your integration is working correctly. 🎉</textarea>
             </div>
+
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Live Preview</label>
+              <div class="wa-preview">
+                <div class="wa-bubble" id="wa-preview-bubble">
+                  Hello! 👋 This is a test message from Humood Al Azri. Your integration is working correctly. 🎉
+                </div>
+                <div class="wa-time">10:35 AM ✓✓</div>
+              </div>
+            </div>
+
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-ghost" onclick="showToast('Message preview copied','info')">Copy API Payload</button>
+            <button class="btn btn-wa" onclick="sendTestMessage()">
+              📤 Send Test Message
+            </button>
           </div>
         </div>
-        <div class="modal-footer">
-          <button class="btn btn-ghost" onclick="closeModal('modalEditPhone')">
-            Cancel
-          </button>
-          <button
-            class="btn btn-primary"
-            onclick="
-              closeModal('modalEditPhone');
-              showToast('Phone number updated ✅', 'success');
-            ">
-            Save Changes
-          </button>
+
+        <!-- ── Activity Log ── -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">API Activity Log</div>
+              <div class="card-subtitle">Recent API calls and webhook events</div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Log exported as CSV','success')">⬇ Export</button>
+          </div>
+          <div class="card-body" style="padding:16px 22px">
+            <div id="activity-log"></div>
+          </div>
+        </div>
+
+      </div><!-- /config-grid -->
+    </div><!-- /page-body -->
+  </div><!-- /main-content -->
+</div><!-- /app-shell -->
+
+<!-- ── Modal: Rotate Token ── -->
+<div class="modal-backdrop" id="modalRegenerateToken">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-icon" style="background:var(--orange-light)">🔄</div>
+      <div>
+        <div class="modal-title">Rotate Access Token</div>
+        <div class="modal-subtitle">This will invalidate your current token immediately</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modalRegenerateToken')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-orange">
+        <span class="alert-icon">⚠️</span>
+        <div>
+          <div class="alert-title">Warning: All active campaigns will pause</div>
+          <div class="alert-text">After rotating, update the new token in all your integrations and resume campaigns manually.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Confirm by typing: ROTATE TOKEN</label>
+        <input type="text" class="form-control" id="rotateConfirm" placeholder="ROTATE TOKEN"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modalRegenerateToken')">Cancel</button>
+      <button class="btn btn-danger" onclick="rotateToken()">🔄 Rotate Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Modal: Add Phone Number ── -->
+<div class="modal-backdrop" id="modalAddPhone">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-icon" style="background:var(--wa-light)">📱</div>
+      <div>
+        <div class="modal-title">Add Phone Number</div>
+        <div class="modal-subtitle">Register a new number with your WABA</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modalAddPhone')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Display Name</label>
+        <input type="text" class="form-control" placeholder="e.g. Humood Al Azri Support"/>
+        <div class="form-hint">This name will appear in WhatsApp conversations</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input type="tel" class="form-control" placeholder="+968 XXXXXXXX"/>
+        <div class="form-hint">Must be in E.164 format. Cannot be an existing WhatsApp personal account.</div>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Certificate (optional)</label>
+        <input type="text" class="form-control" placeholder="Leave blank for auto-generation"/>
+        <div class="form-hint">Meta will send an OTP to your registered business email to verify ownership.</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modalAddPhone')">Cancel</button>
+      <button class="btn btn-primary" onclick="addPhone()">Add & Verify Number</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Modal: Edit Phone ── -->
+<div class="modal-backdrop" id="modalEditPhone">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-icon" style="background:var(--brand-light)">✏️</div>
+      <div>
+        <div class="modal-title">Edit Phone Number</div>
+        <div class="modal-subtitle">Humood Al Azri Main · +968 9X XXX XXXX</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modalEditPhone')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Display Name</label>
+        <input type="text" class="form-control" value="Humood Al Azri Main"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">About / Description</label>
+        <textarea class="form-control" rows="2">Official broadcast channel for Humood Al Azri customers.</textarea>
+      </div>
+      <div class="form-row-2">
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">Business Category</label>
+          <select class="form-control">
+            <option>Technology</option>
+            <option>Retail</option>
+            <option>Finance</option>
+            <option>Healthcare</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">Email for Contacts</label>
+          <input type="email" class="form-control" value="hello@broadcastiq.com"/>
         </div>
       </div>
     </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modalEditPhone')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('modalEditPhone');showToast('Phone number updated ✅','success')">Save Changes</button>
+    </div>
+  </div>
+</div>
 
-    <script>
-      /* ─── Webhook events ─── */
-      const events = [
-        {id: "messages", label: "Incoming Messages"},
-        {id: "message_deliveries", label: "Delivery Receipts"},
-        {id: "message_reads", label: "Read Receipts"},
-        {id: "messaging_optins", label: "Opt-ins"},
-        {id: "messaging_optouts", label: "Opt-outs"},
-        {id: "message_echoes", label: "Message Echoes"},
-        {id: "messaging_postbacks", label: "Button Postbacks"},
-        {id: "account_updates", label: "Account Updates"},
-      ];
-      const defaultChecked = [
-        "messages",
-        "message_deliveries",
-        "message_reads",
-        "messaging_optouts",
-      ];
-      const grid = document.getElementById("eventGrid");
-      events.forEach((e) => {
-        const isChecked = defaultChecked.includes(e.id);
-        const div = document.createElement("div");
-        div.className = "event-item" + (isChecked ? " checked" : "");
-        div.innerHTML = `<div class="event-check">${isChecked ? "✓" : ""}</div><div class="event-label">${e.label}</div>`;
-        div.onclick = () => {
-          div.classList.toggle("checked");
-          div.querySelector(".event-check").textContent =
-            div.classList.contains("checked") ? "✓" : "";
-        };
-        grid.appendChild(div);
-      });
+<script>
+/* ─── Webhook events ─── */
+const events = [
+  { id:'messages',         label:'Incoming Messages' },
+  { id:'message_deliveries', label:'Delivery Receipts' },
+  { id:'message_reads',    label:'Read Receipts' },
+  { id:'messaging_optins', label:'Opt-ins' },
+  { id:'messaging_optouts',label:'Opt-outs' },
+  { id:'message_echoes',   label:'Message Echoes' },
+  { id:'messaging_postbacks', label:'Button Postbacks' },
+  { id:'account_updates',  label:'Account Updates' },
+];
+const defaultChecked = ['messages','message_deliveries','message_reads','messaging_optouts'];
+const grid = document.getElementById('eventGrid');
+events.forEach(e => {
+  const isChecked = defaultChecked.includes(e.id);
+  const div = document.createElement('div');
+  div.className = 'event-item' + (isChecked ? ' checked' : '');
+  div.innerHTML = `<div class="event-check">${isChecked ? '✓' : ''}</div><div class="event-label">${e.label}</div>`;
+  div.onclick = () => {
+    div.classList.toggle('checked');
+    div.querySelector('.event-check').textContent = div.classList.contains('checked') ? '✓' : '';
+  };
+  grid.appendChild(div);
+});
 
-      /* ─── Activity Log ─── */
-      const logs = [
-        {
-          time: "10:42 AM",
-          level: "success",
-          msg: "POST /messages · 200 OK · Message delivered to +968 9123XXXX (msgid: wamid.HBgL...)",
-        },
-        {
-          time: "10:41 AM",
-          level: "info",
-          msg: "Webhook received · messages · delivery receipt for wamid.HBgL...",
-        },
-        {
-          time: "10:38 AM",
-          level: "success",
-          msg: "POST /messages · 200 OK · 50 messages dispatched in batch #2041",
-        },
-        {
-          time: "10:35 AM",
-          level: "info",
-          msg: "Webhook received · message_reads · read receipt from +968 9234XXXX",
-        },
-        {
-          time: "10:30 AM",
-          level: "warn",
-          msg: "POST /messages · 131026 · Contact phone number not on WhatsApp (+968 9999XXXX)",
-        },
-        {
-          time: "10:22 AM",
-          level: "success",
-          msg: "GET /phone_numbers · 200 OK · Retrieved 2 registered numbers",
-        },
-        {
-          time: "10:15 AM",
-          level: "error",
-          msg: "POST /messages · 190 · Access token expired — auto-refreshed using app secret",
-        },
-        {
-          time: "09:58 AM",
-          level: "success",
-          msg: "Webhook verification handshake successful · challenge accepted",
-        },
-      ];
-      const logContainer = document.getElementById("activity-log");
-      logs.forEach((l) => {
-        logContainer.innerHTML += `
+/* ─── Activity Log ─── */
+const logs = [
+  { time:'10:42 AM', level:'success', msg:'POST /messages · 200 OK · Message delivered to +968 9123XXXX (msgid: wamid.HBgL...)' },
+  { time:'10:41 AM', level:'info',    msg:'Webhook received · messages · delivery receipt for wamid.HBgL...' },
+  { time:'10:38 AM', level:'success', msg:'POST /messages · 200 OK · 50 messages dispatched in batch #2041' },
+  { time:'10:35 AM', level:'info',    msg:'Webhook received · message_reads · read receipt from +968 9234XXXX' },
+  { time:'10:30 AM', level:'warn',    msg:'POST /messages · 131026 · Contact phone number not on WhatsApp (+968 9999XXXX)' },
+  { time:'10:22 AM', level:'success', msg:'GET /phone_numbers · 200 OK · Retrieved 2 registered numbers' },
+  { time:'10:15 AM', level:'error',   msg:'POST /messages · 190 · Access token expired — auto-refreshed using app secret' },
+  { time:'09:58 AM', level:'success', msg:'Webhook verification handshake successful · challenge accepted' },
+];
+const logContainer = document.getElementById('activity-log');
+logs.forEach(l => {
+  logContainer.innerHTML += `
     <div class="log-row">
       <span class="log-time">${l.time}</span>
       <span class="log-level ${l.level}">${l.level.toUpperCase()}</span>
       <span class="log-msg">${l.msg}</span>
     </div>`;
-      });
+});
 
-      /* ─── Interactive helpers ─── */
-      function toggleSecret(id, masked, real) {
-        const el = document.getElementById(id);
-        el.textContent = el.textContent.includes("•") ? real : masked;
-      }
+/* ─── Interactive helpers ─── */
+function toggleSecret(id, masked, real) {
+  const el = document.getElementById(id);
+  el.textContent = el.textContent.includes('•') ? real : masked;
+}
 
-      function selectRate(el, val) {
-        document
-          .querySelectorAll(".rate-card")
-          .forEach((c) => c.classList.remove("selected"));
-        el.classList.add("selected");
-        showToast(`Rate limit set to ${val} messages/second`, "info");
-      }
+function selectRate(el, val) {
+  document.querySelectorAll('.rate-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  showToast(`Rate limit set to ${val} messages/second`, 'info');
+}
 
-      function updatePreview() {
-        const msg = document.getElementById("test-message").value;
-        document.getElementById("wa-preview-bubble").textContent =
-          msg || "(empty)";
-      }
+function updatePreview() {
+  const msg = document.getElementById('test-message').value;
+  document.getElementById('wa-preview-bubble').textContent = msg || '(empty)';
+}
 
-      function sendTestMessage() {
-        const phone = document.getElementById("test-phone").value;
-        if (!phone) {
-          showToast("Please enter a phone number", "error");
-          return;
-        }
-        const btn = event.target;
-        btn.textContent = "⏳ Sending…";
-        btn.disabled = true;
-        setTimeout(() => {
-          btn.textContent = "📤 Send Test Message";
-          btn.disabled = false;
-          showToast(`Test message sent to ${phone} ✅`, "success");
-        }, 1800);
-      }
+function sendTestMessage() {
+  const phone = document.getElementById('test-phone').value;
+  if (!phone) { showToast('Please enter a phone number', 'error'); return; }
+  const btn = event.target;
+  btn.textContent = '⏳ Sending…';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = '📤 Send Test Message';
+    btn.disabled = false;
+    showToast(`Test message sent to ${phone} ✅`, 'success');
+  }, 1800);
+}
 
-      function testConnection() {
-        const btn = event.target;
-        btn.textContent = "⏳ Testing…";
-        btn.disabled = true;
-        setTimeout(() => {
-          btn.textContent = "⚡ Test Connection";
-          btn.disabled = false;
-          showToast("Connection verified ✅ — API latency: 42ms", "success");
-        }, 1500);
-      }
+function testConnection() {
+  const btn = event.target;
+  btn.textContent = '⏳ Testing…';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = '⚡ Test Connection';
+    btn.disabled = false;
+    showToast('Connection verified ✅ — API latency: 42ms', 'success');
+  }, 1500);
+}
 
-      function refreshStatus() {
-        showToast("Status refreshed — all systems operational ✅", "success");
-      }
+function refreshStatus() {
+  showToast('Status refreshed — all systems operational ✅', 'success');
+}
 
-      function saveWebhook() {
-        showToast("Webhook configuration saved ✅", "success");
-        closeModal("modalWebhook");
-      }
+function saveWebhook() {
+  showToast('Webhook configuration saved ✅', 'success');
+  closeModal('modalWebhook');
+}
 
-      function verifyWebhook() {
-        showToast("Webhook URL verified by Meta ✅", "success");
-      }
+function verifyWebhook() {
+  showToast('Webhook URL verified by Meta ✅', 'success');
+}
 
-      function addPhone() {
-        closeModal("modalAddPhone");
-        showToast("Phone number added — OTP verification sent 📲", "success");
-      }
+function addPhone() {
+  closeModal('modalAddPhone');
+  showToast('Phone number added — OTP verification sent 📲', 'success');
+}
 
-      function rotateToken() {
-        const val = document.getElementById("rotateConfirm").value;
-        if (val !== "ROTATE TOKEN") {
-          showToast("Confirmation text does not match", "error");
-          return;
-        }
-        closeModal("modalRegenerateToken");
-        showToast("Access token rotated — campaigns paused ⚠️", "warning");
-      }
-    </script>
-  </body>
+function rotateToken() {
+  const val = document.getElementById('rotateConfirm').value;
+  if (val !== 'ROTATE TOKEN') {
+    showToast('Confirmation text does not match', 'error');
+    return;
+  }
+  closeModal('modalRegenerateToken');
+  showToast('Access token rotated — campaigns paused ⚠️', 'warning');
+}
+</script>
+</body>
 </html>

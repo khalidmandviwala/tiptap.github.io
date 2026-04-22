@@ -1,85 +1,44 @@
 /* =========================================================
-   TipTap — sidebar.js  v3
+   Humood Al Azri — sidebar.js  v3
    Injects sidebar, topbar extras, FAB, footer.
    All text uses data-i18n — translated by i18n.js
    ========================================================= */
 
 (function () {
+
   /* ── Notification data (keys map to i18n if needed) ── */
   const notifs = [
-    {
-      icon: "🚀",
-      iconBg: "var(--brand-light)",
-      titleKey: "Campaign Launched",
-      desc: "Eid Al-Fitr Promo is live — 21,340 recipients queued.",
-      time: "2 min ago",
-      unread: true,
-    },
-    {
-      icon: "✅",
-      iconBg: "var(--green-light)",
-      titleKey: "Broadcast Delivered",
-      desc: "Flash Sale — 7,954 messages delivered (96.9%).",
-      time: "18 min ago",
-      unread: true,
-    },
-    {
-      icon: "⚠️",
-      iconBg: "var(--orange-light)",
-      titleKey: "Delivery Warning",
-      desc: "New Arrivals broadcast has 43% failure rate.",
-      time: "1h ago",
-      unread: true,
-    },
-    {
-      icon: "💬",
-      iconBg: "var(--wa-light)",
-      titleKey: "WhatsApp API Connected",
-      desc: "Meta Cloud API handshake successful.",
-      time: "2h ago",
-      unread: false,
-    },
-    {
-      icon: "👤",
-      iconBg: "var(--purple-light)",
-      titleKey: "New Contact Imported",
-      desc: "CSV import completed — 1,240 contacts added.",
-      time: "5h ago",
-      unread: false,
-    },
-    {
-      icon: "🏆",
-      iconBg: "var(--yellow-light)",
-      titleKey: "Campaign Completed",
-      desc: "Loyalty Rewards Drive finished with 94.6% delivery rate.",
-      time: "1d ago",
-      unread: false,
-    },
+    { icon:'🚀', iconBg:'var(--brand-light)',  titleKey:'Campaign Launched',      desc:'Eid Al-Fitr Promo is live — 21,340 recipients queued.',  time:'2 min ago',  unread:true  },
+    { icon:'✅', iconBg:'var(--green-light)',  titleKey:'Broadcast Delivered',    desc:'Flash Sale — 7,954 messages delivered (96.9%).',          time:'18 min ago', unread:true  },
+    { icon:'⚠️', iconBg:'var(--orange-light)', titleKey:'Delivery Warning',       desc:'New Arrivals broadcast has 43% failure rate.',            time:'1h ago',     unread:true  },
+    { icon:'💬', iconBg:'var(--wa-light)',     titleKey:'WhatsApp API Connected', desc:'Meta Cloud API handshake successful.',                    time:'2h ago',     unread:false },
+    { icon:'👤', iconBg:'var(--purple-light)', titleKey:'New Contact Imported',   desc:'CSV import completed — 1,240 contacts added.',            time:'5h ago',     unread:false },
+    { icon:'🏆', iconBg:'var(--yellow-light)', titleKey:'Campaign Completed',     desc:'Loyalty Rewards Drive finished with 94.6% delivery rate.', time:'1d ago',    unread:false },
   ];
-  const unreadCount = notifs.filter((n) => n.unread).length;
+  const unreadCount = notifs.filter(n => n.unread).length;
 
-  const notifItemsHTML = notifs
-    .map(
-      (n) => `
-    <div class="notif-item ${n.unread ? "unread" : ""}" onclick="markNotifRead(this)">
+  const notifItemsHTML = notifs.map(n => `
+    <div class="notif-item ${n.unread ? 'unread' : ''}" onclick="markNotifRead(this)">
       <div class="notif-item-icon" style="background:${n.iconBg}">${n.icon}</div>
       <div style="flex:1;min-width:0">
         <div class="notif-item-title">${n.titleKey}</div>
         <div class="notif-item-desc">${n.desc}</div>
         <div class="notif-item-time">${n.time}</div>
       </div>
-      ${n.unread ? '<div class="notif-unread-dot"></div>' : ""}
-    </div>`,
-    )
-    .join("");
+      ${n.unread ? '<div class="notif-unread-dot"></div>' : ''}
+    </div>`).join('');
 
   /* ── Sidebar HTML ── */
   const sidebarHTML = `
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
-      <div class="logo-mark">📡</div>
-      <div class="logo-wordmark"><span data-i18n="app_name">TipTap</span></div>
+      <img src="assets/img/logo.png" alt="Humood Al Azri"
+           style="height:36px;width:auto;object-fit:contain;flex-shrink:0"/>
+      <div class="logo-wordmark" style="line-height:1.15">
+        <div style="font-size:13px;font-weight:800;color:var(--text)" data-i18n="app_name">Humood Al Azri</div>
+        <div style="font-size:9px;color:var(--muted);font-weight:400">حمود العزري</div>
+      </div>
     </div>
     <nav class="sidebar-nav">
       <div class="nav-group-label" data-i18n="nav_group_main">Main</div>
@@ -180,7 +139,7 @@
     <div class="user-dropdown" id="userDropdown">
       <div class="dropdown-header">
         <div class="dropdown-name">Ahmed Al-Hassan</div>
-        <div class="dropdown-email">admin@tiptap.com</div>
+        <div class="dropdown-email">admin@humood-alazri.com</div>
       </div>
       <a class="dropdown-item" href="settings.html">
         <span class="dropdown-icon">⚙️</span>
@@ -363,7 +322,7 @@
   const footerHTML = `
   <footer class="site-footer">
     <div class="footer-copy">
-      © ${new Date().getFullYear()} <span data-i18n="app_name">TipTap</span>.
+      © ${new Date().getFullYear()} <span data-i18n="app_name">Humood Al Azri</span>.
       <span data-i18n="footer_rights">All Rights Reserved by</span>
       <a href="https://92techoman.com" target="_blank">92TechOman.com</a>
     </div>
@@ -375,143 +334,118 @@
   </footer>`;
 
   /* ── Inject sidebar ── */
-  document.body.insertAdjacentHTML("afterbegin", sidebarHTML);
+  document.body.insertAdjacentHTML('afterbegin', sidebarHTML);
 
   /* ── Inject FAB + modals ── */
-  document.body.insertAdjacentHTML("beforeend", fabHTML);
+  document.body.insertAdjacentHTML('beforeend', fabHTML);
 
   /* ── DOMContentLoaded: inject topbar extras + footer + setup ── */
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener('DOMContentLoaded', () => {
+
     /* Active nav */
-    const page = location.pathname.split("/").pop() || "dashboard.html";
-    document.querySelectorAll(".nav-link").forEach((link) => {
-      if (link.getAttribute("href") === page) link.classList.add("active");
+    const page = location.pathname.split('/').pop() || 'dashboard.html';
+    document.querySelectorAll('.nav-link').forEach(link => {
+      if (link.getAttribute('href') === page) link.classList.add('active');
     });
 
     /* Topbar extras → append to .topbar-actions */
-    const actions = document.querySelector(".topbar-actions");
-    if (actions) actions.insertAdjacentHTML("beforeend", topbarExtrasHTML);
+    const actions = document.querySelector('.topbar-actions');
+    if (actions) actions.insertAdjacentHTML('beforeend', topbarExtrasHTML);
 
     /* Sidebar desktop toggle button → prepend to .topbar */
-    const topbar = document.querySelector(".topbar");
+    const topbar = document.querySelector('.topbar');
     if (topbar) {
-      const btn = document.createElement("button");
-      btn.className = "sidebar-toggle-btn";
-      btn.title = "Toggle Sidebar";
-      btn.innerHTML = "<span></span><span></span><span></span>";
+      const btn = document.createElement('button');
+      btn.className = 'sidebar-toggle-btn';
+      btn.title = 'Toggle Sidebar';
+      btn.innerHTML = '<span></span><span></span><span></span>';
       btn.onclick = toggleSidebarDesktop;
       topbar.insertBefore(btn, topbar.firstChild);
     }
 
     /* Footer → append to main-content */
-    document
-      .querySelector(".main-content")
-      ?.insertAdjacentHTML("beforeend", footerHTML);
+    document.querySelector('.main-content')?.insertAdjacentHTML('beforeend', footerHTML);
 
     /* Restore sidebar collapse state */
-    if (
-      localStorage.getItem("biq_sidebar_collapsed") === "true" &&
-      window.innerWidth > 768
-    ) {
-      document.querySelector(".app-shell")?.classList.add("sidebar-collapsed");
+    if (localStorage.getItem('biq_sidebar_collapsed') === 'true' && window.innerWidth > 768) {
+      document.querySelector('.app-shell')?.classList.add('sidebar-collapsed');
     }
 
     /* Restore avatar */
-    const av = localStorage.getItem("biq_avatar");
+    const av = localStorage.getItem('biq_avatar');
     if (av) {
-      document
-        .querySelectorAll(".topbar-avatar, #sbUserAvatar")
-        .forEach((el) => {
-          el.innerHTML = `<img src="${av}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`;
-        });
+      document.querySelectorAll('.topbar-avatar, #sbUserAvatar').forEach(el => {
+        el.innerHTML = `<img src="${av}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`;
+      });
     }
 
     /* Close dropdowns / FAB on outside click */
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest("#notifWrap"))
-        document.getElementById("notifPanel")?.classList.remove("open");
-      if (!e.target.closest("#topbarUser")) closeUserDropdown();
-      if (!e.target.closest("#fabWrap")) closeFab();
+    document.addEventListener('click', e => {
+      if (!e.target.closest('#notifWrap'))  document.getElementById('notifPanel')?.classList.remove('open');
+      if (!e.target.closest('#topbarUser')) closeUserDropdown();
+      if (!e.target.closest('#fabWrap'))    closeFab();
     });
 
     /* Overlay close */
-    document
-      .getElementById("sidebarOverlay")
-      ?.addEventListener("click", toggleSidebar);
+    document.getElementById('sidebarOverlay')?.addEventListener('click', toggleSidebar);
   });
 
   /* ── Public: sidebar toggle (mobile) ── */
   window.toggleSidebar = function () {
-    const sb = document.getElementById("sidebar");
-    const ov = document.getElementById("sidebarOverlay");
+    const sb = document.getElementById('sidebar');
+    const ov = document.getElementById('sidebarOverlay');
     if (!sb) return;
-    sb.classList.toggle("open");
-    ov?.classList.toggle("open");
-    document.body.style.overflow = sb.classList.contains("open")
-      ? "hidden"
-      : "";
+    sb.classList.toggle('open');
+    ov?.classList.toggle('open');
+    document.body.style.overflow = sb.classList.contains('open') ? 'hidden' : '';
   };
 
   /* ── Public: sidebar collapse (desktop) ── */
   window.toggleSidebarDesktop = function () {
-    if (window.innerWidth <= 768) {
-      toggleSidebar();
-      return;
-    }
-    const shell = document.querySelector(".app-shell");
-    shell?.classList.toggle("sidebar-collapsed");
-    localStorage.setItem(
-      "biq_sidebar_collapsed",
-      String(shell?.classList.contains("sidebar-collapsed")),
-    );
+    if (window.innerWidth <= 768) { toggleSidebar(); return; }
+    const shell = document.querySelector('.app-shell');
+    shell?.classList.toggle('sidebar-collapsed');
+    localStorage.setItem('biq_sidebar_collapsed', String(shell?.classList.contains('sidebar-collapsed')));
   };
 
   /* ── User dropdown ── */
   window.toggleUserDropdown = function (e) {
     e.stopPropagation();
-    const dd = document.getElementById("userDropdown");
-    const btn = document.getElementById("topbarUserBtn");
-    const now = dd?.classList.toggle("open");
-    btn?.setAttribute("aria-expanded", String(now));
+    const dd  = document.getElementById('userDropdown');
+    const btn = document.getElementById('topbarUserBtn');
+    const now = dd?.classList.toggle('open');
+    btn?.setAttribute('aria-expanded', String(now));
   };
   window.closeUserDropdown = function () {
-    document.getElementById("userDropdown")?.classList.remove("open");
-    document
-      .getElementById("topbarUserBtn")
-      ?.setAttribute("aria-expanded", "false");
+    document.getElementById('userDropdown')?.classList.remove('open');
+    document.getElementById('topbarUserBtn')?.setAttribute('aria-expanded', 'false');
   };
 
   /* ── Notifications ── */
   window.toggleNotif = function (e) {
     e.stopPropagation();
-    document.getElementById("notifPanel")?.classList.toggle("open");
+    document.getElementById('notifPanel')?.classList.toggle('open');
   };
   window.markNotifRead = function (el) {
-    el.classList.remove("unread");
-    el.querySelector(".notif-unread-dot")?.remove();
+    el.classList.remove('unread');
+    el.querySelector('.notif-unread-dot')?.remove();
     _updateNotifCount();
   };
   window.markAllRead = function () {
-    document.querySelectorAll(".notif-item.unread").forEach((el) => {
-      el.classList.remove("unread");
-      el.querySelector(".notif-unread-dot")?.remove();
+    document.querySelectorAll('.notif-item.unread').forEach(el => {
+      el.classList.remove('unread');
+      el.querySelector('.notif-unread-dot')?.remove();
     });
     _updateNotifCount();
   };
   function _updateNotifCount() {
-    const n = document.querySelectorAll(".notif-item.unread").length;
-    const el = document.getElementById("notifCount");
-    if (el) {
-      el.textContent = n;
-      el.style.display = n ? "flex" : "none";
-    }
+    const n  = document.querySelectorAll('.notif-item.unread').length;
+    const el = document.getElementById('notifCount');
+    if (el) { el.textContent = n; el.style.display = n ? 'flex' : 'none'; }
   }
 
   /* ── FAB ── */
-  window.toggleFab = function () {
-    document.getElementById("fabWrap")?.classList.toggle("open");
-  };
-  window.closeFab = function () {
-    document.getElementById("fabWrap")?.classList.remove("open");
-  };
+  window.toggleFab = function () { document.getElementById('fabWrap')?.classList.toggle('open'); };
+  window.closeFab  = function () { document.getElementById('fabWrap')?.classList.remove('open'); };
+
 })();

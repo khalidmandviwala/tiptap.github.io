@@ -1,6 +1,7 @@
 {
-  "app_name": "TipTap",
-  "app_tagline": "Smart Broadcast Platform",
+  "app_name": "Humood Al Azri",
+  "app_name_ar": "حمود العزري",
+  "app_tagline": "Smart WhatsApp Platform",
 
   "nav_group_main": "Main",
   "nav_group_management": "Management",
@@ -38,7 +39,7 @@
   "btn_close": "Close",
 
   "login_title": "Welcome back",
-  "login_subtitle": "Sign in to your TipTap account",
+  "login_subtitle": "Sign in to your Humood Al Azri account",
   "login_email": "Email Address",
   "login_email_placeholder": "you@company.com",
   "login_password": "Password",

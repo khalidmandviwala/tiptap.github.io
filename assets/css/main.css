@@ -1,54 +1,55 @@
 /* =========================================================
-   BroadcastIQ — Main Stylesheet
-   Bright theme · Sora + Tajawal · LTR / RTL
+   Humood Al Azri — Main Stylesheet
+   Warm sand theme · Almarai · LTR / RTL
    ========================================================= */
 
 /* ── Google Fonts ── */
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap');
 
 /* ── CSS Variables ── */
 :root {
-  /* Brand */
-  --brand:          #0A6EFF;
-  --brand-dark:     #0050CC;
-  --brand-light:    #EBF2FF;
-  --brand-mid:      #C2D9FF;
+  /* Brand — Humood Al Azri warm palette */
+  --brand:          #846950;   /* medium brown  — buttons, icons    */
+  --brand-dark:     #5C4535;   /* darker brown  — hover states      */
+  --brand-light:    #F5EDD8;   /* light sand    — active bg, fills  */
+  --brand-mid:      #DBC499;   /* mid sand      — borders, accents  */
+  --heading:        #291A0F;   /* deep dark brown — headings, appbar*/
 
-  /* Accents */
-  --green:          #00C48C;
-  --green-light:    #E6FAF5;
-  --orange:         #FF6B2B;
-  --orange-light:   #FFF0E8;
-  --red:            #FF3D57;
-  --red-light:      #FFF0F2;
+  /* Accents — muted to match warm palette */
+  --green:          #4A8C6F;
+  --green-light:    #D6EAE0;
+  --orange:         #C07840;
+  --orange-light:   #F5DEC4;
+  --red:            #A83030;
+  --red-light:      #F5D0D0;
   --purple:         #7B5CF0;
   --purple-light:   #F0ECFF;
-  --yellow:         #F5A623;
-  --yellow-light:   #FFF8EC;
+  --yellow:         #B8860B;
+  --yellow-light:   #F5EAC0;
 
   /* WhatsApp */
   --wa:             #25D366;
   --wa-dark:        #128C7E;
-  --wa-light:       #E8FDF2;
+  --wa-light:       #D6F0E4;
 
-  /* Neutrals — Light Theme */
-  --bg:             #F4F7FC;
-  --bg-alt:         #EEF2FA;
-  --surface:        #FFFFFF;
-  --surface2:       #F8FAFD;
-  --surface3:       #EFF3FB;
-  --border:         #E2E8F5;
-  --border-strong:  #CDD6EC;
-  --text:           #0D1B3E;
-  --text-2:         #3A4A6B;
-  --muted:          #7A88A8;
-  --placeholder:    #A8B5CC;
+  /* Neutrals — warm sand theme */
+  --bg:             #DBC499;   /* main page background              */
+  --bg-alt:         #CEB485;   /* hover rows, alternate bg          */
+  --surface:        #F5EDD8;   /* cards, panels                     */
+  --surface2:       #EDD9B0;   /* secondary surfaces                */
+  --surface3:       #E8D09A;   /* input fills, tertiary             */
+  --border:         #CAAE7A;   /* default border                    */
+  --border-strong:  #B49560;   /* stronger border                   */
+  --text:           #291A0F;   /* primary text (deep brown)         */
+  --text-2:         #846950;   /* secondary text (medium brown)     */
+  --muted:          #AA8E6E;   /* muted / hints                     */
+  --placeholder:    #C4A882;   /* placeholder text                  */
 
-  /* Shadows */
-  --shadow-sm:   0 1px 4px rgba(13,27,62,0.07);
-  --shadow-md:   0 4px 16px rgba(13,27,62,0.10);
-  --shadow-lg:   0 12px 40px rgba(13,27,62,0.13);
-  --shadow-card: 0 2px 8px rgba(13,27,62,0.08), 0 0 0 1px rgba(13,27,62,0.04);
+  /* Shadows — warm tinted */
+  --shadow-sm:   0 1px 4px rgba(41,26,15,0.08);
+  --shadow-md:   0 4px 16px rgba(41,26,15,0.12);
+  --shadow-lg:   0 12px 40px rgba(41,26,15,0.15);
+  --shadow-card: 0 2px 8px rgba(41,26,15,0.09), 0 0 0 1px rgba(41,26,15,0.05);
 
   /* Layout */
   --sidebar-w:   252px;
@@ -58,17 +59,17 @@
   --radius-lg:   18px;
   --radius-xl:   24px;
 
-  /* Typography */
-  --font-display: 'Sora', system-ui, sans-serif;
-  --font-body:    'Sora', system-ui, sans-serif;
-  --font-ar:      'Tajawal', system-ui, sans-serif;
+  /* Typography — Almarai for both AR and EN */
+  --font-display: 'Almarai', system-ui, sans-serif;
+  --font-body:    'Almarai', system-ui, sans-serif;
+  --font-ar:      'Almarai', system-ui, sans-serif;
 
   /* Transitions */
   --t-fast:  0.12s ease;
   --t-base:  0.20s ease;
   --t-slow:  0.35s cubic-bezier(.4,0,.2,1);
 
-  /* Direction helpers (overridden for RTL) */
+  /* Direction helpers */
   --dir:      ltr;
   --start:    left;
   --end:      right;
@@ -79,8 +80,9 @@
 /* ── RTL overrides ── */
 [dir="rtl"] {
   --dir:   rtl;
-  --font-display: 'Tajawal', system-ui, sans-serif;
-  --font-body:    'Tajawal', system-ui, sans-serif;
+  /* Almarai is natively Arabic — same font for both directions */
+  --font-display: 'Almarai', system-ui, sans-serif;
+  --font-body:    'Almarai', system-ui, sans-serif;
   --start: right;
   --end:   left;
 }
@@ -146,12 +148,11 @@ img { max-width:100%; display:block; }
 
 .logo-mark {
   width: 38px; height: 38px;
-  background: linear-gradient(135deg, var(--brand) 0%, #4D9FFF 100%);
+  background: transparent;
   border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 19px;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(10,110,255,0.35);
+  overflow: hidden;
 }
 
 .logo-wordmark {
@@ -261,9 +262,9 @@ img { max-width:100%; display:block; }
 .user-avatar {
   width: 36px; height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--brand) 0%, var(--purple) 100%);
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700; color: #fff;
+  font-size: 13px; font-weight: 700; color: var(--brand-light);
   flex-shrink: 0;
 }
 
@@ -399,15 +400,15 @@ img { max-width:100%; display:block; }
 }
 .topbar-user-btn:hover {
   border-color: var(--brand-mid);
-  box-shadow: 0 2px 8px rgba(10,110,255,0.1);
+  box-shadow: 0 2px 8px rgba(132,105,80,0.12);
 }
 .topbar-avatar {
   width: 32px; height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  background: linear-gradient(135deg, var(--brand), var(--purple));
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
   display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700; color: #fff;
+  font-size: 12px; font-weight: 700; color: var(--brand-light);
   flex-shrink: 0;
   overflow: hidden;
 }
@@ -645,17 +646,17 @@ img { max-width:100%; display:block; }
 .fab-main {
   width: 54px; height: 54px;
   border-radius: 50%;
-  background: var(--brand);
+  background: var(--heading, #291A0F);
   border: none;
   display: flex; align-items: center; justify-content: center;
   font-size: 22px;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(10,110,255,0.40);
+  box-shadow: 0 6px 20px rgba(41,26,15,0.35);
   transition: transform var(--t-base), background var(--t-fast), box-shadow var(--t-base);
-  color: #fff;
+  color: var(--brand-light);
 }
-.fab-main:hover { transform: scale(1.08); box-shadow: 0 8px 28px rgba(10,110,255,0.50); }
-.fab-wrap.open .fab-main { background: var(--text); transform: rotate(45deg); }
+.fab-main:hover { transform: scale(1.08); box-shadow: 0 8px 28px rgba(41,26,15,0.45); }
+.fab-wrap.open .fab-main { background: var(--brand-dark); transform: rotate(45deg); }
 
 /* ── SITE FOOTER ── */
 .site-footer {
@@ -714,13 +715,13 @@ img { max-width:100%; display:block; }
 }
 
 .btn-primary {
-  background: var(--brand);
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(10,110,255,0.30);
+  background: var(--heading, #291A0F);
+  color: var(--brand-light);
+  box-shadow: 0 4px 14px rgba(41,26,15,0.30);
 }
 .btn-primary:hover {
   background: var(--brand-dark);
-  box-shadow: 0 6px 18px rgba(10,110,255,0.40);
+  box-shadow: 0 6px 18px rgba(41,26,15,0.40);
   transform: translateY(-1px);
 }
 .btn-primary:active { transform: translateY(0); }
@@ -887,7 +888,7 @@ img { max-width:100%; display:block; }
 
 .form-control:focus {
   border-color: var(--brand);
-  box-shadow: 0 0 0 3px rgba(10,110,255,0.12);
+  box-shadow: 0 0 0 3px rgba(132,105,80,0.12);
 }
 
 .form-control:disabled {
@@ -906,7 +907,7 @@ img { max-width:100%; display:block; }
 
 .form-control.success {
   border-color: var(--green);
-  box-shadow: 0 0 0 3px rgba(0,196,140,0.10);
+  box-shadow: 0 0 0 3px rgba(74,140,111,0.10);
 }
 
 select.form-control {
@@ -1207,10 +1208,10 @@ textarea.form-control {
   border-radius: 50%;
   flex-shrink: 0;
 }
-.dot-green  { background: var(--green);  box-shadow: 0 0 0 3px rgba(0,196,140,0.2); }
+.dot-green  { background: var(--green);  box-shadow: 0 0 0 3px rgba(74,140,111,0.20); }
 .dot-red    { background: var(--red);    box-shadow: 0 0 0 3px rgba(255,61,87,0.2); }
 .dot-orange { background: var(--orange); box-shadow: 0 0 0 3px rgba(255,107,43,0.2); }
-.dot-blue   { background: var(--brand);  box-shadow: 0 0 0 3px rgba(10,110,255,0.2); }
+.dot-blue   { background: var(--brand);  box-shadow: 0 0 0 3px rgba(132,105,80,0.20); }
 .dot-pulse  { animation: pulse 1.8s infinite; }
 @keyframes pulse {
   0%,100% { opacity:1; }
